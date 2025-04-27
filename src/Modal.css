@@ -1,0 +1,46 @@
+.modal{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+}
+.modal.active{
+    opacity: 1;
+    pointer-events: all;
+}
+.modal__content{
+    height: 80vh;
+    width: 40vw;
+    padding: 20px;
+    background-color: aliceblue;
+    border-color: black;
+    overflow: scroll;
+    font-size: 30px;
+}
+.modal__content button{
+    font-size: 30px;
+    margin-top:10px ;
+}
+.submit-data{
+    background-color: chartreuse;
+    align-self: flex-end; /* Выравнивает кнопку по правому краю контейнера */
+}
+.filters{
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-content{
+    width: 90%;
+}
+.button-back{
+    position: sticky;
+    align-self: flex-end;
+}
