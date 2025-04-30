@@ -160,7 +160,7 @@
       });
     }
   }
-})({"hiyDA":[function(require,module,exports,__globalThis) {
+})({"jrEfM":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -681,7 +681,7 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _client = require("react-dom/client");
 var _app = require("./App");
 var _appDefault = parcelHelpers.interopDefault(_app);
-const root = (0, _client.createRoot)(document.getElementById('root'));
+const root = (0, _client.createRoot)(document.getElementById("root"));
 root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _appDefault.default), {}, void 0, false, {
     fileName: "src/index.jsx",
     lineNumber: 6,
@@ -16118,30 +16118,30 @@ function App() {
                     element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homeJsxDefault.default), {}, void 0, false, {
                         fileName: "src/App.jsx",
                         lineNumber: 10,
-                        columnNumber: 32
+                        columnNumber: 34
                     }, void 0)
                 }, void 0, false, {
                     fileName: "src/App.jsx",
                     lineNumber: 10,
-                    columnNumber: 7
+                    columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Route), {
                     path: "/table",
                     element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _tableJsxDefault.default), {}, void 0, false, {
                         fileName: "src/App.jsx",
                         lineNumber: 11,
-                        columnNumber: 37
+                        columnNumber: 39
                     }, void 0)
                 }, void 0, false, {
                     fileName: "src/App.jsx",
                     lineNumber: 11,
-                    columnNumber: 7
+                    columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "src/App.jsx",
             lineNumber: 9,
-            columnNumber: 5
+            columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/App.jsx",
@@ -16177,11 +16177,15 @@ var _modal = require("./Modal");
 var _modalDefault = parcelHelpers.interopDefault(_modal);
 var _tableCss = require("./Table.css");
 var _xlsx = require("xlsx");
+var $ebdde758c0d38c2f$import_meta = Object.assign(Object.create(null), {
+    url: "file:///src/Table.jsx"
+});
 var _s = $RefreshSig$();
 function Table() {
     _s();
-    const [searchRow, setSearchRow] = (0, _react.useState)('');
-    const [searchColumn, setSearchColumn] = (0, _react.useState)('');
+    const api = $ebdde758c0d38c2f$import_meta.env.API;
+    const [searchRow, setSearchRow] = (0, _react.useState)("");
+    const [searchColumn, setSearchColumn] = (0, _react.useState)("");
     const [thead, setThead] = (0, _react.useState)([]);
     const [strings, setStrings] = (0, _react.useState)([]);
     const [modalActive, setModalActive] = (0, _react.useState)(false);
@@ -16200,9 +16204,9 @@ function Table() {
     const [selectedRows, setSelectedRows] = (0, _react.useState)([]);
     const [selectedColumns, setSelectedColumns] = (0, _react.useState)([]);
     const [dfilter, setDfilter] = (0, _react.useState)({
-        "filters": [],
-        "limit": 1000,
-        "offset": 0
+        filters: [],
+        limit: 1000,
+        offset: 0
     });
     const exportToExcel = ()=>{
         const wsData = [
@@ -16255,7 +16259,7 @@ function Table() {
         ]);
     };
     (0, _react.useEffect)(()=>{
-        (0, _axiosDefault.default).post("http://5.165.236.240:2700/api/v2/filtered-data", dfilter).then((response)=>{
+        (0, _axiosDefault.default).post(`${api}/api/v2/filtered-data`, dfilter).then((response)=>{
             setStrings(response.data.data || []);
             console.log(strings);
             setThead(response.data.headers || []);
@@ -16266,41 +16270,41 @@ function Table() {
         dfilter
     ]);
     (0, _react.useEffect)(()=>{
-        (0, _axiosDefault.default).post("http://5.165.236.240:2700/api/v2/filter-values", {
+        (0, _axiosDefault.default).post(`${api}/api/v2/filter-values`, {
             "filter-name": "\u0433\u043E\u0434",
-            "filters": []
+            filters: []
         }).then((response)=>{
             setYears(response.data.values);
         }).catch((error)=>{
             console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
         });
-        (0, _axiosDefault.default).post("http://5.165.236.240:2700/api/v2/filter-values", {
+        (0, _axiosDefault.default).post(`${api}/api/v2/filter-values`, {
             "filter-name": "\u0433\u043E\u0440\u043E\u0434",
-            "filters": []
+            filters: []
         }).then((response)=>{
             setCities(response.data.values);
         }).catch((error)=>{
             console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
         });
-        (0, _axiosDefault.default).post("http://5.165.236.240:2700/api/v2/filter-values", {
+        (0, _axiosDefault.default).post(`${api}/api/v2/filter-values`, {
             "filter-name": "\u0440\u0430\u0437\u0434\u0435\u043B",
-            "filters": []
+            filters: []
         }).then((response)=>{
             setSections(response.data.values);
         }).catch((error)=>{
             console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
         });
-        (0, _axiosDefault.default).post("http://5.165.236.240:2700/api/v2/filter-values", {
+        (0, _axiosDefault.default).post(`${api}/api/v2/filter-values`, {
             "filter-name": "\u0441\u0442\u0440\u043E\u043A\u0430",
-            "filters": []
+            filters: []
         }).then((response)=>{
             setRows(response.data.values);
         }).catch((error)=>{
             console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0438 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
         });
-        (0, _axiosDefault.default).post("http://5.165.236.240:2700/api/v2/filter-values", {
+        (0, _axiosDefault.default).post(`${api}/api/v2/filter-values`, {
             "filter-name": "\u043A\u043E\u043B\u043E\u043D\u043A\u0430",
-            "filters": []
+            filters: []
         }).then((response)=>{
             setColumns(response.data.values);
         }).catch((error)=>{
@@ -16310,30 +16314,30 @@ function Table() {
     function handleFilteredData() {
         setStrings([]);
         setDfilter({
-            "filters": [
+            filters: [
                 {
                     "filter-name": "\u0433\u043E\u0434",
-                    "values": selectedYears
+                    values: selectedYears
                 },
                 {
                     "filter-name": "\u0433\u043E\u0440\u043E\u0434",
-                    "values": selectedCities
+                    values: selectedCities
                 },
                 {
                     "filter-name": "\u0440\u0430\u0437\u0434\u0435\u043B",
-                    "values": selectedSections
+                    values: selectedSections
                 },
                 {
                     "filter-name": "\u0441\u0442\u0440\u043E\u043A\u0430",
-                    "values": selectedRows
+                    values: selectedRows
                 },
                 {
                     "filter-name": "\u043A\u043E\u043B\u043E\u043D\u043A\u0430",
-                    "values": selectedColumns
+                    values: selectedColumns
                 }
             ],
-            "limit": 50000,
-            "offset": 0
+            limit: 50000,
+            offset: 0
         });
         console.log(dfilter);
         setModalActive(false);
@@ -16345,24 +16349,24 @@ function Table() {
                 children: "\u0444\u0438\u043B\u044C\u0442\u0440\u044B"
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 182,
-                columnNumber: 9
+                lineNumber: 199,
+                columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 onClick: exportToExcel,
                 children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C XLS"
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 183,
-                columnNumber: 9
+                lineNumber: 200,
+                columnNumber: 7
             }, this),
             " ",
             strings.length == 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                 children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 185,
-                columnNumber: 5
+                lineNumber: 201,
+                columnNumber: 31
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("table", {
                 border: "1",
@@ -16375,17 +16379,17 @@ function Table() {
                                     children: head
                                 }, index, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 191,
-                                    columnNumber: 21
+                                    lineNumber: 206,
+                                    columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 189,
-                            columnNumber: 13
+                            lineNumber: 204,
+                            columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 188,
+                        lineNumber: 203,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tbody", {
@@ -16394,24 +16398,24 @@ function Table() {
                                         children: cell
                                     }, index, false, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 199,
-                                        columnNumber: 13
+                                        lineNumber: 215,
+                                        columnNumber: 19
                                     }, this))
                             }, index, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 197,
-                                columnNumber: 5
+                                lineNumber: 213,
+                                columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 195,
+                        lineNumber: 210,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/Table.jsx",
-                lineNumber: 187,
-                columnNumber: 5
+                lineNumber: 202,
+                columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _modalDefault.default), {
                 active: modalActive,
@@ -16421,8 +16425,8 @@ function Table() {
                         children: "\u0444\u0438\u043B\u044C\u0442\u0440\u044B"
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 206,
-                        columnNumber: 5
+                        lineNumber: 222,
+                        columnNumber: 9
                     }, this),
                     filter == 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "filters",
@@ -16432,65 +16436,65 @@ function Table() {
                                 children: "\u0433\u043E\u0440\u043E\u0434\u0430"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 209,
-                                columnNumber: 1
+                                lineNumber: 225,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 209,
-                                columnNumber: 51
+                                lineNumber: 226,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>setFilter(2),
                                 children: "\u0433\u043E\u0434\u0430"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 210,
-                                columnNumber: 1
+                                lineNumber: 227,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 210,
-                                columnNumber: 49
+                                lineNumber: 228,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>setFilter(3),
                                 children: "\u0440\u0430\u0437\u0434\u0435\u043B\u044B"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 211,
-                                columnNumber: 1
+                                lineNumber: 229,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 211,
-                                columnNumber: 52
+                                lineNumber: 230,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>setFilter(4),
                                 children: "\u0441\u0442\u0440\u043E\u043A\u0438"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 212,
-                                columnNumber: 1
+                                lineNumber: 231,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 212,
-                                columnNumber: 51
+                                lineNumber: 232,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 onClick: ()=>setFilter(5),
                                 children: "\u043A\u043E\u043B\u043E\u043D\u043A\u0438"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 213,
-                                columnNumber: 1
+                                lineNumber: 233,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 213,
-                                columnNumber: 52
+                                lineNumber: 234,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 className: "submit-data",
@@ -16498,14 +16502,14 @@ function Table() {
                                 children: "\u043F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 214,
-                                columnNumber: 1
+                                lineNumber: 235,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 208,
-                        columnNumber: 13
+                        lineNumber: 224,
+                        columnNumber: 11
                     }, this),
                     filter == 1 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "filter-content",
@@ -16514,8 +16518,8 @@ function Table() {
                                 children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0433\u043E\u0440\u043E\u0434\u0430"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 218,
-                                columnNumber: 9
+                                lineNumber: 242,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "scroll",
@@ -16530,31 +16534,31 @@ function Table() {
                                                         onChange: handleCityChange
                                                     }, void 0, false, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 223,
-                                                        columnNumber: 14
+                                                        lineNumber: 247,
+                                                        columnNumber: 21
                                                     }, this),
                                                     city
                                                 ]
                                             }, city, true, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 222,
-                                                columnNumber: 14
+                                                lineNumber: 246,
+                                                columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 230,
-                                                columnNumber: 20
+                                                lineNumber: 255,
+                                                columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 221,
-                                        columnNumber: 13
+                                        lineNumber: 245,
+                                        columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 219,
-                                columnNumber: 9
+                                lineNumber: 243,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 className: "button-back",
@@ -16562,14 +16566,14 @@ function Table() {
                                 children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 234,
-                                columnNumber: 9
+                                lineNumber: 259,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 217,
-                        columnNumber: 5
+                        lineNumber: 241,
+                        columnNumber: 11
                     }, this),
                     filter == 2 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "filter-content",
@@ -16578,8 +16582,8 @@ function Table() {
                                 children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0433\u043E\u0434\u0430"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 239,
-                                columnNumber: 9
+                                lineNumber: 266,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "scroll",
@@ -16594,31 +16598,31 @@ function Table() {
                                                         onChange: handleYearChange
                                                     }, void 0, false, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 244,
-                                                        columnNumber: 14
+                                                        lineNumber: 271,
+                                                        columnNumber: 21
                                                     }, this),
                                                     year
                                                 ]
                                             }, year, true, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 243,
-                                                columnNumber: 14
+                                                lineNumber: 270,
+                                                columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 251,
-                                                columnNumber: 20
+                                                lineNumber: 279,
+                                                columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 242,
-                                        columnNumber: 13
+                                        lineNumber: 269,
+                                        columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 240,
-                                columnNumber: 9
+                                lineNumber: 267,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 className: "button-back",
@@ -16626,14 +16630,14 @@ function Table() {
                                 children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 255,
-                                columnNumber: 9
+                                lineNumber: 283,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 238,
-                        columnNumber: 5
+                        lineNumber: 265,
+                        columnNumber: 11
                     }, this),
                     filter == 3 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "filter-content",
@@ -16642,8 +16646,8 @@ function Table() {
                                 children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0440\u0430\u0437\u0434\u0435\u043B\u044B"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 260,
-                                columnNumber: 9
+                                lineNumber: 290,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "scroll",
@@ -16658,31 +16662,31 @@ function Table() {
                                                         onChange: handleSectionChange
                                                     }, void 0, false, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 265,
-                                                        columnNumber: 14
+                                                        lineNumber: 295,
+                                                        columnNumber: 21
                                                     }, this),
                                                     section
                                                 ]
                                             }, section, true, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 264,
-                                                columnNumber: 14
+                                                lineNumber: 294,
+                                                columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 272,
-                                                columnNumber: 20
+                                                lineNumber: 303,
+                                                columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 263,
-                                        columnNumber: 13
+                                        lineNumber: 293,
+                                        columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 261,
-                                columnNumber: 9
+                                lineNumber: 291,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 className: "button-back",
@@ -16690,14 +16694,14 @@ function Table() {
                                 children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 276,
-                                columnNumber: 9
+                                lineNumber: 307,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 259,
-                        columnNumber: 5
+                        lineNumber: 289,
+                        columnNumber: 11
                     }, this),
                     filter == 4 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "filter-content",
@@ -16706,8 +16710,8 @@ function Table() {
                                 children: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0441\u0442\u0440\u043E\u043A\u0438"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 281,
-                                columnNumber: 5
+                                lineNumber: 314,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "text",
@@ -16719,8 +16723,8 @@ function Table() {
                                 }
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 282,
-                                columnNumber: 5
+                                lineNumber: 315,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "scroll",
@@ -16736,31 +16740,31 @@ function Table() {
                                                         onChange: handleRowChange
                                                     }, void 0, false, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 297,
-                                                        columnNumber: 15
+                                                        lineNumber: 334,
+                                                        columnNumber: 23
                                                     }, this),
                                                     row
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 296,
-                                                columnNumber: 13
+                                                lineNumber: 333,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 304,
+                                                lineNumber: 342,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, row, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 295,
-                                        columnNumber: 11
+                                        lineNumber: 332,
+                                        columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 289,
-                                columnNumber: 5
+                                lineNumber: 322,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 className: "button-back",
@@ -16768,14 +16772,14 @@ function Table() {
                                 children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 308,
-                                columnNumber: 5
+                                lineNumber: 346,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 280,
-                        columnNumber: 3
+                        lineNumber: 313,
+                        columnNumber: 11
                     }, this),
                     filter == 5 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "filter-content",
@@ -16784,8 +16788,8 @@ function Table() {
                                 children: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 313,
-                                columnNumber: 5
+                                lineNumber: 353,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
                                 type: "text",
@@ -16797,8 +16801,8 @@ function Table() {
                                 }
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 314,
-                                columnNumber: 5
+                                lineNumber: 354,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "scroll",
@@ -16814,31 +16818,31 @@ function Table() {
                                                         onChange: handleColumnChange
                                                     }, void 0, false, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 329,
-                                                        columnNumber: 15
+                                                        lineNumber: 373,
+                                                        columnNumber: 23
                                                     }, this),
                                                     column
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 328,
-                                                columnNumber: 13
+                                                lineNumber: 372,
+                                                columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 336,
+                                                lineNumber: 381,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, column, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 327,
-                                        columnNumber: 11
+                                        lineNumber: 371,
+                                        columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 321,
-                                columnNumber: 5
+                                lineNumber: 361,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                 className: "button-back",
@@ -16846,29 +16850,29 @@ function Table() {
                                 children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 340,
-                                columnNumber: 5
+                                lineNumber: 385,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 312,
-                        columnNumber: 3
+                        lineNumber: 352,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/Table.jsx",
-                lineNumber: 205,
-                columnNumber: 5
+                lineNumber: 221,
+                columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/Table.jsx",
-        lineNumber: 181,
-        columnNumber: 12
+        lineNumber: 198,
+        columnNumber: 5
     }, this);
 }
-_s(Table, "aVrtRbreBKWXN1aAZsia9JCcpQE=");
+_s(Table, "PK2JnKeIp9QQKLirQnt4RD9hJ6E=");
 _c = Table;
 exports.default = Table;
 var _c;
@@ -21710,13 +21714,13 @@ function Modal({ active, setActive, children }) {
             children: children
         }, void 0, false, {
             fileName: "src/Modal.jsx",
-            lineNumber: 7,
-            columnNumber: 13
+            lineNumber: 10,
+            columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "src/Modal.jsx",
         lineNumber: 6,
-        columnNumber: 9
+        columnNumber: 5
     }, this);
 }
 _c = Modal;
@@ -55228,6 +55232,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _buttonsJsx = require("./Buttons.jsx");
+var _buttonsJsxDefault = parcelHelpers.interopDefault(_buttonsJsx);
 var _react = require("react");
 var _s = $RefreshSig$();
 //import "./Home.css";
@@ -55259,24 +55264,24 @@ function Home() {
                                 d: "m8.71 7.71 2.29-2.3v9.59a1 1 0 0 0 2 0v-9.59l2.29 2.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-4-4a1 1 0 0 0 -.33-.21 1 1 0 0 0 -.76 0 1 1 0 0 0 -.33.21l-4 4a1 1 0 1 0 1.42 1.42zm12.29 6.29a1 1 0 0 0 -1 1v4a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1-1v-4a1 1 0 0 0 -2 0v4a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-4a1 1 0 0 0 -1-1z"
                             }, void 0, false, {
                                 fileName: "src/Home.jsx",
-                                lineNumber: 21,
-                                columnNumber: 7
+                                lineNumber: 29,
+                                columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "src/Home.jsx",
-                            lineNumber: 20,
-                            columnNumber: 7
+                            lineNumber: 28,
+                            columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "src/Home.jsx",
-                        lineNumber: 19,
-                        columnNumber: 7
+                        lineNumber: 22,
+                        columnNumber: 9
                     }, this),
                     "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
                 ]
             }, void 0, true, {
                 fileName: "src/Home.jsx",
-                lineNumber: 18,
+                lineNumber: 21,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -55288,18 +55293,18 @@ function Home() {
                 accept: ".xls,.xlsx"
             }, void 0, false, {
                 fileName: "src/Home.jsx",
-                lineNumber: 25,
+                lineNumber: 34,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonsJsx.Button), {}, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonsJsxDefault.default), {}, void 0, false, {
                 fileName: "src/Home.jsx",
-                lineNumber: 26,
+                lineNumber: 42,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/Home.jsx",
-        lineNumber: 17,
+        lineNumber: 20,
         columnNumber: 5
     }, this);
 }
@@ -55324,15 +55329,9 @@ $parcel$ReactRefreshHelpers$4360.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Button", ()=>Button);
-parcelHelpers.export(exports, "SubmitData", ()=>SubmitData);
-parcelHelpers.export(exports, "SubmitCityButton", ()=>SubmitCityButton);
-parcelHelpers.export(exports, "SubmitYearButton", ()=>SubmitYearButton);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _reactRouterDom = require("react-router-dom");
-var _axios = require("axios");
-var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _s = $RefreshSig$(), _s1 = $RefreshSig$();
+var _s = $RefreshSig$();
 const Button = ()=>{
     _s();
     const navigate = (0, _reactRouterDom.useNavigate)();
@@ -55350,35 +55349,35 @@ const Button = ()=>{
                         d: "m531.28125 521.273438h-505.328125v-508.855469c0-7.507813-6.082031-13.582031-13.597656-13.582031-7.507813 0-13.582031 6.074218-13.582031 13.582031v522.441406c0 7.511719 6.074218 13.585937 13.582031 13.585937h518.925781c7.511719 0 13.589844-6.074218 13.589844-13.585937s-6.15625-13.585937-13.589844-13.585937zm0 0"
                     }, void 0, false, {
                         fileName: "src/Buttons.jsx",
-                        lineNumber: 7,
-                        columnNumber: 164
+                        lineNumber: 13,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
                         d: "m78.691406 396.277344c3.035156 0 6.160156-1.039063 8.714844-3.117188l145.53125-121.398437 119.082031 25.738281c6.796875 1.4375 13.667969-2.484375 15.824219-9.121094l39.320312-122.191406 95.1875-68.730469c6.074219-4.398437 7.4375-12.867187 3.039063-18.941406-4.394531-6.070313-12.871094-7.433594-18.945313-3.035156l-98.777343 71.367187c-2.316407 1.679688-4.078125 4.074219-4.957031 6.871094l-36.921876 114.769531-113.566406-24.617187c-4.074218-.882813-8.394531.160156-11.589844 2.878906l-150.644531 125.550781c-5.757812 4.789063-6.558593 13.347657-1.765625 19.101563 2.722656 3.195312 6.554688 4.875 10.46875 4.875zm0 0"
                     }, void 0, false, {
                         fileName: "src/Buttons.jsx",
-                        lineNumber: 7,
-                        columnNumber: 487
+                        lineNumber: 14,
+                        columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
                         d: "m495.160156 299.335938-94.308594 99.097656-139.296874-38.523438c-3.515626-.957031-7.195313-.472656-10.390626 1.28125l-172.148437 98.464844c-6.476563 3.75-8.792969 11.984375-5.035156 18.539062 2.472656 4.398438 7.113281 6.871094 11.824219 6.871094 2.320312 0 4.636718-.5625 6.714843-1.757812l167.269531-95.65625 141.703126 39.15625c4.796874 1.355468 9.992187-.085938 13.421874-3.757813l99.90625-104.9375c5.191407-5.433593 4.949219-14.066406-.480468-19.175781-5.441406-5.195312-13.988282-5.039062-19.179688.398438zm0 0"
                     }, void 0, false, {
                         fileName: "src/Buttons.jsx",
-                        lineNumber: 7,
-                        columnNumber: 1117
+                        lineNumber: 15,
+                        columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/Buttons.jsx",
                 lineNumber: 7,
-                columnNumber: 64
+                columnNumber: 7
             }, undefined),
             "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0433\u0440\u0430\u0444\u0438\u043A"
         ]
     }, void 0, true, {
         fileName: "src/Buttons.jsx",
-        lineNumber: 7,
-        columnNumber: 7
+        lineNumber: 6,
+        columnNumber: 5
     }, undefined);
 };
 _s(Button, "CzcTeTziyjMsSrAVmHuCCb6+Bfg=", false, function() {
@@ -55387,107 +55386,16 @@ _s(Button, "CzcTeTziyjMsSrAVmHuCCb6+Bfg=", false, function() {
     ];
 });
 _c = Button;
-function SubmitData({ selectedOption, selectedYears, selectedCities, selectedSection, selectedRow, selectedColumn }) {
-    _s1();
-    const navigate = (0, _reactRouterDom.useNavigate)();
-    const handleSubmit = ()=>{
-        const data = {
-            years: selectedYears,
-            cities: selectedCities,
-            sheet: selectedSection,
-            row: selectedRow,
-            column: selectedColumn
-        };
-        (0, _axiosDefault.default).post("https://feature-store.duckdns.org:8080/api/get_data", data).then((response)=>{
-            const res = response.data || {};
-            res.option = selectedOption;
-            navigate("/graph", {
-                state: res
-            });
-        }).catch((error)=>{
-            console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0435 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
-        });
-    };
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-        onClick: handleSubmit,
-        disabled: !selectedColumn,
-        className: "next-btn",
-        children: "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0433\u0440\u0430\u0444"
-    }, void 0, false, {
-        fileName: "src/Buttons.jsx",
-        lineNumber: 40,
-        columnNumber: 7
-    }, this);
-}
-_s1(SubmitData, "CzcTeTziyjMsSrAVmHuCCb6+Bfg=", false, function() {
-    return [
-        (0, _reactRouterDom.useNavigate)
-    ];
-});
-_c1 = SubmitData;
-function SubmitYearButton({ selectedYears, setCities, setStep }) {
-    const handleSubmit = ()=>{
-        const data = {
-            years: selectedYears
-        };
-        (0, _axiosDefault.default).post("https://feature-store.duckdns.org:8080/api/get_cities", data).then((response)=>{
-            setCities(response.data.cities || []);
-        }).catch((error)=>{
-            console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0435 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
-        });
-        setStep((prevStep)=>prevStep + 1);
-    };
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-        onClick: handleSubmit,
-        className: "next-btn",
-        disabled: selectedYears.length === 0,
-        children: "\u0414\u0430\u043B\u0435\u0435"
-    }, void 0, false, {
-        fileName: "src/Buttons.jsx",
-        lineNumber: 63,
-        columnNumber: 7
-    }, this);
-}
-_c2 = SubmitYearButton;
-function SubmitCityButton({ selectedYears, selectedCities, selectedSection, setRows, setColumns, setStep }) {
-    const handleSubmit = ()=>{
-        const data = {
-            years: selectedYears,
-            cities: selectedCities,
-            sheet: selectedSection
-        };
-        (0, _axiosDefault.default).post("https://feature-store.duckdns.org:8080/api/get_rows_and_columns", data).then((response)=>{
-            setRows(response.data.rows || []);
-            setColumns(response.data.columns || []);
-        }).catch((error)=>{
-            console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0435 \u0434\u0430\u043D\u043D\u044B\u0445:", error);
-        });
-        setStep((prevStep)=>prevStep + 1);
-    };
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-        onClick: handleSubmit,
-        className: "next-btn",
-        disabled: selectedCities.length === 0,
-        children: "\u0414\u0430\u043B\u0435\u0435"
-    }, void 0, false, {
-        fileName: "src/Buttons.jsx",
-        lineNumber: 87,
-        columnNumber: 7
-    }, this);
-}
-_c3 = SubmitCityButton;
-var _c, _c1, _c2, _c3;
+exports.default = Button;
+var _c;
 $RefreshReg$(_c, "Button");
-$RefreshReg$(_c1, "SubmitData");
-$RefreshReg$(_c2, "SubmitYearButton");
-$RefreshReg$(_c3, "SubmitCityButton");
 
   $parcel$ReactRefreshHelpers$4360.postlude(module);
 } finally {
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react-router-dom":"61z4w","axios":"kooH4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"61z4w":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"61z4w":[function(require,module,exports,__globalThis) {
 /**
  * React Router DOM v6.30.0
  *
@@ -62717,6 +62625,6 @@ function persistAppliedTransitions(_window, transitions) {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["hiyDA","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["jrEfM","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=public.ad93b51f.js.map
