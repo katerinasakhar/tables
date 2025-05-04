@@ -7,11 +7,13 @@ import * as XLSX from 'xlsx';
 function Table(){
   const api = process.env.API
     const [searchRow, setSearchRow] = useState('');
+    const [searchCity, setSearchCity] = useState('');
     const [searchColumn, setSearchColumn] = useState('');
     const [thead,setThead]=useState([]);
     const [strings,setStrings]=useState([])
     const [modalActive, setModalActive]=useState(false)
     const [filter, setFilter] = useState(0);
+
 
     const [sections, setSections]=useState([])
     const [selectedSections, setSelectedSections] = useState([]);
@@ -90,62 +92,46 @@ function Table(){
               }
             
           };
-   /*useEffect(() => {
-        axios.post(`${api}/api/v2/filtered-data`,dfilter).then((response)=>{
-            setStrings(response.data.data || [])
-            console.log(strings)
-            setThead(response.data.headers || []);
-        }).catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          });
-      }, [dfilter]);
-
-      useEffect(()=>{
-        axios.post(`${api}/api/v2/filter-values`, {
-            "filter-name": "год",
-            "filters": []
-        }).then((response)=>{
-            setYears(response.data.values)
-        }).catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          })
-
-          axios.post(`${api}/api/v2/filter-values`, {
-            "filter-name": "город",
-            "filters": []
-        }).then((response)=>{
-            setCities(response.data.values)
-        }).catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          })
-
-          axios.post(`${api}/api/v2/filter-values`, {
-            "filter-name": "раздел",
-            "filters": []
-        }).then((response)=>{
-            setSections(response.data.values)
-        }).catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          })
-
-          axios.post(`${api}/api/v2/filter-values`, {
-            "filter-name": "строка",
-            "filters": []
-        }).then((response)=>{
-            setRows(response.data.values)
-        }).catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          })
-
-          axios.post(`${api}/api/v2/filter-values`, {
-            "filter-name": "колонка",
-            "filters": []
-        }).then((response)=>{
-            setColumns(response.data.values)
-        }).catch((error) => {
-            console.error("Ошибка при получении данных:", error);
-          })
-      },[])*/
+      function handleSelectAllCities(){
+        if (selectedCities.length===cities.length){
+          setSelectedCities([])
+        }
+        else{
+          setSelectedCities(cities)
+        }
+      }
+      function handleSelectAllRows(){
+        if (selectedRows.length===rows.length){
+          setSelectedRows([])
+        }
+        else{
+          setSelectedRows(rows)
+        }
+      }
+      function handleSelectAllColumns(){
+        if (selectedColumns.length===columns.length){
+          setSelectedColumns([])
+        }
+        else{
+          setSelectedColumns(columns)
+        }
+      }
+      function handleSelectAllYears(){
+        if (selectedYears.length===years.length){
+          setSelectedYears([])
+        }
+        else{
+          setSelectedYears(years)
+        }
+      }
+      function handleSelectAllSections(){
+        if (selectedSections.length===sections.length){
+          setSelectedSections([])
+        }
+        else{
+          setSelectedSections(sections)
+        }
+      }
 
       function showYears(){
         axios.post(`${api}/api/v2/filter-values`, {
@@ -360,8 +346,25 @@ function Table(){
 {filter==1&&(
     <div className='filter-content'>
         <h3>выберете города</h3>
+        <input
+      type="text"
+      placeholder="Поиск..."
+      value={searchCity}
+      onChange={(e) => setSearchCity(e.target.value)}
+      style={{ marginBottom: "10px" }}
+    />
+    <label>
+      <input
+      type='checkbox'
+      checked={selectedCities.length===cities.length}
+      onChange={handleSelectAllCities}
+      />
+      {selectedCities.length === cities.length ? 'Снять все' : 'Выбрать все'}
+    </label>
         <div className='scroll'>
-        {cities.map((city)=>(
+        {cities.filter(city => 
+          city.toString().toLowerCase().includes(searchCity.toLowerCase()) // Исправлено
+        ).map((city)=>(
             <div key={city}>
              <label>
              <input
@@ -381,6 +384,14 @@ function Table(){
 {filter==2&&(
     <div className='filter-content'>
         <h3>выберете года</h3>
+        <label>
+      <input
+      type='checkbox'
+      checked={selectedYears.length===years.length}
+      onChange={handleSelectAllYears}
+      />
+      {selectedYears.length === years.length ? 'Снять все' : 'Выбрать все'}
+    </label>
         <div className='scroll'>
         {years.map((year)=>(
             <div key={year}>
@@ -402,6 +413,14 @@ function Table(){
 {filter==3&&(
     <div className='filter-content'>
         <h3>выберете разделы</h3>
+        <label>
+      <input
+      type='checkbox'
+      checked={selectedSections.length===sections.length}
+      onChange={handleSelectAllSections}
+      />
+      {selectedSections.length === sections.length ? 'Снять все' : 'Выбрать все'}
+    </label>
         <div className='scroll'>
         {sections.map((section)=>(
             <div key={section}>
@@ -430,6 +449,14 @@ function Table(){
       onChange={(e) => setSearchRow(e.target.value)}
       style={{ marginBottom: "10px" }}
     />
+    <label>
+      <input
+      type='checkbox'
+      checked={selectedRows.length===rows.length}
+      onChange={handleSelectAllRows}
+      />
+      {selectedRows.length === rows.length ? 'Снять все' : 'Выбрать все'}
+    </label>
     <div className='scroll'>
       {rows
         .filter(row => 
@@ -462,6 +489,14 @@ function Table(){
       onChange={(e) => setSearchColumn(e.target.value)}
       style={{ marginBottom: "10px" }}
     />
+     <label>
+      <input
+      type='checkbox'
+      checked={selectedColumns.length===columns.length}
+      onChange={handleSelectAllColumns}
+      />
+      {selectedColumns.length === columns.length ? 'Снять все' : 'Выбрать все'}
+    </label>
     <div className='scroll'>
       {columns
         .filter(column => 
