@@ -5,7 +5,7 @@ import './Table.css'
 import * as XLSX from 'xlsx';
 
 function Table(){
-  const api = import.meta.env.API
+  const api = process.env.API
     const [searchRow, setSearchRow] = useState('');
     const [searchColumn, setSearchColumn] = useState('');
     const [thead,setThead]=useState([]);
@@ -61,9 +61,10 @@ function Table(){
         const handleSectionChange = (e) => {
             const value = e.target.value;
             
-              if (selectedCities.includes(value)) {
-                setSelectedSections(selectedSections.filter((section) => section !== value));
+              if (selectedSections.includes(value)) {
+                setSelectedSections(selectedSections.filter((section) => section != value));
               } else {
+                
                 setSelectedSections([...selectedSections, value]);
               }
             
@@ -89,7 +90,7 @@ function Table(){
               }
             
           };
-   useEffect(() => {
+   /*useEffect(() => {
         axios.post(`${api}/api/v2/filtered-data`,dfilter).then((response)=>{
             setStrings(response.data.data || [])
             console.log(strings)
@@ -144,8 +145,150 @@ function Table(){
         }).catch((error) => {
             console.error("Ошибка при получении данных:", error);
           })
-      },[])
+      },[])*/
 
+      function showYears(){
+        axios.post(`${api}/api/v2/filter-values`, {
+          "filter-name": "год",
+          "filters": [
+          {
+            "filter-name": "город",
+            "values": selectedCities
+          },
+          {
+            "filter-name": "раздел",
+            "values": selectedSections
+          },
+          {
+            "filter-name": "строка",
+            "values": selectedRows
+          },
+          {
+            "filter-name": "колонка",
+            "values": selectedColumns
+          }
+    ]
+      }).then((response)=>{
+          setYears(response.data.values)
+      }).catch((error) => {
+          console.error("Ошибка при получении данных:", error);
+        })
+      }
+
+      function showCities(){
+        axios.post(`${api}/api/v2/filter-values`, {
+          "filter-name": "город",
+          "filters": [
+            {
+              "filter-name": "год",
+              "values": selectedYears
+            },
+            {
+              "filter-name": "раздел",
+              "values": selectedSections
+            },
+            {
+              "filter-name": "строка",
+              "values": selectedRows
+            },
+            {
+              "filter-name": "колонка",
+              "values": selectedColumns
+            }
+          ]
+      }).then((response)=>{
+          setCities(response.data.values)
+      }).catch((error) => {
+          console.error("Ошибка при получении данных:", error);
+        })
+      }
+
+      function showSections(){
+        axios.post(`${api}/api/v2/filter-values`, {
+          "filter-name": "раздел",
+          "filters": [
+            {
+              "filter-name": "год",
+              "values": selectedYears
+            },
+            {
+              "filter-name": "город",
+              "values": selectedCities
+            },
+            {
+              "filter-name": "строка",
+              "values": selectedRows
+            },
+            {
+              "filter-name": "колонка",
+              "values": selectedColumns
+            }
+      
+          ]
+      }).then((response)=>{
+          setSections(response.data.values)
+      }).catch((error) => {
+          console.error("Ошибка при получении данных:", error);
+        })
+
+      }
+
+      function showRows(){
+        axios.post(`${api}/api/v2/filter-values`, {
+          "filter-name": "строка",
+          "filters": [
+            {
+              "filter-name": "год",
+              "values": selectedYears
+            },
+            {
+              "filter-name": "город",
+              "values": selectedCities
+            },
+            {
+              "filter-name": "раздел",
+              "values": selectedSections
+            },
+            {
+              "filter-name": "колонка",
+              "values": selectedColumns
+            }
+          ]
+      }).then((response)=>{
+          setRows(response.data.values)
+      }).catch((error) => {
+          console.error("Ошибка при получении данных:", error);
+        })
+      }
+
+      function showColumns(){
+        axios.post(`${api}/api/v2/filter-values`, {
+          "filter-name": "колонка",
+          "filters": [
+            {
+              "filter-name": "год",
+              "values": selectedYears
+            },
+            {
+              "filter-name": "город",
+              "values": selectedCities
+            },
+            {
+              "filter-name": "раздел",
+              "values": selectedSections
+            },
+            {
+              "filter-name": "строка",
+              "values": selectedRows
+            }
+      
+          ]
+      }).then((response)=>{
+          setColumns(response.data.values)
+      }).catch((error) => {
+          console.error("Ошибка при получении данных:", error);
+        })
+      }
       
       function handleFilteredData(){
         setStrings([])
@@ -188,16 +331,16 @@ function Table(){
     <table border="1" cellPadding="10" cellSpacing="0">
         <thead>
             <tr>
-            {thead.map((head,index) => (
-                    <th key={index}>{head}</th>
+            {thead.map((head) => (
+                    <th key={head}>{head}</th>
             ))}
             </tr>
         </thead>
         <tbody>
-{strings.length>0&&strings.map((string,index)=>(
-    <tr key={index}>
-        {string.map((cell, index)=>(
-            <th key={index}>{cell}</th>
+{strings.length>0&&strings.map((string)=>(
+    <tr key={string.id}>
+        {string.map((cell)=>(
+            <th key={cell}>{cell}</th>
         ))}
     </tr>
 ))}
@@ -207,11 +350,11 @@ function Table(){
     <h2>фильтры</h2>
         {filter==0&&(
             <div className='filters'>
-<button onClick={()=>setFilter(1)}>города</button><br/>
-<button onClick={()=>setFilter(2)}>года</button><br/>
-<button onClick={()=>setFilter(3)}>разделы</button><br/>
-<button onClick={()=>setFilter(4)}>строки</button><br/>
-<button onClick={()=>setFilter(5)}>колонки</button><br/>
+<button onClick={()=>{setCities([]); showCities(); setFilter(1)}}>города</button><br/>
+<button onClick={()=>{setYears([]); showYears(); setFilter(2)}}>года</button><br/>
+<button onClick={()=>{setSections([]); showSections(); setFilter(3)}}>разделы</button><br/>
+<button onClick={()=>{setRows([]); showRows(); setFilter(4)}}>строки</button><br/>
+<button onClick={()=>{setColumns([]);showColumns(); setFilter(5)}}>колонки</button><br/>
 <button className='submit-data' onClick={handleFilteredData}>применить</button>
 </div>)}
 {filter==1&&(
@@ -219,8 +362,8 @@ function Table(){
         <h3>выберете города</h3>
         <div className='scroll'>
         {cities.map((city)=>(
-            <div>
-             <label key={city}>
+            <div key={city}>
+             <label>
              <input
                type="checkbox"
                value={city}
@@ -240,8 +383,8 @@ function Table(){
         <h3>выберете года</h3>
         <div className='scroll'>
         {years.map((year)=>(
-            <div>
-             <label key={year}>
+            <div key={year}>
+             <label>
              <input
                type="checkbox"
                value={year}
@@ -261,8 +404,8 @@ function Table(){
         <h3>выберете разделы</h3>
         <div className='scroll'>
         {sections.map((section)=>(
-            <div>
-             <label key={section}>
+            <div key={section}>
+             <label>
              <input
                type="checkbox"
                value={section}

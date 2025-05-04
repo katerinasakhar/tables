@@ -1,4 +1,4 @@
-import { Button } from './Buttons.jsx';
+import Button  from './Buttons.jsx';
 import { useState } from 'react';
 //import "./Home.css";
 
