@@ -1,6 +1,7 @@
 import Button from "./Buttons.jsx";
 import { useState } from "react";
-//import "./Home.css";
+import "./Home.css";
+import { NavLink } from "react-router-dom";
 
 function Home() {
   const [files, setFiles] = useState([]);
@@ -18,28 +19,47 @@ function Home() {
 
   return (
     <div className="App">
-      <label htmlFor="download" className="btn">
-        <svg
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          height="30px"
-          width="30px"
-        >
-          <g>
-            <path d="m8.71 7.71 2.29-2.3v9.59a1 1 0 0 0 2 0v-9.59l2.29 2.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-4-4a1 1 0 0 0 -.33-.21 1 1 0 0 0 -.76 0 1 1 0 0 0 -.33.21l-4 4a1 1 0 1 0 1.42 1.42zm12.29 6.29a1 1 0 0 0 -1 1v4a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1-1v-4a1 1 0 0 0 -2 0v4a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-4a1 1 0 0 0 -1-1z" />
-          </g>
-        </svg>
-        Загрузить файлы
-      </label>
-      <input
-        type="file"
-        id="download"
-        className="download"
-        multiple
-        onChange={handleFileChange}
-        accept=".xls,.xlsx"
-      />
-      <Button />
+      <div className="home-buttons">
+        <NavLink to={"/download"} className="no-underline-link">
+          <div className="home-buttons__button">
+            <div className="home-buttons__icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                strokeWidth={1.5}
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                />
+              </svg>
+            </div>
+            <p>Загрузить файлы</p>
+          </div>
+        </NavLink>
+
+        <div className="home-buttons__button">
+          <div className="home-buttons__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              strokeWidth={1.5}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"
+              />
+            </svg>
+          </div>
+          <p>Получить данные</p>
+        </div>
+      </div>
     </div>
   );
 }

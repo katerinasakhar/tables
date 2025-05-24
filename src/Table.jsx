@@ -5,7 +5,8 @@ import "./Table.css";
 import * as XLSX from "xlsx";
 
 function Table() {
-  const api = import.meta.env.API;
+  const api = process.env.API;
+  console.log(api);
   const [searchRow, setSearchRow] = useState("");
   const [searchColumn, setSearchColumn] = useState("");
   const [thead, setThead] = useState([]);

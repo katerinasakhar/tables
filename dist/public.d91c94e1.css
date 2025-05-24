@@ -57,4 +57,34 @@ table {
   font-size: 20px;
   font-weight: bold;
 }
+
+.home-buttons {
+  color: #13327c;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+  font-family: Franklin Gothic Medium, Arial Narrow, Arial, sans-serif;
+  font-size: 1.5vw;
+  display: flex;
+}
+
+.home-buttons__button {
+  color: #13327c;
+  border: 5px solid #13327c;
+  border-radius: 10px;
+  align-items: center;
+  gap: 20px;
+  padding: 1.042vw;
+  display: flex;
+}
+
+.home-buttons__icon {
+  width: 80px;
+  height: 80px;
+}
+
+.no-underline-link {
+  color: inherit;
+  text-decoration: none;
+}
 /*# sourceMappingURL=public.d91c94e1.css.map */
