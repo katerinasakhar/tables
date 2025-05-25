@@ -1,2 +1,4 @@
 .env
 .parcel-cache/data.mdb
+node_modules
+dist
