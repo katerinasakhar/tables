@@ -62688,13 +62688,122 @@ try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _downloadFilesCss = require("./DownloadFiles.css");
+var _reactRouterDom = require("react-router-dom");
 function DownloadFiles() {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: "DownloadFiles"
-    }, void 0, false, {
+        className: "download-page__container",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
+                to: "/",
+                className: "download-page__button-back",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "back-icon",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            fill: "none",
+                            viewBox: "0 0 24 24",
+                            strokeWidth: 1.5,
+                            stroke: "currentColor",
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                d: "M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+                            }, void 0, false, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 16,
+                                columnNumber: 13
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "src/pages/DownloadFiles.jsx",
+                            lineNumber: 9,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 8,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        children: "\u041D\u0430\u0437\u0430\u0434"
+                    }, void 0, false, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 23,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/DownloadFiles.jsx",
+                lineNumber: 7,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                className: "custom-fileinput",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        type: "file",
+                        multiple: true,
+                        className: "custom-fileinput__input"
+                    }, void 0, false, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 26,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        className: "custom-fileinput__button",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "file-icon",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    fill: "none",
+                                    viewBox: "0 0 24 24",
+                                    strokeWidth: 1.5,
+                                    stroke: "currentColor",
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                        strokeLinecap: "round",
+                                        strokeLinejoin: "round",
+                                        d: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 36,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/pages/DownloadFiles.jsx",
+                                    lineNumber: 29,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 28,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
+                            }, void 0, false, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 43,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 27,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/DownloadFiles.jsx",
+                lineNumber: 25,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "src/pages/DownloadFiles.jsx",
-        lineNumber: 2,
-        columnNumber: 10
+        lineNumber: 6,
+        columnNumber: 5
     }, this);
 }
 _c = DownloadFiles;
@@ -62707,6 +62816,6 @@ $RefreshReg$(_c, "DownloadFiles");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}]},["jrEfM","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
+},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./DownloadFiles.css":"1Qo1p","react-router-dom":"61z4w"}],"1Qo1p":[function() {},{}]},["jrEfM","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=public.ad93b51f.js.map

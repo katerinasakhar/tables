@@ -87,4 +87,63 @@ table {
   color: inherit;
   text-decoration: none;
 }
+
+.download-page__container {
+  color: #13327c;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+  font-family: Franklin Gothic Medium, Arial Narrow, Arial, sans-serif;
+  font-size: 1.5vw;
+  display: flex;
+  position: relative;
+}
+
+.download-page__button-back {
+  color: inherit;
+  background-color: #fff;
+  border: 3px solid #13327c;
+  border-radius: 10px;
+  outline: none;
+  align-items: center;
+  gap: 20px;
+  padding: 1.042vw;
+  font-size: 1.5vw;
+  text-decoration: none;
+  display: flex;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.custom-fileinput {
+  cursor: pointer;
+}
+
+.custom-fileinput__input {
+  display: none;
+}
+
+.custom-fileinput__button {
+  color: #13327c;
+  background-color: #fff;
+  border: 5px solid #13327c;
+  border-radius: 10px;
+  outline: none;
+  align-items: center;
+  gap: 20px;
+  padding: 1.042vw;
+  font-size: 1.5vw;
+  display: flex;
+}
+
+.file-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.back-icon {
+  width: 40px;
+  height: 40px;
+}
 /*# sourceMappingURL=public.d91c94e1.css.map */
