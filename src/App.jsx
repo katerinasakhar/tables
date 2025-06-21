@@ -8,11 +8,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import DownloadFiles from "./pages/DownloadFiles";
+import UploadedFiles from "./pages/UploadedFiles";
 
 const route = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/table", element: <Table /> },
   { path: "/download", element: <DownloadFiles /> },
+  { path: "/uploaded-files", element: <UploadedFiles /> },
 ]);
 
 function App() {

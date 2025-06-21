@@ -16110,12 +16110,14 @@ var _homeJsxDefault = parcelHelpers.interopDefault(_homeJsx);
 var _reactRouterDom = require("react-router-dom");
 var _downloadFiles = require("./pages/DownloadFiles");
 var _downloadFilesDefault = parcelHelpers.interopDefault(_downloadFiles);
+var _uploadedFiles = require("./pages/UploadedFiles");
+var _uploadedFilesDefault = parcelHelpers.interopDefault(_uploadedFiles);
 const route = (0, _reactRouterDom.createBrowserRouter)([
     {
         path: "/",
         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _homeJsxDefault.default), {}, void 0, false, {
             fileName: "src/App.jsx",
-            lineNumber: 13,
+            lineNumber: 14,
             columnNumber: 25
         }, undefined)
     },
@@ -16123,7 +16125,7 @@ const route = (0, _reactRouterDom.createBrowserRouter)([
         path: "/table",
         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _tableJsxDefault.default), {}, void 0, false, {
             fileName: "src/App.jsx",
-            lineNumber: 14,
+            lineNumber: 15,
             columnNumber: 30
         }, undefined)
     },
@@ -16131,8 +16133,16 @@ const route = (0, _reactRouterDom.createBrowserRouter)([
         path: "/download",
         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _downloadFilesDefault.default), {}, void 0, false, {
             fileName: "src/App.jsx",
-            lineNumber: 15,
+            lineNumber: 16,
             columnNumber: 33
+        }, undefined)
+    },
+    {
+        path: "/uploaded-files",
+        element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _uploadedFilesDefault.default), {}, void 0, false, {
+            fileName: "src/App.jsx",
+            lineNumber: 17,
+            columnNumber: 39
         }, undefined)
     }
 ]);
@@ -16148,7 +16158,7 @@ function App() {
         router: route
     }, void 0, false, {
         fileName: "src/App.jsx",
-        lineNumber: 27,
+        lineNumber: 29,
         columnNumber: 5
     }, this));
 }
@@ -16162,7 +16172,7 @@ $RefreshReg$(_c, "App");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./Table.jsx":"8qcVi","./Home.jsx":"fwsM1","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./pages/DownloadFiles":"6yVhC"}],"8qcVi":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./Table.jsx":"8qcVi","./Home.jsx":"fwsM1","react-router-dom":"61z4w","./pages/DownloadFiles":"6yVhC","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./pages/UploadedFiles":"hbM2n"}],"8qcVi":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$5601 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$5601.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -55371,7 +55381,7 @@ $RefreshReg$(_c, "Home");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","./Buttons.jsx":"fZgmb","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./Home.css":"4G409","react-router-dom":"61z4w"}],"fZgmb":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","./Buttons.jsx":"fZgmb","react":"jMk1U","./Home.css":"4G409","react-router-dom":"61z4w","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"fZgmb":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$4360 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$4360.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -62690,13 +62700,89 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _downloadFilesCss = require("./DownloadFiles.css");
 var _reactRouterDom = require("react-router-dom");
+var _react = require("react");
+var _api = require("../config/api");
+var _s = $RefreshSig$();
 function DownloadFiles() {
+    _s();
+    const [selectedFiles, setSelectedFiles] = (0, _react.useState)([]);
+    const [isDragActive, setIsDragActive] = (0, _react.useState)(false);
+    const fileInputRef = (0, _react.useRef)(null);
+    const navigate = (0, _reactRouterDom.useNavigate)();
+    const handleFileChange = (event)=>{
+        setSelectedFiles([
+            ...selectedFiles,
+            ...Array.from(event.target.files)
+        ]);
+        event.target.value = null;
+    };
+    const handleRemoveFile = (fileToRemove)=>{
+        setSelectedFiles(selectedFiles.filter((file)=>file !== fileToRemove));
+    };
+    const handleSendFiles = async ()=>{
+        if (selectedFiles.length === 0) {
+            alert("\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B\u044B \u0434\u043B\u044F \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0438.");
+            return;
+        }
+        const formData = new FormData();
+        selectedFiles.forEach((file)=>{
+            formData.append("files", file);
+        });
+        try {
+            const response = await fetch((0, _api.API_ENDPOINT), {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+            console.log("\u041E\u0442\u0432\u0435\u0442 \u043E\u0442 \u0441\u0435\u0440\u0432\u0435\u0440\u0430:", result);
+            if (response.ok) navigate("/uploaded-files", {
+                state: {
+                    uploadResult: result
+                }
+            });
+            else alert(`\u{41E}\u{448}\u{438}\u{431}\u{43A}\u{430}: ${result.message || "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u043E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u0444\u0430\u0439\u043B\u044B."}`);
+        } catch (error) {
+            console.error("\u041E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0435 \u0444\u0430\u0439\u043B\u043E\u0432:", error);
+            alert("\u041F\u0440\u043E\u0438\u0437\u043E\u0448\u043B\u0430 \u043E\u0448\u0438\u0431\u043A\u0430 \u043F\u0440\u0438 \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0435 \u0444\u0430\u0439\u043B\u043E\u0432. \u041F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0441\u043D\u043E\u0432\u0430.");
+        }
+    };
+    const handleDragOver = (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragActive(true);
+    };
+    const handleDragLeave = (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragActive(false);
+    };
+    const handleDrop = (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragActive(false);
+        const files = Array.from(e.dataTransfer.files).filter((f)=>f.name.endsWith(".xlsm"));
+        if (files.length) setSelectedFiles([
+            ...selectedFiles,
+            ...files
+        ]);
+    };
+    const handleClick = ()=>{
+        fileInputRef.current.click();
+    };
+    function getFileWord(n) {
+        n = Math.abs(n) % 100;
+        const n1 = n % 10;
+        if (n > 10 && n < 20) return "\u0444\u0430\u0439\u043B\u043E\u0432";
+        if (n1 > 1 && n1 < 5) return "\u0444\u0430\u0439\u043B\u0430";
+        if (n1 === 1) return "\u0444\u0430\u0439\u043B";
+        return "\u0444\u0430\u0439\u043B\u043E\u0432";
+    }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "download-page__container",
+        className: `download-page__container${selectedFiles.length === 0 ? " download-page__container--centered" : selectedFiles.length > 0 ? " with-files-centered" : ""}`,
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
+            selectedFiles.length === 0 ? null : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
                 to: "/",
-                className: "download-page__button-back",
+                className: "download-page__button-back download-page__button-back--top",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "back-icon",
@@ -62712,49 +62798,341 @@ function DownloadFiles() {
                                 d: "M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
                             }, void 0, false, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 16,
-                                columnNumber: 13
+                                lineNumber: 105,
+                                columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/DownloadFiles.jsx",
-                            lineNumber: 9,
-                            columnNumber: 11
+                            lineNumber: 98,
+                            columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 8,
-                        columnNumber: 9
+                        lineNumber: 97,
+                        columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         children: "\u041D\u0430\u0437\u0430\u0434"
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 23,
-                        columnNumber: 9
+                        lineNumber: 112,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/DownloadFiles.jsx",
-                lineNumber: 7,
+                lineNumber: 93,
+                columnNumber: 9
+            }, this),
+            selectedFiles.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "download-page__spacer"
+            }, void 0, false, {
+                fileName: "src/pages/DownloadFiles.jsx",
+                lineNumber: 115,
+                columnNumber: 36
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: `download-page__header${selectedFiles.length === 0 ? " download-page__header--hidden" : ""}`,
+                children: selectedFiles.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "download-page__file-count",
+                    children: [
+                        selectedFiles.length,
+                        " ",
+                        getFileWord(selectedFiles.length)
+                    ]
+                }, void 0, true, {
+                    fileName: "src/pages/DownloadFiles.jsx",
+                    lineNumber: 122,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "src/pages/DownloadFiles.jsx",
+                lineNumber: 116,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                className: "custom-fileinput",
+            selectedFiles.length > 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                 children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                        type: "file",
-                        multiple: true,
-                        className: "custom-fileinput__input"
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "download-page__files-list-container",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "download-page__files-list",
+                            children: selectedFiles.map((file, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "download-page__file-item",
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            className: "download-page__file-info",
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                    className: "download-page__file-icon",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                        xmlns: "http://www.w3.org/2000/svg",
+                                                        viewBox: "0 0 344 432",
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                            fill: "currentColor",
+                                                            d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/DownloadFiles.jsx",
+                                                            lineNumber: 139,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 135,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 134,
+                                                    columnNumber: 21
+                                                }, this),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                    className: "download-page__file-name",
+                                                    children: file.name
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 145,
+                                                    columnNumber: 21
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/pages/DownloadFiles.jsx",
+                                            lineNumber: 133,
+                                            columnNumber: 19
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                            onClick: ()=>handleRemoveFile(file),
+                                            className: "download-page__remove-file-button",
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                xmlns: "http://www.w3.org/2000/svg",
+                                                viewBox: "0 0 21 21",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                    fill: "none",
+                                                    stroke: "currentColor",
+                                                    "stroke-linecap": "round",
+                                                    "stroke-linejoin": "round",
+                                                    d: "M5.5 4.5h10v12a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2zm5-2a2 2 0 0 1 1.995 1.85l.005.15h-4a2 2 0 0 1 2-2zm-7 2h14m-9 3v8m4-8v8"
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 154,
+                                                    columnNumber: 23
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 153,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/pages/DownloadFiles.jsx",
+                                            lineNumber: 149,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, index, true, {
+                                    fileName: "src/pages/DownloadFiles.jsx",
+                                    lineNumber: 132,
+                                    columnNumber: 17
+                                }, this))
+                        }, void 0, false, {
+                            fileName: "src/pages/DownloadFiles.jsx",
+                            lineNumber: 130,
+                            columnNumber: 13
+                        }, this)
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 26,
-                        columnNumber: 9
+                        lineNumber: 129,
+                        columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                        className: "custom-fileinput__button",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "download-page__spacer"
+                    }, void 0, false, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 167,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "download-page__footer download-page__footer--outside",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                className: "custom-fileinput",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                        type: "file",
+                                        multiple: true,
+                                        className: "custom-fileinput__input",
+                                        onChange: handleFileChange,
+                                        accept: ".xlsm",
+                                        ref: fileInputRef
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 170,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: "custom-fileinput__button",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "file-icon",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                    xmlns: "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 344 432",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                        fill: "currentColor",
+                                                        d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 181,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 180,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 179,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 187,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 178,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 169,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                onClick: handleSendFiles,
+                                className: "download-page__button-send",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "upload-icon",
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 15 15",
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                fill: "currentColor",
+                                                fillRule: "evenodd",
+                                                d: "m7.5.793l4.354 4.353l-.708.708L8 2.707V12H7V2.707L3.854 5.854l-.708-.708L7.5.793ZM14 13v1H1v-1h13Z",
+                                                clipRule: "evenodd"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 196,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/pages/DownloadFiles.jsx",
+                                            lineNumber: 195,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 194,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        children: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 204,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 190,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 168,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: `custom-fileinput custom-fileinput--big${isDragActive ? " custom-fileinput--drag" : ""}`,
+                        onDragOver: handleDragOver,
+                        onDragLeave: handleDragLeave,
+                        onDrop: handleDrop,
+                        onClick: handleClick,
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "file",
+                                multiple: true,
+                                className: "custom-fileinput__input",
+                                onChange: handleFileChange,
+                                accept: ".xlsm",
+                                ref: fileInputRef
+                            }, void 0, false, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 219,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                className: "custom-fileinput__button custom-fileinput__button--big",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "file-icon",
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 344 432",
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                fill: "currentColor",
+                                                d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 230,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/pages/DownloadFiles.jsx",
+                                            lineNumber: 229,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 228,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                        children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 236,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 227,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/DownloadFiles.jsx",
+                        lineNumber: 210,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
+                        to: "/",
+                        className: "download-page__button-back",
                         children: [
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                className: "file-icon",
+                                className: "back-icon",
                                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
                                     xmlns: "http://www.w3.org/2000/svg",
                                     fill: "none",
@@ -62764,48 +63142,49 @@ function DownloadFiles() {
                                     children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
                                         strokeLinecap: "round",
                                         strokeLinejoin: "round",
-                                        d: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                                        d: "M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
                                     }, void 0, false, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 36,
-                                        columnNumber: 15
+                                        lineNumber: 248,
+                                        columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/DownloadFiles.jsx",
-                                    lineNumber: 29,
-                                    columnNumber: 13
+                                    lineNumber: 241,
+                                    columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 28,
-                                columnNumber: 11
+                                lineNumber: 240,
+                                columnNumber: 13
                             }, this),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 43,
-                                columnNumber: 11
+                                lineNumber: 255,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 27,
-                        columnNumber: 9
+                        lineNumber: 239,
+                        columnNumber: 11
                     }, this)
                 ]
-            }, void 0, true, {
-                fileName: "src/pages/DownloadFiles.jsx",
-                lineNumber: 25,
-                columnNumber: 7
-            }, this)
+            }, void 0, true)
         ]
     }, void 0, true, {
         fileName: "src/pages/DownloadFiles.jsx",
-        lineNumber: 6,
+        lineNumber: 83,
         columnNumber: 5
     }, this);
 }
+_s(DownloadFiles, "hVw9yoO2SUiuw4iI1eCvEVIZWYI=", false, function() {
+    return [
+        (0, _reactRouterDom.useNavigate)
+    ];
+});
 _c = DownloadFiles;
 exports.default = DownloadFiles;
 var _c;
@@ -62816,6 +63195,258 @@ $RefreshReg$(_c, "DownloadFiles");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./DownloadFiles.css":"1Qo1p","react-router-dom":"61z4w"}],"1Qo1p":[function() {},{}]},["jrEfM","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
+},{"react/jsx-dev-runtime":"dVPUn","./DownloadFiles.css":"1Qo1p","react-router-dom":"61z4w","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","../config/api":"jNJUI"}],"1Qo1p":[function() {},{}],"jNJUI":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_BASE_URL", ()=>API_BASE_URL);
+parcelHelpers.export(exports, "API_ENDPOINTS", ()=>API_ENDPOINTS);
+parcelHelpers.export(exports, "API_ENDPOINT", ()=>API_ENDPOINT);
+const API_BASE_URL = 'http://localhost:1234'; // Базовый URL API
+const API_ENDPOINTS = {
+    FILES: '/api/files',
+    UPLOAD: '/api/upload'
+};
+const API_ENDPOINT = "http://5.165.236.240:2700/api/v2/upload";
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hbM2n":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$8b5f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$8b5f.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$8b5f.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _reactRouterDom = require("react-router-dom");
+var _uploadedFilesCss = require("./UploadedFiles.css");
+var _s = $RefreshSig$();
+function UploadedFiles() {
+    _s();
+    const location = (0, _reactRouterDom.useLocation)();
+    const { uploadResult } = location.state || {
+        uploadResult: null
+    };
+    if (!uploadResult) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "uploaded-files-page__container",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                children: "\u041D\u0435\u0442 \u0434\u0430\u043D\u043D\u044B\u0445 \u043E \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0435"
+            }, void 0, false, {
+                fileName: "src/pages/UploadedFiles.jsx",
+                lineNumber: 12,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
+                to: "/download",
+                className: "uploaded-files-page__button-menu",
+                children: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u0437\u0430\u0433\u0440\u0443\u0437\u043A\u0435"
+            }, void 0, false, {
+                fileName: "src/pages/UploadedFiles.jsx",
+                lineNumber: 13,
+                columnNumber: 9
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/pages/UploadedFiles.jsx",
+        lineNumber: 11,
+        columnNumber: 7
+    }, this);
+    const { message, details } = uploadResult;
+    const totalFiles = details.length;
+    const failedFiles = details.filter((file)=>file.status !== "Success").length;
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "uploaded-files-page__container",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "uploaded-files-page__header",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                        className: "uploaded-files-page__title",
+                        children: [
+                            "\u0417\u0430\u0433\u0440\u0443\u0436\u0435\u043D\u043E ",
+                            totalFiles,
+                            " \u0444\u0430\u0439\u043B\u0430"
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/UploadedFiles.jsx",
+                        lineNumber: 29,
+                        columnNumber: 9
+                    }, this),
+                    failedFiles > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        className: "uploaded-files-page__error-count",
+                        children: [
+                            "\u0421 \u043E\u0448\u0438\u0431\u043A\u0430\u043C\u0438: ",
+                            failedFiles
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/pages/UploadedFiles.jsx",
+                        lineNumber: 33,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "src/pages/UploadedFiles.jsx",
+                lineNumber: 28,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "uploaded-files-page__files-list-container",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "uploaded-files-page__files-list",
+                    children: details.map((file, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "uploaded-files-page__file-item",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "uploaded-files-page__file-info",
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            className: "uploaded-files-page__file-icon",
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                xmlns: "http://www.w3.org/2000/svg",
+                                                viewBox: "0 0 344 432",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                    fill: "currentColor",
+                                                    d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/UploadedFiles.jsx",
+                                                    lineNumber: 46,
+                                                    columnNumber: 21
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/UploadedFiles.jsx",
+                                                lineNumber: 45,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/pages/UploadedFiles.jsx",
+                                            lineNumber: 44,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "uploaded-files-page__file-name",
+                                            children: file.filename
+                                        }, void 0, false, {
+                                            fileName: "src/pages/UploadedFiles.jsx",
+                                            lineNumber: 52,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/pages/UploadedFiles.jsx",
+                                    lineNumber: 43,
+                                    columnNumber: 15
+                                }, this),
+                                file.status === "Success" ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "uploaded-files-page__status-icon uploaded-files-page__status-icon--success",
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        viewBox: "0 0 24 24",
+                                        fill: "currentColor",
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                            fillRule: "evenodd",
+                                            d: "M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 0 1 1.04-.208Z",
+                                            clipRule: "evenodd"
+                                        }, void 0, false, {
+                                            fileName: "src/pages/UploadedFiles.jsx",
+                                            lineNumber: 63,
+                                            columnNumber: 21
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/UploadedFiles.jsx",
+                                        lineNumber: 58,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/pages/UploadedFiles.jsx",
+                                    lineNumber: 57,
+                                    columnNumber: 17
+                                }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "uploaded-files-page__status-icon uploaded-files-page__status-icon--error",
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        viewBox: "0 0 24 24",
+                                        fill: "currentColor",
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                            fillRule: "evenodd",
+                                            d: "M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z",
+                                            clipRule: "evenodd"
+                                        }, void 0, false, {
+                                            fileName: "src/pages/UploadedFiles.jsx",
+                                            lineNumber: 77,
+                                            columnNumber: 21
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "src/pages/UploadedFiles.jsx",
+                                        lineNumber: 72,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "src/pages/UploadedFiles.jsx",
+                                    lineNumber: 71,
+                                    columnNumber: 17
+                                }, this),
+                                file.error && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "uploaded-files-page__error-message",
+                                    children: [
+                                        "\u041F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435: ",
+                                        file.error
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/pages/UploadedFiles.jsx",
+                                    lineNumber: 86,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, index, true, {
+                            fileName: "src/pages/UploadedFiles.jsx",
+                            lineNumber: 42,
+                            columnNumber: 13
+                        }, this))
+                }, void 0, false, {
+                    fileName: "src/pages/UploadedFiles.jsx",
+                    lineNumber: 40,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "src/pages/UploadedFiles.jsx",
+                lineNumber: 39,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
+                to: "/",
+                className: "uploaded-files-page__button-menu",
+                children: "\u0412 \u0433\u043B\u0430\u0432\u043D\u043E\u0435 \u043C\u0435\u043D\u044E"
+            }, void 0, false, {
+                fileName: "src/pages/UploadedFiles.jsx",
+                lineNumber: 95,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "src/pages/UploadedFiles.jsx",
+        lineNumber: 27,
+        columnNumber: 5
+    }, this);
+}
+_s(UploadedFiles, "pkHmaVRPskBaU4tMJuJJpV42k1I=", false, function() {
+    return [
+        (0, _reactRouterDom.useLocation)
+    ];
+});
+_c = UploadedFiles;
+exports.default = UploadedFiles;
+var _c;
+$RefreshReg$(_c, "UploadedFiles");
+
+  $parcel$ReactRefreshHelpers$8b5f.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","react-router-dom":"61z4w","./UploadedFiles.css":"fExAf"}],"fExAf":[function() {},{}]},["jrEfM","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=public.ad93b51f.js.map

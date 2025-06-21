@@ -1,34 +1,44 @@
-.download-page__container {
-  height: 100vh;
-  position: relative;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+body, .download-page__container {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #13327c;
-  font-size: 1.5vw;
+}
+
+.download-page__container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .download-page__button-back {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  color: #13327c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 5px solid #13327c;
   border-radius: 10px;
-   padding: 1.042vw;
-   outline: none;
-   border: 3px solid #13327c;
-   background-color: white;
-   display: flex;
-   gap: 20px;
-   align-items: center;
-   font-size: 1.5vw;
-   text-decoration: none;
-  color: inherit;
+  color: #13327c;
+  text-decoration: none;
+  width: fit-content;
+  background: #fff;
+  font-size: 1.1rem;
+  margin: 2rem auto 0 auto;
+  box-shadow: 0 2px 8px 0 rgba(19, 50, 124, 0.07);
+}
+
+.back-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #13327c;
 }
 
 .custom-fileinput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  width: 100%;
 }
 
 .custom-fileinput__input {
@@ -36,24 +46,212 @@
 }
 
 .custom-fileinput__button {
-  color: #13327c;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border: 5px solid #13327c;
   border-radius: 10px;
-   padding: 1.042vw;
-   outline: none;
-   border: 5px solid #13327c;
-   background-color: white;
-   display: flex;
-   gap: 20px;
-   align-items: center;
-   font-size: 1.5vw;
+  color: #13327c;
+  background: #fff;
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: 500;
 }
 
 .file-icon {
-  width: 80px;
-  height: 80px;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #13327c;
 }
 
-.back-icon {
-  width: 40px;
-  height: 40px;
+.download-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.download-page__header--hidden {
+  display: none;
+}
+
+.download-page__file-count {
+  font-size: 1.125rem;
+  color: #13327c;
+}
+
+.download-page__files-list-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  padding: 1.5rem;
+  border: 5px solid #13327c;
+  width: 480px;
+  max-width: 90vw;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0 auto;
+}
+
+.download-page__files-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.download-page__file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.download-page__file-item:last-child {
+  border-bottom: none;
+}
+
+.download-page__file-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.download-page__file-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #13327c;
+}
+
+.download-page__file-name {
+  font-size: 1rem;
+}
+
+.download-page__remove-file-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ef4444;
+  width: 2rem;
+  height: 2rem;
+}
+
+.download-page__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.download-page__button-send {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 5px solid #13327c;
+  border-radius: 10px;
+  color: #13327c;
+  background-color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.upload-icon {
+  width: 2rem;
+  height: 2rem;
+  color: #13327c;
+}
+
+.custom-fileinput .custom-fileinput__button {
+  border: 5px solid #13327c;
+  border-radius: 10px;
+  color: #13327c;
+  background: #fff;
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.custom-fileinput .file-icon {
+  display: none;
+}
+
+.download-page__container--centered,
+.download-page__container.with-files-centered {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.custom-fileinput--big {
+  min-width: 340px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e6eaff 0%, #f4f8ff 100%);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(19, 50, 124, 0.07);
+}
+
+.custom-fileinput--drag {
+  background: linear-gradient(135deg, #c7e0ff 0%, #e6eaff 100%);
+  box-shadow: 0 4px 16px 0 rgba(19, 50, 124, 0.13);
+}
+
+.custom-fileinput__button--big {
+  font-size: 1.3rem;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, #e6eaff 0%, #f4f8ff 100%);
+  border: none;
+  box-shadow: none;
+}
+
+.custom-fileinput--big .file-icon {
+  width: 80px;
+  height: 80px;
+  color: #13327c;
+}
+
+.custom-fileinput--big p {
+  margin: 0;
+  color: #13327c;
+  font-size: 1.2rem;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.download-page__footer--outside {
+  margin-top: 10px;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.download-page__spacer {
+  flex: 1 1 0;
+  min-height: 40px;
+}
+
+.download-page__button-back--top {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  margin: 0;
+  z-index: 10;
 }
