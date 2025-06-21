@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
-import './Table.css'
 import * as XLSX from 'xlsx';
+import componentStyles from './TableModalComponents.module.css'
 
 function Table(){
   const api = process.env.API
@@ -30,6 +30,15 @@ function Table(){
         "limit": 1000,
         "offset": 0
     })
+    useEffect(() => {
+            axios.post("http://5.165.236.240:2700/api/v2/filtered-data",dfilter).then((response)=>{
+                setStrings(response.data.data || [])
+                console.log(strings)
+                setThead(response.data.headers || []);
+            }).catch((error) => {
+                console.error("Ошибка при получении данных:", error);
+              });
+          }, [dfilter]);
 
     const exportToExcel = () => {
       const wsData = [thead, ...strings];
@@ -304,7 +313,6 @@ function Table(){
             "limit":50000,
             "offset":0
         })
-        console.log(dfilter)
         setModalActive(false)
       }
       
@@ -333,18 +341,19 @@ function Table(){
   </tbody>
     </table>
     <Modal active={modalActive} setActive={setModalActive}>
+      <div className={componentStyles.content}>
     <h2>фильтры</h2>
         {filter==0&&(
-            <div className='filters'>
-<button onClick={()=>{setCities([]); showCities(); setFilter(1)}}>города</button><br/>
-<button onClick={()=>{setYears([]); showYears(); setFilter(2)}}>года</button><br/>
-<button onClick={()=>{setSections([]); showSections(); setFilter(3)}}>разделы</button><br/>
-<button onClick={()=>{setRows([]); showRows(); setFilter(4)}}>строки</button><br/>
-<button onClick={()=>{setColumns([]);showColumns(); setFilter(5)}}>колонки</button><br/>
+            <div className={componentStyles.filters}>
+<button onClick={()=>{setCities([]); showCities(); setFilter(1)}}>города</button>
+<button onClick={()=>{setYears([]); showYears(); setFilter(2)}}>года</button>
+<button onClick={()=>{setSections([]); showSections(); setFilter(3)}}>разделы</button>
+<button onClick={()=>{setRows([]); showRows(); setFilter(4)}}>строки</button>
+<button onClick={()=>{setColumns([]);showColumns(); setFilter(5)}}>колонки</button>
 <button className='submit-data' onClick={handleFilteredData}>применить</button>
 </div>)}
 {filter==1&&(
-    <div className='filter-content'>
+    <div>
         <h3>выберете города</h3>
         <input
       type="text"
@@ -361,7 +370,8 @@ function Table(){
       />
       {selectedCities.length === cities.length ? 'Снять все' : 'Выбрать все'}
     </label>
-        <div className='scroll'>
+    <div className={componentStyles.scrollAndButton}>
+        <div className={componentStyles.scroll}>
         {cities.filter(city => 
           city.toString().toLowerCase().includes(searchCity.toLowerCase()) // Исправлено
         ).map((city)=>(
@@ -378,11 +388,14 @@ function Table(){
            </div>
         ))}
         </div>
-        <button className='button-back' onClick={()=>setFilter(0)}>Назад</button>
+        <div className={componentStyles.buttonWrapper}>
+       <button className={componentStyles.buttonBack} onClick={()=>setFilter(0)}>Назад</button> 
+       </div>
+       </div>
     </div>
 )}
 {filter==2&&(
-    <div className='filter-content'>
+    <div>
         <h3>выберете года</h3>
         <label>
       <input
@@ -392,7 +405,8 @@ function Table(){
       />
       {selectedYears.length === years.length ? 'Снять все' : 'Выбрать все'}
     </label>
-        <div className='scroll'>
+    <div className={componentStyles.scrollAndButton}>
+        <div className={componentStyles.scroll}>
         {years.map((year)=>(
             <div key={year}>
              <label>
@@ -407,11 +421,14 @@ function Table(){
            </div>
         ))}
         </div>
-        <button className='button-back' onClick={()=>setFilter(0)}>Назад</button>
+        <div className={componentStyles.buttonWrapper}>
+        <button className={componentStyles.buttonBack} onClick={()=>setFilter(0)}>Назад</button>
+        </div>
+        </div>
     </div>
 )}
 {filter==3&&(
-    <div className='filter-content'>
+    <div>
         <h3>выберете разделы</h3>
         <label>
       <input
@@ -421,7 +438,8 @@ function Table(){
       />
       {selectedSections.length === sections.length ? 'Снять все' : 'Выбрать все'}
     </label>
-        <div className='scroll'>
+    <div className={componentStyles.scrollAndButton}>
+        <div className={componentStyles.scroll}>
         {sections.map((section)=>(
             <div key={section}>
              <label>
@@ -436,11 +454,14 @@ function Table(){
            </div>
         ))}
         </div>
-        <button className='button-back' onClick={()=>setFilter(0)}>Назад</button>
+        <div className={componentStyles.buttonWrapper}>
+        <button className={componentStyles.buttonBack} onClick={()=>setFilter(0)}>Назад</button>
+        </div>
+        </div>
     </div>
 )}
 {filter == 4 && (
-  <div className='filter-content'>
+  <div>
     <h3>Выберете строки</h3>
     <input
       type="text"
@@ -457,7 +478,8 @@ function Table(){
       />
       {selectedRows.length === rows.length ? 'Снять все' : 'Выбрать все'}
     </label>
-    <div className='scroll'>
+    <div className={componentStyles.scrollAndButton}>
+    <div className={componentStyles.scroll}>
       {rows
         .filter(row => 
           row.toString().toLowerCase().includes(searchRow.toLowerCase()) // Исправлено
@@ -476,11 +498,14 @@ function Table(){
           </div>
         ))}
     </div>
-    <button className='button-back' onClick={() => setFilter(0)}>Назад</button>
+    <div className={componentStyles.buttonWrapper}>
+    <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
+    </div>
+    </div>
   </div>
 )}
 {filter == 5 && (
-  <div className='filter-content'>
+  <div>
     <h3>Выберете колонки</h3>
     <input
       type="text"
@@ -497,7 +522,8 @@ function Table(){
       />
       {selectedColumns.length === columns.length ? 'Снять все' : 'Выбрать все'}
     </label>
-    <div className='scroll'>
+    <div className={componentStyles.scrollAndButton}>
+    <div className={componentStyles.scroll}>
       {columns
         .filter(column => 
           column.toString().toLowerCase().includes(searchColumn.toLowerCase()) // Исправлено
@@ -516,9 +542,13 @@ function Table(){
           </div>
         ))}
     </div>
-    <button className='button-back' onClick={() => setFilter(0)}>Назад</button>
+    <div className={componentStyles.buttonWrapper}>
+    <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
+    </div>
+    </div>
   </div>
 )}
+</div>
     </Modal>
         
     </div>)

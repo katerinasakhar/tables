@@ -14,3 +14,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button {
+  /* Стили оформления */
+  color: rgb(15, 15, 151);
+  background-color: white;
+  border: 3px solid;
+  border-radius: 5px;
+  font-size: 20px;
+  font:bold;
+  padding: 10px;
+  transition: .2s linear;
+  display: inline-block;
+}
+button:hover{
+  background-color: rgb(15, 15, 151);
+  color:white;
+  border-color: rgb(15, 15, 151);
+}

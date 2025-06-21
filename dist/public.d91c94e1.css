@@ -1,4 +1,4 @@
-.modal {
+.gslVnW_modal {
   pointer-events: none;
   opacity: 0;
   background-color: #0006;
@@ -12,49 +12,102 @@
   left: 0;
 }
 
-.modal.active {
+.gslVnW_modal.gslVnW_active {
   opacity: 1;
   pointer-events: all;
 }
 
-.modal__content {
-  background-color: #f0f8ff;
-  border-color: #000;
-  width: 40vw;
-  height: 80vh;
-  padding: 20px;
+.gslVnW_content {
+  border: solid, white;
+  background-color: #fff;
+  border-width: 10px;
+  border-radius: 10px;
+  max-width: 60vw;
+  max-height: 80vh;
+  padding: 10px;
   font-size: 30px;
-  overflow: scroll;
+  display: block;
 }
 
-.modal__content button {
-  margin-top: 10px;
-  font-size: 30px;
-}
-
-.submit-data {
+.gslVnW_submit-data {
   background-color: #7fff00;
   align-self: flex-end;
 }
 
-.filters {
-  flex-direction: column;
+.hsZbkW_content {
+  flex: 1;
+  max-height: 60vh;
+  margin: 10px;
+  padding: 20px;
+  position: relative;
+  overflow: scroll;
+}
+
+.hsZbkW_filters {
+  gap: 1em;
+  display: grid;
+}
+
+.hsZbkW_content::-webkit-scrollbar {
+  background: none;
+  width: 8px;
+}
+
+.hsZbkW_content::-webkit-scrollbar-thumb {
+  background: #3d3f86;
+  border-radius: 4px;
+}
+
+.hsZbkW_scrollAndButton {
+  align-items: flex-start;
+  gap: 10px;
   display: flex;
 }
 
-.filter-content {
-  width: 90%;
+.hsZbkW_scroll {
+  box-sizing: border-box;
+  flex: 1;
+  max-height: 100%;
+  padding: 20px;
 }
 
-.button-back {
+.hsZbkW_buttonWrapper {
   align-self: flex-end;
+  width: auto;
+  margin: 10px;
   position: sticky;
+  bottom: 0;
 }
 
-table {
-  border: 10px;
-  font-family: Open Sans, sans-serif;
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  display: flex;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, Courier New, monospace;
+}
+
+button {
+  color: #0f0f97;
   font-size: 20px;
-  font-weight: bold;
+  font: bold;
+  background-color: #fff;
+  border: 3px solid;
+  border-radius: 5px;
+  padding: 10px;
+  transition: all .2s linear;
+  display: inline-block;
+}
+
+button:hover {
+  color: #fff;
+  background-color: #0f0f97;
+  border-color: #0f0f97;
 }
 /*# sourceMappingURL=public.d91c94e1.css.map */
