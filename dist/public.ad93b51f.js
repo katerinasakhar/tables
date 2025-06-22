@@ -62706,8 +62706,10 @@ var _s = $RefreshSig$();
 function DownloadFiles() {
     _s();
     const [selectedFiles, setSelectedFiles] = (0, _react.useState)([]);
+    const [selectedFolders, setSelectedFolders] = (0, _react.useState)([]);
     const [isDragActive, setIsDragActive] = (0, _react.useState)(false);
     const fileInputRef = (0, _react.useRef)(null);
+    const folderInputRef = (0, _react.useRef)(null);
     const navigate = (0, _reactRouterDom.useNavigate)();
     const handleFileChange = (event)=>{
         setSelectedFiles([
@@ -62716,16 +62718,45 @@ function DownloadFiles() {
         ]);
         event.target.value = null;
     };
+    const handleFolderChange = (event)=>{
+        const files = Array.from(event.target.files);
+        if (files.length > 0) {
+            // Group files by their directory
+            const folderMap = new Map();
+            files.forEach((file)=>{
+                const pathParts = file.webkitRelativePath.split("/");
+                const folderName = pathParts[0];
+                if (!folderMap.has(folderName)) folderMap.set(folderName, {
+                    name: folderName,
+                    files: []
+                });
+                folderMap.get(folderName).files.push(file);
+            });
+            const newFolders = Array.from(folderMap.values());
+            setSelectedFolders([
+                ...selectedFolders,
+                ...newFolders
+            ]);
+        }
+        event.target.value = null;
+    };
     const handleRemoveFile = (fileToRemove)=>{
         setSelectedFiles(selectedFiles.filter((file)=>file !== fileToRemove));
     };
+    const handleRemoveFolder = (folderToRemove)=>{
+        setSelectedFolders(selectedFolders.filter((folder)=>folder !== folderToRemove));
+    };
     const handleSendFiles = async ()=>{
-        if (selectedFiles.length === 0) {
+        const allFiles = [
+            ...selectedFiles,
+            ...selectedFolders.flatMap((folder)=>folder.files)
+        ];
+        if (allFiles.length === 0) {
             alert("\u041F\u043E\u0436\u0430\u043B\u0443\u0439\u0441\u0442\u0430, \u0432\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B\u044B \u0434\u043B\u044F \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0438.");
             return;
         }
         const formData = new FormData();
-        selectedFiles.forEach((file)=>{
+        allFiles.forEach((file)=>{
             formData.append("files", file);
         });
         try {
@@ -62766,8 +62797,11 @@ function DownloadFiles() {
             ...files
         ]);
     };
-    const handleClick = ()=>{
+    const handleFileClick = ()=>{
         fileInputRef.current.click();
+    };
+    const handleFolderClick = ()=>{
+        folderInputRef.current.click();
     };
     function getFileWord(n) {
         n = Math.abs(n) % 100;
@@ -62777,10 +62811,11 @@ function DownloadFiles() {
         if (n1 === 1) return "\u0444\u0430\u0439\u043B";
         return "\u0444\u0430\u0439\u043B\u043E\u0432";
     }
+    const totalItems = selectedFiles.length + selectedFolders.length;
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: `download-page__container${selectedFiles.length === 0 ? " download-page__container--centered" : selectedFiles.length > 0 ? " with-files-centered" : ""}`,
+        className: `download-page__container${totalItems === 0 ? " download-page__container--centered" : totalItems > 0 ? " with-files-centered" : ""}`,
         children: [
-            selectedFiles.length === 0 ? null : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
+            totalItems === 0 ? null : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
                 to: "/",
                 className: "download-page__button-back download-page__button-back--top",
                 children: [
@@ -62798,155 +62833,256 @@ function DownloadFiles() {
                                 d: "M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
                             }, void 0, false, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 105,
+                                lineNumber: 151,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "src/pages/DownloadFiles.jsx",
-                            lineNumber: 98,
+                            lineNumber: 144,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 97,
+                        lineNumber: 143,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         children: "\u041D\u0430\u0437\u0430\u0434"
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 112,
+                        lineNumber: 158,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/pages/DownloadFiles.jsx",
-                lineNumber: 93,
+                lineNumber: 139,
                 columnNumber: 9
             }, this),
-            selectedFiles.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            totalItems > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "download-page__spacer"
             }, void 0, false, {
                 fileName: "src/pages/DownloadFiles.jsx",
-                lineNumber: 115,
-                columnNumber: 36
+                lineNumber: 161,
+                columnNumber: 26
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: `download-page__header${selectedFiles.length === 0 ? " download-page__header--hidden" : ""}`,
-                children: selectedFiles.length > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    className: "download-page__file-count",
+                className: `download-page__header${totalItems === 0 ? " download-page__header--hidden" : ""}`,
+                children: totalItems > 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                    className: "download-page__header-count",
                     children: [
-                        selectedFiles.length,
+                        selectedFiles.length + selectedFolders.flatMap((folder)=>folder.files).length,
                         " ",
-                        getFileWord(selectedFiles.length)
+                        getFileWord(selectedFiles.length + selectedFolders.flatMap((folder)=>folder.files).length)
                     ]
                 }, void 0, true, {
                     fileName: "src/pages/DownloadFiles.jsx",
-                    lineNumber: 122,
+                    lineNumber: 168,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "src/pages/DownloadFiles.jsx",
-                lineNumber: 116,
+                lineNumber: 162,
                 columnNumber: 7
             }, this),
-            selectedFiles.length > 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+            totalItems > 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "download-page__files-list-container",
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             className: "download-page__files-list",
-                            children: selectedFiles.map((file, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "download-page__file-item",
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "download-page__file-info",
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "download-page__file-icon",
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                                                        xmlns: "http://www.w3.org/2000/svg",
-                                                        viewBox: "0 0 344 432",
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                                                            fill: "currentColor",
-                                                            d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                            children: [
+                                selectedFolders.map((folder, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "download-page__file-item",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "download-page__file-info",
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        className: "download-page__file-icon",
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                            xmlns: "http://www.w3.org/2000/svg",
+                                                            width: "24",
+                                                            height: "24",
+                                                            viewBox: "0 0 24 24",
+                                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                                fill: "currentColor",
+                                                                d: "M2 4.75C2 3.784 2.784 3 3.75 3h4.971c.58 0 1.12.286 1.447.765l1.404 2.063a.25.25 0 0 0 .207.11h6.224c.966 0 1.75.783 1.75 1.75v.117H5.408a.848.848 0 0 0 0 1.695h15.484a1 1 0 0 1 .995 1.102L21 19.25c-.106 1.05-.784 1.75-1.75 1.75H3.75A1.75 1.75 0 0 1 2 19.25z"
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                                lineNumber: 196,
+                                                                columnNumber: 25
+                                                            }, this)
                                                         }, void 0, false, {
                                                             fileName: "src/pages/DownloadFiles.jsx",
-                                                            lineNumber: 139,
-                                                            columnNumber: 25
+                                                            lineNumber: 190,
+                                                            columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "src/pages/DownloadFiles.jsx",
-                                                        lineNumber: 135,
+                                                        lineNumber: 189,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        className: "download-page__file-details",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                className: "download-page__file-name",
+                                                                children: folder.name
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                                lineNumber: 203,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                                className: "download-page__file-count",
+                                                                children: [
+                                                                    folder.files.length,
+                                                                    " ",
+                                                                    getFileWord(folder.files.length)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                                lineNumber: 206,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 202,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 188,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                onClick: ()=>handleRemoveFolder(folder),
+                                                className: "download-page__remove-file-button",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                    xmlns: "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 21 21",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                        fill: "none",
+                                                        stroke: "currentColor",
+                                                        "stroke-linecap": "round",
+                                                        "stroke-linejoin": "round",
+                                                        d: "M5.5 4.5h10v12a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2zm5-2a2 2 0 0 1 1.995 1.85l.005.15h-4a2 2 0 0 1 2-2zm-7 2h14m-9 3v8m4-8v8"
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 216,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/DownloadFiles.jsx",
-                                                    lineNumber: 134,
+                                                    lineNumber: 215,
                                                     columnNumber: 21
-                                                }, this),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                    className: "download-page__file-name",
-                                                    children: file.name
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/DownloadFiles.jsx",
-                                                    lineNumber: 145,
-                                                    columnNumber: 21
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/pages/DownloadFiles.jsx",
-                                            lineNumber: 133,
-                                            columnNumber: 19
-                                        }, this),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                            onClick: ()=>handleRemoveFile(file),
-                                            className: "download-page__remove-file-button",
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                                                xmlns: "http://www.w3.org/2000/svg",
-                                                viewBox: "0 0 21 21",
-                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                                                    fill: "none",
-                                                    stroke: "currentColor",
-                                                    "stroke-linecap": "round",
-                                                    "stroke-linejoin": "round",
-                                                    d: "M5.5 4.5h10v12a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2zm5-2a2 2 0 0 1 1.995 1.85l.005.15h-4a2 2 0 0 1 2-2zm-7 2h14m-9 3v8m4-8v8"
-                                                }, void 0, false, {
-                                                    fileName: "src/pages/DownloadFiles.jsx",
-                                                    lineNumber: 154,
-                                                    columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/DownloadFiles.jsx",
-                                                lineNumber: 153,
-                                                columnNumber: 21
+                                                lineNumber: 211,
+                                                columnNumber: 19
                                             }, this)
-                                        }, void 0, false, {
-                                            fileName: "src/pages/DownloadFiles.jsx",
-                                            lineNumber: 149,
-                                            columnNumber: 19
-                                        }, this)
-                                    ]
-                                }, index, true, {
-                                    fileName: "src/pages/DownloadFiles.jsx",
-                                    lineNumber: 132,
-                                    columnNumber: 17
-                                }, this))
-                        }, void 0, false, {
+                                        ]
+                                    }, `folder-${index}`, true, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 184,
+                                        columnNumber: 17
+                                    }, this)),
+                                selectedFiles.map((file, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "download-page__file-item",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "download-page__file-info",
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                        className: "download-page__file-icon",
+                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                            xmlns: "http://www.w3.org/2000/svg",
+                                                            viewBox: "0 0 344 432",
+                                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                                fill: "currentColor",
+                                                                d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                                                            }, void 0, false, {
+                                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                                lineNumber: 237,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "src/pages/DownloadFiles.jsx",
+                                                            lineNumber: 233,
+                                                            columnNumber: 23
+                                                        }, this)
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 232,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                        className: "download-page__file-name",
+                                                        children: file.name
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 243,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 231,
+                                                columnNumber: 19
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                                onClick: ()=>handleRemoveFile(file),
+                                                className: "download-page__remove-file-button",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                    xmlns: "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 21 21",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                        fill: "none",
+                                                        stroke: "currentColor",
+                                                        "stroke-linecap": "round",
+                                                        "stroke-linejoin": "round",
+                                                        d: "M5.5 4.5h10v12a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2zm5-2a2 2 0 0 1 1.995 1.85l.005.15h-4a2 2 0 0 1 2-2zm-7 2h14m-9 3v8m4-8v8"
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 252,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 251,
+                                                    columnNumber: 21
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 247,
+                                                columnNumber: 19
+                                            }, this)
+                                        ]
+                                    }, `file-${index}`, true, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 230,
+                                        columnNumber: 17
+                                    }, this))
+                            ]
+                        }, void 0, true, {
                             fileName: "src/pages/DownloadFiles.jsx",
-                            lineNumber: 130,
+                            lineNumber: 181,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 129,
+                        lineNumber: 180,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "download-page__spacer"
                     }, void 0, false, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 167,
+                        lineNumber: 265,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -62964,7 +63100,7 @@ function DownloadFiles() {
                                         ref: fileInputRef
                                     }, void 0, false, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 170,
+                                        lineNumber: 268,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -62980,36 +63116,36 @@ function DownloadFiles() {
                                                         d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
                                                     }, void 0, false, {
                                                         fileName: "src/pages/DownloadFiles.jsx",
-                                                        lineNumber: 181,
+                                                        lineNumber: 279,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "src/pages/DownloadFiles.jsx",
-                                                    lineNumber: 180,
+                                                    lineNumber: 278,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "src/pages/DownloadFiles.jsx",
-                                                lineNumber: 179,
+                                                lineNumber: 277,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                                 children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
                                             }, void 0, false, {
                                                 fileName: "src/pages/DownloadFiles.jsx",
-                                                lineNumber: 187,
+                                                lineNumber: 285,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 178,
+                                        lineNumber: 276,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 169,
+                                lineNumber: 267,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -63028,103 +63164,173 @@ function DownloadFiles() {
                                                 clipRule: "evenodd"
                                             }, void 0, false, {
                                                 fileName: "src/pages/DownloadFiles.jsx",
-                                                lineNumber: 196,
+                                                lineNumber: 294,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/pages/DownloadFiles.jsx",
-                                            lineNumber: 195,
+                                            lineNumber: 293,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 194,
+                                        lineNumber: 292,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                         children: "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C"
                                     }, void 0, false, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 204,
+                                        lineNumber: 302,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 190,
+                                lineNumber: 288,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 168,
+                        lineNumber: 266,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: `custom-fileinput custom-fileinput--big${isDragActive ? " custom-fileinput--drag" : ""}`,
-                        onDragOver: handleDragOver,
-                        onDragLeave: handleDragLeave,
-                        onDrop: handleDrop,
-                        onClick: handleClick,
+                        className: "download-page__upload-container",
                         children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                type: "file",
-                                multiple: true,
-                                className: "custom-fileinput__input",
-                                onChange: handleFileChange,
-                                accept: ".xlsm",
-                                ref: fileInputRef
-                            }, void 0, false, {
-                                fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 219,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                className: "custom-fileinput__button custom-fileinput__button--big",
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: `custom-fileinput custom-fileinput--big${isDragActive ? " custom-fileinput--drag" : ""}`,
+                                onDragOver: handleDragOver,
+                                onDragLeave: handleDragLeave,
+                                onDrop: handleDrop,
+                                onClick: handleFileClick,
                                 children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        className: "file-icon",
-                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                                            xmlns: "http://www.w3.org/2000/svg",
-                                            viewBox: "0 0 344 432",
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                                                fill: "currentColor",
-                                                d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
-                                            }, void 0, false, {
-                                                fileName: "src/pages/DownloadFiles.jsx",
-                                                lineNumber: 230,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "src/pages/DownloadFiles.jsx",
-                                            lineNumber: 229,
-                                            columnNumber: 17
-                                        }, this)
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                        type: "file",
+                                        multiple: true,
+                                        className: "custom-fileinput__input",
+                                        onChange: handleFileChange,
+                                        accept: ".xlsm",
+                                        ref: fileInputRef
                                     }, void 0, false, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 228,
+                                        lineNumber: 318,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                        children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
-                                    }, void 0, false, {
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: "custom-fileinput__button custom-fileinput__button--big",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "file-icon",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                    xmlns: "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 344 432",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                        fill: "currentColor",
+                                                        d: "M43 3h170l128 128v256q0 17-12.5 29.5T299 429H42q-17 0-29.5-12.5T0 387V45q0-17 12.5-29.5T43 3zm149 149h117L192 35v117z"
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 329,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 328,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 327,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 335,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 236,
+                                        lineNumber: 326,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 227,
+                                lineNumber: 309,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                className: "custom-fileinput custom-fileinput--big",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                        type: "file",
+                                        multiple: true,
+                                        webkitdirectory: "",
+                                        className: "custom-fileinput__input",
+                                        onChange: handleFolderChange,
+                                        accept: ".xlsm",
+                                        ref: folderInputRef
+                                    }, void 0, false, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 340,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                        className: "custom-fileinput__button custom-fileinput__button--big",
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "folder-icon",
+                                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                                    xmlns: "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 24 24",
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                                        fill: "currentColor",
+                                                        d: "M2 4.75C2 3.784 2.784 3 3.75 3h4.971c.58 0 1.12.286 1.447.765l1.404 2.063a.25.25 0 0 0 .207.11h6.224c.966 0 1.75.783 1.75 1.75v.117H5.408a.848.848 0 0 0 0 1.695h15.484a1 1 0 0 1 .995 1.102L21 19.25c-.106 1.05-.784 1.75-1.75 1.75H3.75A1.75 1.75 0 0 1 2 19.25z"
+                                                    }, void 0, false, {
+                                                        fileName: "src/pages/DownloadFiles.jsx",
+                                                        lineNumber: 352,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "src/pages/DownloadFiles.jsx",
+                                                    lineNumber: 351,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 350,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                children: "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u043F\u0430\u043F\u043A\u0443"
+                                            }, void 0, false, {
+                                                fileName: "src/pages/DownloadFiles.jsx",
+                                                lineNumber: 358,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/pages/DownloadFiles.jsx",
+                                        lineNumber: 349,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/pages/DownloadFiles.jsx",
+                                lineNumber: 339,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 210,
+                        lineNumber: 308,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.NavLink), {
@@ -63145,30 +63351,30 @@ function DownloadFiles() {
                                         d: "M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
                                     }, void 0, false, {
                                         fileName: "src/pages/DownloadFiles.jsx",
-                                        lineNumber: 248,
+                                        lineNumber: 371,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/pages/DownloadFiles.jsx",
-                                    lineNumber: 241,
+                                    lineNumber: 364,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 240,
+                                lineNumber: 363,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 children: "\u041D\u0430\u0437\u0430\u0434"
                             }, void 0, false, {
                                 fileName: "src/pages/DownloadFiles.jsx",
-                                lineNumber: 255,
+                                lineNumber: 378,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "src/pages/DownloadFiles.jsx",
-                        lineNumber: 239,
+                        lineNumber: 362,
                         columnNumber: 11
                     }, this)
                 ]
@@ -63176,11 +63382,11 @@ function DownloadFiles() {
         ]
     }, void 0, true, {
         fileName: "src/pages/DownloadFiles.jsx",
-        lineNumber: 83,
+        lineNumber: 129,
         columnNumber: 5
     }, this);
 }
-_s(DownloadFiles, "hVw9yoO2SUiuw4iI1eCvEVIZWYI=", false, function() {
+_s(DownloadFiles, "MkA8yesdpKGSl2qIsqqqysvD4CQ=", false, function() {
     return [
         (0, _reactRouterDom.useNavigate)
     ];

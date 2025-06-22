@@ -165,9 +165,14 @@ body, .download-page__container {
   display: none;
 }
 
-.download-page__file-count {
+.download-page__header-count {
   color: #13327c;
   font-size: 1.125rem;
+}
+
+.download-page__file-count {
+  color: #6b7280;
+  font-size: .875rem;
 }
 
 .download-page__files-list-container {
@@ -204,8 +209,15 @@ body, .download-page__container {
 }
 
 .download-page__file-info {
+  flex: 1;
   align-items: center;
   gap: 1rem;
+  display: flex;
+}
+
+.download-page__file-details {
+  flex-direction: column;
+  gap: .25rem;
   display: flex;
 }
 
@@ -281,8 +293,9 @@ body, .download-page__container {
 
 .custom-fileinput--big {
   cursor: pointer;
+  z-index: 10;
   background: linear-gradient(135deg, #e6eaff 0%, #f4f8ff 100%);
-  border: none;
+  border: 5px solid #13327c;
   border-radius: 10px;
   flex-direction: column;
   justify-content: center;
@@ -291,58 +304,70 @@ body, .download-page__container {
   min-height: 220px;
   transition: background .2s, box-shadow .2s;
   display: flex;
+  position: relative;
   box-shadow: 0 2px 8px #13327c12;
 }
 
 .custom-fileinput--drag {
-  background: linear-gradient(135deg, #c7e0ff 0%, #e6eaff 100%);
-  box-shadow: 0 4px 16px #13327c21;
+  background: linear-gradient(135deg, #d1d5db 0%, #e5e7eb 100%);
+  box-shadow: 0 4px 12px #13327c26;
 }
 
 .custom-fileinput__button--big {
-  box-shadow: none;
-  background: linear-gradient(135deg, #e6eaff 0%, #f4f8ff 100%);
+  color: #13327c;
+  background: none;
   border: none;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem 2.5rem;
-  font-size: 1.3rem;
+  gap: 1rem;
+  padding: 2rem;
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 500;
   display: flex;
 }
 
-.custom-fileinput--big .file-icon {
+.custom-fileinput--big .file-icon, .custom-fileinput--big .folder-icon {
   color: #13327c;
-  width: 80px;
-  height: 80px;
+  width: 4rem;
+  height: 4rem;
+  display: block;
 }
 
 .custom-fileinput--big p {
   color: #13327c;
   margin: 0;
-  font-family: inherit;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 500;
 }
 
 .download-page__footer--outside {
   justify-content: center;
-  gap: 1.5rem;
-  margin-top: 10px;
-  display: flex;
 }
 
 .download-page__spacer {
-  flex: 1 1 0;
-  min-height: 40px;
+  height: 2rem;
 }
 
 .download-page__button-back--top {
-  z-index: 10;
   margin: 0;
   position: absolute;
   top: 2rem;
   left: 2rem;
+}
+
+.download-page__upload-container {
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  display: flex;
+}
+
+.folder-icon {
+  color: #13327c;
+  width: 6rem;
+  height: 6rem;
 }
 
 body, .uploaded-files-page__container {
