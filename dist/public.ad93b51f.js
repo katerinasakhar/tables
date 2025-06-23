@@ -16179,6 +16179,8 @@ var _modalDefault = parcelHelpers.interopDefault(_modal);
 var _xlsx = require("xlsx");
 var _tableModalComponentsModuleCss = require("./TableModalComponents.module.css");
 var _tableModalComponentsModuleCssDefault = parcelHelpers.interopDefault(_tableModalComponentsModuleCss);
+var _checkbox = require("./Checkbox");
+var _checkboxDefault = parcelHelpers.interopDefault(_checkbox);
 var _s = $RefreshSig$();
 function Table() {
     _s();
@@ -16461,7 +16463,7 @@ function Table() {
                 children: "\u0444\u0438\u043B\u044C\u0442\u0440\u044B"
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 320,
+                lineNumber: 321,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16469,7 +16471,7 @@ function Table() {
                 children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C XLS"
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 321,
+                lineNumber: 322,
                 columnNumber: 9
             }, this),
             " ",
@@ -16477,7 +16479,7 @@ function Table() {
                 children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 323,
+                lineNumber: 324,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("table", {
@@ -16491,17 +16493,17 @@ function Table() {
                                     children: head
                                 }, head, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 329,
+                                    lineNumber: 330,
                                     columnNumber: 21
                                 }, this))
                         }, void 0, false, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 327,
+                            lineNumber: 328,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 326,
+                        lineNumber: 327,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tbody", {
@@ -16510,23 +16512,23 @@ function Table() {
                                         children: cell
                                     }, cell, false, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 337,
+                                        lineNumber: 338,
                                         columnNumber: 13
                                     }, this))
                             }, string.id, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 335,
+                                lineNumber: 336,
                                 columnNumber: 5
                             }, this))
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 333,
+                        lineNumber: 334,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/Table.jsx",
-                lineNumber: 325,
+                lineNumber: 326,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _modalDefault.default), {
@@ -16539,7 +16541,7 @@ function Table() {
                             children: "\u0444\u0438\u043B\u044C\u0442\u0440\u044B"
                         }, void 0, false, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 345,
+                            lineNumber: 346,
                             columnNumber: 5
                         }, this),
                         filter == 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16554,7 +16556,7 @@ function Table() {
                                     children: "\u0433\u043E\u0440\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 348,
+                                    lineNumber: 349,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16566,7 +16568,7 @@ function Table() {
                                     children: "\u0433\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 349,
+                                    lineNumber: 350,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16578,7 +16580,7 @@ function Table() {
                                     children: "\u0440\u0430\u0437\u0434\u0435\u043B\u044B"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 350,
+                                    lineNumber: 351,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16590,7 +16592,7 @@ function Table() {
                                     children: "\u0441\u0442\u0440\u043E\u043A\u0438"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 351,
+                                    lineNumber: 352,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16602,7 +16604,7 @@ function Table() {
                                     children: "\u043A\u043E\u043B\u043E\u043D\u043A\u0438"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 352,
+                                    lineNumber: 353,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16611,13 +16613,13 @@ function Table() {
                                     children: "\u043F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 353,
+                                    lineNumber: 354,
                                     columnNumber: 1
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 347,
+                            lineNumber: 348,
                             columnNumber: 13
                         }, this),
                         filter == 1 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16626,39 +16628,60 @@ function Table() {
                                     children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0433\u043E\u0440\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 357,
-                                    columnNumber: 9
-                                }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                    type: "text",
-                                    placeholder: "\u041F\u043E\u0438\u0441\u043A...",
-                                    value: searchCity,
-                                    onChange: (e)=>setSearchCity(e.target.value),
-                                    style: {
-                                        marginBottom: "10px"
-                                    }
-                                }, void 0, false, {
-                                    fileName: "src/Table.jsx",
                                     lineNumber: 358,
                                     columnNumber: 9
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: (0, _tableModalComponentsModuleCssDefault.default).searchContainer,
                                     children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                            type: "checkbox",
-                                            checked: selectedCities.length === cities.length,
-                                            onChange: handleSelectAllCities
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            className: (0, _tableModalComponentsModuleCssDefault.default).searchInput,
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                type: "text",
+                                                placeholder: "\u041F\u043E\u0438\u0441\u043A...",
+                                                value: searchCity,
+                                                onChange: (e)=>setSearchCity(e.target.value)
+                                            }, void 0, false, {
+                                                fileName: "src/Table.jsx",
+                                                lineNumber: 361,
+                                                columnNumber: 9
+                                            }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 366,
-                                            columnNumber: 7
+                                            lineNumber: 360,
+                                            columnNumber: 11
                                         }, this),
-                                        selectedCities.length === cities.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            class: (0, _tableModalComponentsModuleCssDefault.default).checkboxWrapper,
+                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                        type: "checkbox",
+                                                        checked: selectedCities.length === cities.length,
+                                                        onChange: handleSelectAllCities,
+                                                        class: (0, _tableModalComponentsModuleCssDefault.default).input
+                                                    }, void 0, false, {
+                                                        fileName: "src/Table.jsx",
+                                                        lineNumber: 370,
+                                                        columnNumber: 7
+                                                    }, this),
+                                                    selectedCities.length === cities.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "src/Table.jsx",
+                                                lineNumber: 369,
+                                                columnNumber: 5
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "src/Table.jsx",
+                                            lineNumber: 368,
+                                            columnNumber: 5
+                                        }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 365,
-                                    columnNumber: 5
+                                    lineNumber: 359,
+                                    columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: (0, _tableModalComponentsModuleCssDefault.default).scrollAndButton,
@@ -16667,40 +16690,34 @@ function Table() {
                                             className: (0, _tableModalComponentsModuleCssDefault.default).scroll,
                                             children: cities.filter((city)=>city.toString().toLowerCase().includes(searchCity.toLowerCase()) // Исправлено
                                             ).map((city)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                    type: "checkbox",
-                                                                    value: city,
-                                                                    checked: selectedCities.includes(city.toString()),
-                                                                    onChange: handleCityChange
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Table.jsx",
-                                                                    lineNumber: 380,
-                                                                    columnNumber: 14
-                                                                }, this),
-                                                                city
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 379,
-                                                            columnNumber: 14
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 387,
-                                                            columnNumber: 20
-                                                        }, this)
-                                                    ]
-                                                }, city, true, {
+                                                    className: (0, _tableModalComponentsModuleCssDefault.default).item,
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                type: "checkbox",
+                                                                value: city,
+                                                                checked: selectedCities.includes(city.toString()),
+                                                                onChange: handleCityChange
+                                                            }, void 0, false, {
+                                                                fileName: "src/Table.jsx",
+                                                                lineNumber: 387,
+                                                                columnNumber: 14
+                                                            }, this),
+                                                            city
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Table.jsx",
+                                                        lineNumber: 386,
+                                                        columnNumber: 14
+                                                    }, this)
+                                                }, city, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 378,
+                                                    lineNumber: 385,
                                                     columnNumber: 13
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 374,
+                                            lineNumber: 381,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16711,24 +16728,24 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 392,
+                                                lineNumber: 399,
                                                 columnNumber: 8
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 391,
+                                            lineNumber: 398,
                                             columnNumber: 9
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 373,
+                                    lineNumber: 380,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 356,
+                            lineNumber: 357,
                             columnNumber: 5
                         }, this),
                         filter == 2 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16737,26 +16754,34 @@ function Table() {
                                     children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0433\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 399,
+                                    lineNumber: 406,
                                     columnNumber: 9
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                            type: "checkbox",
-                                            checked: selectedYears.length === years.length,
-                                            onChange: handleSelectAllYears
-                                        }, void 0, false, {
-                                            fileName: "src/Table.jsx",
-                                            lineNumber: 401,
-                                            columnNumber: 7
-                                        }, this),
-                                        selectedYears.length === years.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
-                                    ]
-                                }, void 0, true, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    class: (0, _tableModalComponentsModuleCssDefault.default).checkboxWrapper,
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                type: "checkbox",
+                                                checked: selectedYears.length === years.length,
+                                                onChange: handleSelectAllYears,
+                                                class: (0, _tableModalComponentsModuleCssDefault.default).input
+                                            }, void 0, false, {
+                                                fileName: "src/Table.jsx",
+                                                lineNumber: 409,
+                                                columnNumber: 7
+                                            }, this),
+                                            selectedYears.length === years.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Table.jsx",
+                                        lineNumber: 408,
+                                        columnNumber: 9
+                                    }, this)
+                                }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 400,
-                                    columnNumber: 9
+                                    lineNumber: 407,
+                                    columnNumber: 8
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: (0, _tableModalComponentsModuleCssDefault.default).scrollAndButton,
@@ -16764,40 +16789,34 @@ function Table() {
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                             className: (0, _tableModalComponentsModuleCssDefault.default).scroll,
                                             children: years.map((year)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                    type: "checkbox",
-                                                                    value: year,
-                                                                    checked: selectedYears.includes(year),
-                                                                    onChange: handleYearChange
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Table.jsx",
-                                                                    lineNumber: 413,
-                                                                    columnNumber: 14
-                                                                }, this),
-                                                                year
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 412,
-                                                            columnNumber: 14
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 420,
-                                                            columnNumber: 20
-                                                        }, this)
-                                                    ]
-                                                }, year, true, {
+                                                    className: (0, _tableModalComponentsModuleCssDefault.default).item,
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                type: "checkbox",
+                                                                value: year,
+                                                                checked: selectedYears.includes(year),
+                                                                onChange: handleYearChange
+                                                            }, void 0, false, {
+                                                                fileName: "src/Table.jsx",
+                                                                lineNumber: 423,
+                                                                columnNumber: 14
+                                                            }, this),
+                                                            year
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Table.jsx",
+                                                        lineNumber: 422,
+                                                        columnNumber: 14
+                                                    }, this)
+                                                }, year, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 411,
+                                                    lineNumber: 421,
                                                     columnNumber: 13
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 409,
+                                            lineNumber: 419,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16808,24 +16827,24 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 425,
+                                                lineNumber: 435,
                                                 columnNumber: 9
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 424,
+                                            lineNumber: 434,
                                             columnNumber: 9
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 408,
+                                    lineNumber: 418,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 398,
+                            lineNumber: 405,
                             columnNumber: 5
                         }, this),
                         filter == 3 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16834,26 +16853,34 @@ function Table() {
                                     children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0440\u0430\u0437\u0434\u0435\u043B\u044B"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 432,
+                                    lineNumber: 442,
                                     columnNumber: 9
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                            type: "checkbox",
-                                            checked: selectedSections.length === sections.length,
-                                            onChange: handleSelectAllSections
-                                        }, void 0, false, {
-                                            fileName: "src/Table.jsx",
-                                            lineNumber: 434,
-                                            columnNumber: 7
-                                        }, this),
-                                        selectedSections.length === sections.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
-                                    ]
-                                }, void 0, true, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    class: (0, _tableModalComponentsModuleCssDefault.default).checkboxWrapper,
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                type: "checkbox",
+                                                checked: selectedSections.length === sections.length,
+                                                onChange: handleSelectAllSections,
+                                                class: (0, _tableModalComponentsModuleCssDefault.default).input
+                                            }, void 0, false, {
+                                                fileName: "src/Table.jsx",
+                                                lineNumber: 445,
+                                                columnNumber: 7
+                                            }, this),
+                                            selectedSections.length === sections.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Table.jsx",
+                                        lineNumber: 444,
+                                        columnNumber: 9
+                                    }, this)
+                                }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 433,
-                                    columnNumber: 9
+                                    lineNumber: 443,
+                                    columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: (0, _tableModalComponentsModuleCssDefault.default).scrollAndButton,
@@ -16861,40 +16888,34 @@ function Table() {
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                             className: (0, _tableModalComponentsModuleCssDefault.default).scroll,
                                             children: sections.map((section)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                    type: "checkbox",
-                                                                    value: section,
-                                                                    checked: selectedSections.includes(section.toString()),
-                                                                    onChange: handleSectionChange
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Table.jsx",
-                                                                    lineNumber: 446,
-                                                                    columnNumber: 14
-                                                                }, this),
-                                                                section
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 445,
-                                                            columnNumber: 14
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 453,
-                                                            columnNumber: 20
-                                                        }, this)
-                                                    ]
-                                                }, section, true, {
+                                                    className: (0, _tableModalComponentsModuleCssDefault.default).item,
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                type: "checkbox",
+                                                                value: section,
+                                                                checked: selectedSections.includes(section.toString()),
+                                                                onChange: handleSectionChange
+                                                            }, void 0, false, {
+                                                                fileName: "src/Table.jsx",
+                                                                lineNumber: 459,
+                                                                columnNumber: 14
+                                                            }, this),
+                                                            section
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Table.jsx",
+                                                        lineNumber: 458,
+                                                        columnNumber: 14
+                                                    }, this)
+                                                }, section, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 444,
+                                                    lineNumber: 457,
                                                     columnNumber: 13
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 442,
+                                            lineNumber: 455,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16905,24 +16926,24 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 458,
+                                                lineNumber: 471,
                                                 columnNumber: 9
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 457,
+                                            lineNumber: 470,
                                             columnNumber: 9
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 441,
+                                    lineNumber: 454,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 431,
+                            lineNumber: 441,
                             columnNumber: 5
                         }, this),
                         filter == 4 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16931,7 +16952,7 @@ function Table() {
                                     children: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0441\u0442\u0440\u043E\u043A\u0438"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 465,
+                                    lineNumber: 478,
                                     columnNumber: 5
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -16944,26 +16965,34 @@ function Table() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 466,
+                                    lineNumber: 479,
                                     columnNumber: 5
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                            type: "checkbox",
-                                            checked: selectedRows.length === rows.length,
-                                            onChange: handleSelectAllRows
-                                        }, void 0, false, {
-                                            fileName: "src/Table.jsx",
-                                            lineNumber: 474,
-                                            columnNumber: 7
-                                        }, this),
-                                        selectedRows.length === rows.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
-                                    ]
-                                }, void 0, true, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    class: (0, _tableModalComponentsModuleCssDefault.default).checkboxWrapper,
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                type: "checkbox",
+                                                checked: selectedRows.length === rows.length,
+                                                onChange: handleSelectAllRows,
+                                                class: (0, _tableModalComponentsModuleCssDefault.default).input
+                                            }, void 0, false, {
+                                                fileName: "src/Table.jsx",
+                                                lineNumber: 488,
+                                                columnNumber: 7
+                                            }, this),
+                                            selectedRows.length === rows.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Table.jsx",
+                                        lineNumber: 487,
+                                        columnNumber: 5
+                                    }, this)
+                                }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 473,
-                                    columnNumber: 5
+                                    lineNumber: 486,
+                                    columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: (0, _tableModalComponentsModuleCssDefault.default).scrollAndButton,
@@ -16972,40 +17001,34 @@ function Table() {
                                             className: (0, _tableModalComponentsModuleCssDefault.default).scroll,
                                             children: rows.filter((row)=>row.toString().toLowerCase().includes(searchRow.toLowerCase()) // Исправлено
                                             ).map((row)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                    type: "checkbox",
-                                                                    value: row,
-                                                                    checked: selectedRows.includes(row.toString()),
-                                                                    onChange: handleRowChange
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Table.jsx",
-                                                                    lineNumber: 490,
-                                                                    columnNumber: 15
-                                                                }, this),
-                                                                row
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 489,
-                                                            columnNumber: 13
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 497,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, row, true, {
+                                                    className: (0, _tableModalComponentsModuleCssDefault.default).item,
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                type: "checkbox",
+                                                                value: row,
+                                                                checked: selectedRows.includes(row.toString()),
+                                                                onChange: handleRowChange
+                                                            }, void 0, false, {
+                                                                fileName: "src/Table.jsx",
+                                                                lineNumber: 506,
+                                                                columnNumber: 15
+                                                            }, this),
+                                                            row
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Table.jsx",
+                                                        lineNumber: 505,
+                                                        columnNumber: 13
+                                                    }, this)
+                                                }, row, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 488,
+                                                    lineNumber: 504,
                                                     columnNumber: 11
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 482,
+                                            lineNumber: 498,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17016,24 +17039,24 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 502,
+                                                lineNumber: 518,
                                                 columnNumber: 5
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 501,
+                                            lineNumber: 517,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 481,
+                                    lineNumber: 497,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 464,
+                            lineNumber: 477,
                             columnNumber: 3
                         }, this),
                         filter == 5 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17042,7 +17065,7 @@ function Table() {
                                     children: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 509,
+                                    lineNumber: 525,
                                     columnNumber: 5
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -17055,26 +17078,34 @@ function Table() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 510,
+                                    lineNumber: 526,
                                     columnNumber: 5
                                 }, this),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                            type: "checkbox",
-                                            checked: selectedColumns.length === columns.length,
-                                            onChange: handleSelectAllColumns
-                                        }, void 0, false, {
-                                            fileName: "src/Table.jsx",
-                                            lineNumber: 518,
-                                            columnNumber: 7
-                                        }, this),
-                                        selectedColumns.length === columns.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
-                                    ]
-                                }, void 0, true, {
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    class: (0, _tableModalComponentsModuleCssDefault.default).checkboxWrapper,
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                type: "checkbox",
+                                                checked: selectedColumns.length === columns.length,
+                                                onChange: handleSelectAllColumns,
+                                                class: (0, _tableModalComponentsModuleCssDefault.default).input
+                                            }, void 0, false, {
+                                                fileName: "src/Table.jsx",
+                                                lineNumber: 535,
+                                                columnNumber: 7
+                                            }, this),
+                                            selectedColumns.length === columns.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/Table.jsx",
+                                        lineNumber: 534,
+                                        columnNumber: 6
+                                    }, this)
+                                }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 517,
-                                    columnNumber: 6
+                                    lineNumber: 533,
+                                    columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                     className: (0, _tableModalComponentsModuleCssDefault.default).scrollAndButton,
@@ -17083,40 +17114,34 @@ function Table() {
                                             className: (0, _tableModalComponentsModuleCssDefault.default).scroll,
                                             children: columns.filter((column)=>column.toString().toLowerCase().includes(searchColumn.toLowerCase()) // Исправлено
                                             ).map((column)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                                                                    type: "checkbox",
-                                                                    value: column,
-                                                                    checked: selectedColumns.includes(column.toString()),
-                                                                    onChange: handleColumnChange
-                                                                }, void 0, false, {
-                                                                    fileName: "src/Table.jsx",
-                                                                    lineNumber: 534,
-                                                                    columnNumber: 15
-                                                                }, this),
-                                                                column
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 533,
-                                                            columnNumber: 13
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/Table.jsx",
-                                                            lineNumber: 541,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, column, true, {
+                                                    className: (0, _tableModalComponentsModuleCssDefault.default).item,
+                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                                                type: "checkbox",
+                                                                value: column,
+                                                                checked: selectedColumns.includes(column.toString()),
+                                                                onChange: handleColumnChange
+                                                            }, void 0, false, {
+                                                                fileName: "src/Table.jsx",
+                                                                lineNumber: 553,
+                                                                columnNumber: 15
+                                                            }, this),
+                                                            column
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "src/Table.jsx",
+                                                        lineNumber: 552,
+                                                        columnNumber: 13
+                                                    }, this)
+                                                }, column, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 532,
+                                                    lineNumber: 551,
                                                     columnNumber: 11
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 526,
+                                            lineNumber: 545,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17127,41 +17152,41 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 546,
+                                                lineNumber: 565,
                                                 columnNumber: 5
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 545,
+                                            lineNumber: 564,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 525,
+                                    lineNumber: 544,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 508,
+                            lineNumber: 524,
                             columnNumber: 3
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/Table.jsx",
-                    lineNumber: 344,
+                    lineNumber: 345,
                     columnNumber: 7
                 }, this)
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 343,
+                lineNumber: 344,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/Table.jsx",
-        lineNumber: 319,
+        lineNumber: 320,
         columnNumber: 12
     }, this);
 }
@@ -17176,7 +17201,7 @@ $RefreshReg$(_c, "Table");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","axios":"kooH4","./Modal":"27hlX","xlsx":"h9TfT","./TableModalComponents.module.css":"6jsZS","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kooH4":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","axios":"kooH4","./Modal":"27hlX","xlsx":"h9TfT","./TableModalComponents.module.css":"6jsZS","./Checkbox":"jxiy0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kooH4":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -55522,10 +55547,89 @@ const version = XLSX.version;
 
 },{}],"6jsZS":[function(require,module,exports,__globalThis) {
 module.exports["buttonWrapper"] = `hsZbkW_buttonWrapper`;
+module.exports["checkboxWrapper"] = `hsZbkW_checkboxWrapper`;
 module.exports["content"] = `hsZbkW_content`;
 module.exports["filters"] = `hsZbkW_filters`;
+module.exports["focus-visible"] = `hsZbkW_focus-visible`;
+module.exports["input"] = `hsZbkW_input`;
+module.exports["item"] = `hsZbkW_item`;
 module.exports["scroll"] = `hsZbkW_scroll`;
 module.exports["scrollAndButton"] = `hsZbkW_scrollAndButton`;
+
+},{}],"jxiy0":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$6596 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$6596.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$6596.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _checkboxModuleCss = require("./Checkbox.module.css");
+var _checkboxModuleCssDefault = parcelHelpers.interopDefault(_checkboxModuleCss);
+const Checkbox = ({ checked, onChange, label })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: (0, _checkboxModuleCssDefault.default).checkboxWrapper,
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+            className: (0, _checkboxModuleCssDefault.default).label,
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                    type: "checkbox",
+                    checked: checked,
+                    onChange: onChange,
+                    className: (0, _checkboxModuleCssDefault.default).input
+                }, void 0, false, {
+                    fileName: "src/Checkbox.jsx",
+                    lineNumber: 8,
+                    columnNumber: 9
+                }, undefined),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                    className: (0, _checkboxModuleCssDefault.default).customCheckbox
+                }, void 0, false, {
+                    fileName: "src/Checkbox.jsx",
+                    lineNumber: 14,
+                    columnNumber: 9
+                }, undefined),
+                label && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                    className: (0, _checkboxModuleCssDefault.default).labelText,
+                    children: label
+                }, void 0, false, {
+                    fileName: "src/Checkbox.jsx",
+                    lineNumber: 15,
+                    columnNumber: 19
+                }, undefined)
+            ]
+        }, void 0, true, {
+            fileName: "src/Checkbox.jsx",
+            lineNumber: 7,
+            columnNumber: 7
+        }, undefined)
+    }, void 0, false, {
+        fileName: "src/Checkbox.jsx",
+        lineNumber: 6,
+        columnNumber: 5
+    }, undefined);
+};
+_c = Checkbox;
+exports.default = Checkbox;
+var _c;
+$RefreshReg$(_c, "Checkbox");
+
+  $parcel$ReactRefreshHelpers$6596.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./Checkbox.module.css":"5Ir1h","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5Ir1h":[function(require,module,exports,__globalThis) {
+module.exports["checkboxWrapper"] = `EY1e8q_checkboxWrapper`;
+module.exports["customCheckbox"] = `EY1e8q_customCheckbox`;
+module.exports["input"] = `EY1e8q_input`;
+module.exports["label"] = `EY1e8q_label`;
+module.exports["labelText"] = `EY1e8q_labelText`;
 
 },{}],"fwsM1":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$07a9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");

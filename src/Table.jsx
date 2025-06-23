@@ -3,6 +3,7 @@ import axios from 'axios';
 import Modal from './Modal';
 import * as XLSX from 'xlsx';
 import componentStyles from './TableModalComponents.module.css'
+import Checkbox from './Checkbox';
 
 function Table(){
   const api = process.env.API
@@ -355,27 +356,33 @@ function Table(){
 {filter==1&&(
     <div>
         <h3>выберете города</h3>
+        <div className={componentStyles.searchContainer}>
+          <div className={componentStyles.searchInput}>
         <input
       type="text"
       placeholder="Поиск..."
       value={searchCity}
       onChange={(e) => setSearchCity(e.target.value)}
-      style={{ marginBottom: "10px" }}
     />
+    </div>
+    <div class={componentStyles.checkboxWrapper}>
     <label>
       <input
       type='checkbox'
       checked={selectedCities.length===cities.length}
       onChange={handleSelectAllCities}
+      class={componentStyles.input}
       />
       {selectedCities.length === cities.length ? 'Снять все' : 'Выбрать все'}
     </label>
+    </div>
+</div>
     <div className={componentStyles.scrollAndButton}>
         <div className={componentStyles.scroll}>
         {cities.filter(city => 
           city.toString().toLowerCase().includes(searchCity.toLowerCase()) // Исправлено
         ).map((city)=>(
-            <div key={city}>
+            <div key={city} className={componentStyles.item}>
              <label>
              <input
                type="checkbox"
@@ -384,7 +391,7 @@ function Table(){
                onChange={handleCityChange}
              />
              {city}
-           </label><br/>
+           </label>
            </div>
         ))}
         </div>
@@ -397,18 +404,21 @@ function Table(){
 {filter==2&&(
     <div>
         <h3>выберете года</h3>
+       <div class={componentStyles.checkboxWrapper}>
         <label>
       <input
       type='checkbox'
       checked={selectedYears.length===years.length}
       onChange={handleSelectAllYears}
+      class={componentStyles.input}
       />
       {selectedYears.length === years.length ? 'Снять все' : 'Выбрать все'}
     </label>
+    </div>
     <div className={componentStyles.scrollAndButton}>
         <div className={componentStyles.scroll}>
         {years.map((year)=>(
-            <div key={year}>
+            <div key={year} className={componentStyles.item}>
              <label>
              <input
                type="checkbox"
@@ -417,7 +427,7 @@ function Table(){
                onChange={handleYearChange}
              />
              {year}
-           </label><br/>
+           </label>
            </div>
         ))}
         </div>
@@ -430,18 +440,21 @@ function Table(){
 {filter==3&&(
     <div>
         <h3>выберете разделы</h3>
+            <div class={componentStyles.checkboxWrapper}>
         <label>
       <input
       type='checkbox'
       checked={selectedSections.length===sections.length}
       onChange={handleSelectAllSections}
+      class={componentStyles.input}
       />
       {selectedSections.length === sections.length ? 'Снять все' : 'Выбрать все'}
     </label>
+    </div>
     <div className={componentStyles.scrollAndButton}>
         <div className={componentStyles.scroll}>
         {sections.map((section)=>(
-            <div key={section}>
+            <div key={section} className={componentStyles.item}>
              <label>
              <input
                type="checkbox"
@@ -450,7 +463,7 @@ function Table(){
                onChange={handleSectionChange}
              />
              {section}
-           </label><br/>
+           </label>
            </div>
         ))}
         </div>
@@ -470,14 +483,17 @@ function Table(){
       onChange={(e) => setSearchRow(e.target.value)}
       style={{ marginBottom: "10px" }}
     />
+        <div class={componentStyles.checkboxWrapper}>
     <label>
       <input
       type='checkbox'
       checked={selectedRows.length===rows.length}
       onChange={handleSelectAllRows}
+      class={componentStyles.input}
       />
       {selectedRows.length === rows.length ? 'Снять все' : 'Выбрать все'}
     </label>
+    </div>
     <div className={componentStyles.scrollAndButton}>
     <div className={componentStyles.scroll}>
       {rows
@@ -485,7 +501,7 @@ function Table(){
           row.toString().toLowerCase().includes(searchRow.toLowerCase()) // Исправлено
         )
         .map((row) => (
-          <div key={row}>
+          <div key={row} className={componentStyles.item}>
             <label>
               <input
                 type="checkbox"
@@ -494,7 +510,7 @@ function Table(){
                 onChange={handleRowChange}
               />
               {row}
-            </label><br/>
+            </label>
           </div>
         ))}
     </div>
@@ -514,14 +530,17 @@ function Table(){
       onChange={(e) => setSearchColumn(e.target.value)}
       style={{ marginBottom: "10px" }}
     />
+        <div class={componentStyles.checkboxWrapper}>
      <label>
       <input
       type='checkbox'
       checked={selectedColumns.length===columns.length}
       onChange={handleSelectAllColumns}
+      class={componentStyles.input}
       />
       {selectedColumns.length === columns.length ? 'Снять все' : 'Выбрать все'}
     </label>
+    </div>
     <div className={componentStyles.scrollAndButton}>
     <div className={componentStyles.scroll}>
       {columns
@@ -529,7 +548,7 @@ function Table(){
           column.toString().toLowerCase().includes(searchColumn.toLowerCase()) // Исправлено
         )
         .map((column) => (
-          <div key={column}>
+          <div key={column} className={componentStyles.item}>
             <label>
               <input
                 type="checkbox"
@@ -538,7 +557,7 @@ function Table(){
                 onChange={handleColumnChange}
               />
               {column}
-            </label><br/>
+            </label>
           </div>
         ))}
     </div>
