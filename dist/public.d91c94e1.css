@@ -227,6 +227,12 @@ button:hover {
   border-color: #0f0f97;
 }
 
+button:disabled, button:disabled {
+  color: #c6c6c6;
+  background-color: #fff;
+  border-color: #c6c6c6;
+}
+
 input[type="checkbox"] {
   appearance: none;
   border: 2px solid #0f0f97;

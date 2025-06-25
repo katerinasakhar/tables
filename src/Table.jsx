@@ -29,22 +29,35 @@ function Table(){
     const [selectedColumns, setSelectedColumns]=useState([]);
     const [offset,setOffset]=useState(0);
     const [limit]=useState(10);
+    const [loadingMoreData, setLoadingMoreData]=useState(false);
     const [dfilter, setDfilter]=useState({
         "filters":[],
-        "limit": 1000,
+        "limit": limit,
         "offset": 0
     })
+    const [hasMore, setHasMore]=useState(true);
     
     useEffect(() => {
-            axios.post("http://5.165.236.240:2700/api/v2/filtered-data",dfilter).then((response)=>{
-                setStrings(response.data.data || [])
-                console.log(strings)
-                setThead(response.data.headers || []);
+            axios.post(`${api}/api/v2/filtered-data`,dfilter).then((response)=>{
+              const newData=response.data.data || [];
+              if (offset==0){
+                setStrings(newData || [])
+              }
+              else{
+                
+                setStrings(prevStrings => [...prevStrings, ...newData]);
+              }
+              setThead(response.data.headers || []);
+              if (newData.length<limit){
+                setHasMore(false);
+              }
+              setLoadingMoreData(false)
             }).catch((error) => {
                 console.error("Ошибка при получении данных:", error);
               });
           }, [dfilter]);
     const loadMore = () =>{
+      setLoadingMoreData(true)
       setOffset(offset+limit);
       setDfilter({
     ...dfilter,
@@ -352,6 +365,7 @@ function Table(){
 ))}
   </tbody>
     </table>
+    <button onClick={loadMore} disabled={loadingMoreData||!hasMore}>Показать еще</button>
     <Modal active={modalActive} setActive={setModalActive}>
       <div className={componentStyles.content}>
         {filter==0&&(
