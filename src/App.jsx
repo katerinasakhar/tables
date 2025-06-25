@@ -7,13 +7,11 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import DownloadFiles from "/src/pages/Upload/DownloadFiles";
 import UploadedFiles from "/src/pages/Upload/UploadPage.jsx";
 
 const route = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/table", element: <Table /> },
-  { path: "/download", element: <DownloadFiles /> },
   { path: "/upload", element: <UploadedFiles /> },
 ]);
 
