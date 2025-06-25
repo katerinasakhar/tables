@@ -14,8 +14,7 @@ function Table(){
     const [thead,setThead]=useState([]);
     const [strings,setStrings]=useState([])
     const [modalActive, setModalActive]=useState(false)
-    const [filter, setFilter] = useState(0);
-
+    const [filter, setFilter] = useState(0)
 
     const [sections, setSections]=useState([])
     const [selectedSections, setSelectedSections] = useState([]);
@@ -48,7 +47,7 @@ function Table(){
                 setStrings(prevStrings => [...prevStrings, ...newData]);
               }
               setThead(response.data.headers || []);
-              if (newData.length<limit){
+              if (newData.length<limit||offset+limit>=response.data.max_size){
                 setHasMore(false);
               }
               setLoadingMoreData(false)
@@ -403,7 +402,7 @@ function Table(){
 ))}
   </tbody>
     </table>
-    <button onClick={loadMore} disabled={loadingMoreData||!hasMore}>Показать еще</button>
+    {hasMore&&(<button onClick={loadMore} disabled={loadingMoreData}>{loadingMoreData ? "Загрузка..." :"Показать еще"}</button>)}
     <Modal active={modalActive} setActive={setModalActive}>
       <div className={componentStyles.content}>
         {filter==0&&(
