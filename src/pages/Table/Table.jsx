@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from './Modal';
+import Modal from '../../features/Modal';
 import * as XLSX from 'xlsx';
 import componentStyles from './TableModalComponents.module.css';
 import style from './Table.module.css'

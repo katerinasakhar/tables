@@ -1,16 +1,25 @@
-//import './App.css';
-import Table from "./Table.jsx";
-import Home from "./Home.jsx";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Table from "/src/pages/Table/Table.jsx";
+import Home from "/src/pages/Home/Home.jsx";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import DownloadFiles from "/src/pages/Upload/DownloadFiles";
+import UploadedFiles from "/src/pages/Upload/UploadedFiles";
+
+const route = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/table", element: <Table /> },
+  { path: "/download", element: <DownloadFiles /> },
+  { path: "/uploaded-files", element: <UploadedFiles /> },
+]);
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/table" element={<Table />} />
-      </Routes>
-    </Router>
+    <RouterProvider router={route} />
   );
 }
 

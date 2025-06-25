@@ -1,0 +1,121 @@
+/* Basic styles for UploadedFiles component */
+body, .uploaded-files-page__container {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #13327c;
+}
+
+.uploaded-files-page__container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.uploaded-files-page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.uploaded-files-page__title {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.uploaded-files-page__error-count {
+    font-size: 1rem;
+    color: #ef4444;
+    font-weight: 500;
+}
+
+.uploaded-files-page__files-list-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+    padding: 1.5rem;
+    border: 5px solid #13327c;
+}
+
+.uploaded-files-page__files-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.uploaded-files-page__file-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+        "info status"
+        "error .";
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.uploaded-files-page__file-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.uploaded-files-page__file-item:first-child {
+    padding-top: 0;
+}
+
+.uploaded-files-page__file-info {
+    grid-area: info;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.uploaded-files-page__file-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: #13327c;
+}
+
+.uploaded-files-page__file-name {
+    font-size: 1rem;
+}
+
+.uploaded-files-page__status-icon {
+    grid-area: status;
+    width: 2rem;
+    height: 2rem;
+}
+
+.uploaded-files-page__status-icon--success {
+    color: #22c55e;
+}
+
+.uploaded-files-page__status-icon--error {
+    color: #ef4444;
+}
+
+.uploaded-files-page__error-message {
+    grid-area: error;
+    color: #6b7280;
+    font-size: 0.95rem;
+    padding-left: 3rem;
+    margin-top: 0.5rem;
+}
+
+.uploaded-files-page__button-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 5px solid #13327c;
+    border-radius: 10px;
+    color: #13327c;
+    background-color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    align-self: center;
+    font-family: inherit;
+} 
