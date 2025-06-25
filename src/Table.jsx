@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 import * as XLSX from 'xlsx';
-import componentStyles from './TableModalComponents.module.css'
-
+import componentStyles from './TableModalComponents.module.css';
+import style from './Table.module.css'
 
 function Table(){
   const api = process.env.API
+
     const [searchRow, setSearchRow] = useState('');
     const [searchCity, setSearchCity] = useState('');
     const [searchColumn, setSearchColumn] = useState('');
@@ -26,11 +27,14 @@ function Table(){
     const [columns, setColumns]=useState([]);
     const [selectedRows, setSelectedRows]=useState([]);
     const [selectedColumns, setSelectedColumns]=useState([]);
+    const [offset,setOffset]=useState(0);
+    const [limit]=useState(10);
     const [dfilter, setDfilter]=useState({
         "filters":[],
         "limit": 1000,
         "offset": 0
     })
+    
     useEffect(() => {
             axios.post("http://5.165.236.240:2700/api/v2/filtered-data",dfilter).then((response)=>{
                 setStrings(response.data.data || [])
@@ -40,7 +44,13 @@ function Table(){
                 console.error("Ошибка при получении данных:", error);
               });
           }, [dfilter]);
-
+    const loadMore = () =>{
+      setOffset(offset+limit);
+      setDfilter({
+    ...dfilter,
+    offset: offset
+  })
+    }
     const exportToExcel = () => {
       const wsData = [thead, ...strings];
       const ws = XLSX.utils.aoa_to_sheet(wsData);
@@ -287,6 +297,7 @@ function Table(){
       }
       
       function handleFilteredData(){
+        setOffset(0);
         setStrings([])
         setDfilter({
             "filters":[
@@ -311,15 +322,15 @@ function Table(){
                     "values": selectedColumns
                   }
             ],
-            "limit":50000,
-            "offset":0
+            "limit":limit,
+            "offset":offset
         })
         setModalActive(false)
       }
       
     return(<div>
-        <button onClick={()=>setModalActive(true)}>фильтры</button>
-        <button onClick={exportToExcel}>Скачать XLS</button> {/* Новая кнопка */}
+        <button className={style.btn} onClick={()=>setModalActive(true)}>Фильтры</button>
+        <button className={style.btn} onClick={exportToExcel}>Скачать XLS</button> {/* Новая кнопка */}
         {strings.length==0&&(
     <p>Загрузка...</p>
 )}
@@ -343,19 +354,19 @@ function Table(){
     </table>
     <Modal active={modalActive} setActive={setModalActive}>
       <div className={componentStyles.content}>
-    <h2>фильтры</h2>
         {filter==0&&(
             <div className={componentStyles.filters}>
-<button onClick={()=>{setCities([]); showCities(); setFilter(1)}}>города</button>
-<button onClick={()=>{setYears([]); showYears(); setFilter(2)}}>года</button>
-<button onClick={()=>{setSections([]); showSections(); setFilter(3)}}>разделы</button>
-<button onClick={()=>{setRows([]); showRows(); setFilter(4)}}>строки</button>
-<button onClick={()=>{setColumns([]);showColumns(); setFilter(5)}}>колонки</button>
-<button className='submit-data' onClick={handleFilteredData}>применить</button>
+<h2>Фильтры</h2>
+<button onClick={()=>{setCities([]); showCities(); setFilter(1)}}>Города</button>
+<button onClick={()=>{setYears([]); showYears(); setFilter(2)}}>Года</button>
+<button onClick={()=>{setSections([]); showSections(); setFilter(3)}}>Разделы</button>
+<button onClick={()=>{setRows([]); showRows(); setFilter(4)}}>Строки</button>
+<button onClick={()=>{setColumns([]);showColumns(); setFilter(5)}}>Столбцы</button>
+<button className={componentStyles.submitData} onClick={handleFilteredData}>Применить</button>
 </div>)}
 {filter==1&&(
     <div>
-        <h3>выберете города</h3>
+        <h3>Города</h3>
         <div className={componentStyles.searchContainer}>
           <div className={componentStyles.searchInput}>
         <input
@@ -403,7 +414,7 @@ function Table(){
 )}
 {filter==2&&(
     <div>
-        <h3>выберете года</h3>
+        <h3>Год</h3>
        <div class={componentStyles.checkboxWrapper}>
         <label>
       <input
@@ -439,7 +450,7 @@ function Table(){
 )}
 {filter==3&&(
     <div>
-        <h3>выберете разделы</h3>
+        <h3>Раздел</h3>
             <div class={componentStyles.checkboxWrapper}>
         <label>
       <input
@@ -475,7 +486,7 @@ function Table(){
 )}
 {filter == 4 && (
   <div>
-    <h3>Выберете строки</h3>
+    <h3>Строка</h3>
     <input
       type="text"
       placeholder="Поиск..."
@@ -522,7 +533,7 @@ function Table(){
 )}
 {filter == 5 && (
   <div>
-    <h3>Выберете колонки</h3>
+    <h3>Столбец</h3>
     <input
       type="text"
       placeholder="Поиск..."

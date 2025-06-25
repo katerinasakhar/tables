@@ -9,7 +9,7 @@
 }
 .filters{
   display:grid;
-  gap:1em;
+  gap:0.8em;
 }
 .content::-webkit-scrollbar {
   width: 8px;
@@ -48,6 +48,12 @@
   border-bottom: none; /* Убираем линию у последнего элемента */
 }
 
+.searchContainer{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
 
 .checkboxWrapper .input {
   appearance: none;
@@ -116,3 +122,26 @@
   content:"";
 }
 
+
+.searchInput{
+  flex:1;
+  box-sizing: border-box;
+  width:auto;
+}
+
+h2{
+  margin:0;
+  color:#3d3f86;
+}
+h3{
+  margin-top: 0;
+  color:#3d3f86;
+}
+.submitData{
+  background-color: rgb(15, 15, 151);
+  border-color: rgb(15, 15, 151);
+  color:white
+}
+.submitData:hover{
+  background-color: rgb(15, 15, 151,0.7);
+}
