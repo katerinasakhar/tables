@@ -16179,8 +16179,8 @@ var _modalDefault = parcelHelpers.interopDefault(_modal);
 var _xlsx = require("xlsx");
 var _tableModalComponentsModuleCss = require("./TableModalComponents.module.css");
 var _tableModalComponentsModuleCssDefault = parcelHelpers.interopDefault(_tableModalComponentsModuleCss);
-var _checkbox = require("./Checkbox");
-var _checkboxDefault = parcelHelpers.interopDefault(_checkbox);
+var _tableModuleCss = require("./Table.module.css");
+var _tableModuleCssDefault = parcelHelpers.interopDefault(_tableModuleCss);
 var _s = $RefreshSig$();
 function Table() {
     _s();
@@ -16205,6 +16205,8 @@ function Table() {
     const [columns, setColumns] = (0, _react.useState)([]);
     const [selectedRows, setSelectedRows] = (0, _react.useState)([]);
     const [selectedColumns, setSelectedColumns] = (0, _react.useState)([]);
+    const [offset, setOffset] = (0, _react.useState)(0);
+    const [limit] = (0, _react.useState)(10);
     const [dfilter, setDfilter] = (0, _react.useState)({
         "filters": [],
         "limit": 1000,
@@ -16221,6 +16223,13 @@ function Table() {
     }, [
         dfilter
     ]);
+    const loadMore = ()=>{
+        setOffset(offset + limit);
+        setDfilter({
+            ...dfilter,
+            offset: offset
+        });
+    };
     const exportToExcel = ()=>{
         const wsData = [
             thead,
@@ -16427,6 +16436,7 @@ function Table() {
         });
     }
     function handleFilteredData() {
+        setOffset(0);
         setStrings([]);
         setDfilter({
             "filters": [
@@ -16451,27 +16461,29 @@ function Table() {
                     "values": selectedColumns
                 }
             ],
-            "limit": 50000,
-            "offset": 0
+            "limit": limit,
+            "offset": offset
         });
         setModalActive(false);
     }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: (0, _tableModuleCssDefault.default).btn,
                 onClick: ()=>setModalActive(true),
-                children: "\u0444\u0438\u043B\u044C\u0442\u0440\u044B"
+                children: "\u0424\u0438\u043B\u044C\u0442\u0440\u044B"
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 321,
+                lineNumber: 332,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: (0, _tableModuleCssDefault.default).btn,
                 onClick: exportToExcel,
                 children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C XLS"
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 322,
+                lineNumber: 333,
                 columnNumber: 9
             }, this),
             " ",
@@ -16479,7 +16491,7 @@ function Table() {
                 children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 324,
+                lineNumber: 335,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("table", {
@@ -16493,17 +16505,17 @@ function Table() {
                                     children: head
                                 }, head, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 330,
+                                    lineNumber: 341,
                                     columnNumber: 21
                                 }, this))
                         }, void 0, false, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 328,
+                            lineNumber: 339,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 327,
+                        lineNumber: 338,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("tbody", {
@@ -16512,23 +16524,23 @@ function Table() {
                                         children: cell
                                     }, cell, false, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 338,
+                                        lineNumber: 349,
                                         columnNumber: 13
                                     }, this))
                             }, string.id, false, {
                                 fileName: "src/Table.jsx",
-                                lineNumber: 336,
+                                lineNumber: 347,
                                 columnNumber: 5
                             }, this))
                     }, void 0, false, {
                         fileName: "src/Table.jsx",
-                        lineNumber: 334,
+                        lineNumber: 345,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "src/Table.jsx",
-                lineNumber: 326,
+                lineNumber: 337,
                 columnNumber: 5
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _modalDefault.default), {
@@ -16537,26 +16549,26 @@ function Table() {
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: (0, _tableModalComponentsModuleCssDefault.default).content,
                     children: [
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                            children: "\u0444\u0438\u043B\u044C\u0442\u0440\u044B"
-                        }, void 0, false, {
-                            fileName: "src/Table.jsx",
-                            lineNumber: 346,
-                            columnNumber: 5
-                        }, this),
                         filter == 0 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             className: (0, _tableModalComponentsModuleCssDefault.default).filters,
                             children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                                    children: "\u0424\u0438\u043B\u044C\u0442\u0440\u044B"
+                                }, void 0, false, {
+                                    fileName: "src/Table.jsx",
+                                    lineNumber: 359,
+                                    columnNumber: 1
+                                }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                                     onClick: ()=>{
                                         setCities([]);
                                         showCities();
                                         setFilter(1);
                                     },
-                                    children: "\u0433\u043E\u0440\u043E\u0434\u0430"
+                                    children: "\u0413\u043E\u0440\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 349,
+                                    lineNumber: 360,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16565,10 +16577,10 @@ function Table() {
                                         showYears();
                                         setFilter(2);
                                     },
-                                    children: "\u0433\u043E\u0434\u0430"
+                                    children: "\u0413\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 350,
+                                    lineNumber: 361,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16577,10 +16589,10 @@ function Table() {
                                         showSections();
                                         setFilter(3);
                                     },
-                                    children: "\u0440\u0430\u0437\u0434\u0435\u043B\u044B"
+                                    children: "\u0420\u0430\u0437\u0434\u0435\u043B\u044B"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 351,
+                                    lineNumber: 362,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16589,10 +16601,10 @@ function Table() {
                                         showRows();
                                         setFilter(4);
                                     },
-                                    children: "\u0441\u0442\u0440\u043E\u043A\u0438"
+                                    children: "\u0421\u0442\u0440\u043E\u043A\u0438"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 352,
+                                    lineNumber: 363,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -16601,34 +16613,34 @@ function Table() {
                                         showColumns();
                                         setFilter(5);
                                     },
-                                    children: "\u043A\u043E\u043B\u043E\u043D\u043A\u0438"
+                                    children: "\u0421\u0442\u043E\u043B\u0431\u0446\u044B"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 353,
+                                    lineNumber: 364,
                                     columnNumber: 1
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                                    className: "submit-data",
+                                    className: (0, _tableModalComponentsModuleCssDefault.default).submitData,
                                     onClick: handleFilteredData,
-                                    children: "\u043F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C"
+                                    children: "\u041F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 354,
+                                    lineNumber: 365,
                                     columnNumber: 1
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 348,
+                            lineNumber: 358,
                             columnNumber: 13
                         }, this),
                         filter == 1 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                    children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0433\u043E\u0440\u043E\u0434\u0430"
+                                    children: "\u0413\u043E\u0440\u043E\u0434\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 358,
+                                    lineNumber: 369,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16643,12 +16655,12 @@ function Table() {
                                                 onChange: (e)=>setSearchCity(e.target.value)
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 361,
+                                                lineNumber: 372,
                                                 columnNumber: 9
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 360,
+                                            lineNumber: 371,
                                             columnNumber: 11
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16662,25 +16674,25 @@ function Table() {
                                                         class: (0, _tableModalComponentsModuleCssDefault.default).input
                                                     }, void 0, false, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 370,
+                                                        lineNumber: 381,
                                                         columnNumber: 7
                                                     }, this),
                                                     selectedCities.length === cities.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 369,
+                                                lineNumber: 380,
                                                 columnNumber: 5
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 368,
+                                            lineNumber: 379,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 359,
+                                    lineNumber: 370,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16700,24 +16712,24 @@ function Table() {
                                                                 onChange: handleCityChange
                                                             }, void 0, false, {
                                                                 fileName: "src/Table.jsx",
-                                                                lineNumber: 387,
+                                                                lineNumber: 398,
                                                                 columnNumber: 14
                                                             }, this),
                                                             city
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 386,
+                                                        lineNumber: 397,
                                                         columnNumber: 14
                                                     }, this)
                                                 }, city, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 385,
+                                                    lineNumber: 396,
                                                     columnNumber: 13
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 381,
+                                            lineNumber: 392,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16728,33 +16740,33 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 399,
+                                                lineNumber: 410,
                                                 columnNumber: 8
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 398,
+                                            lineNumber: 409,
                                             columnNumber: 9
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 380,
+                                    lineNumber: 391,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 357,
+                            lineNumber: 368,
                             columnNumber: 5
                         }, this),
                         filter == 2 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                    children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0433\u043E\u0434\u0430"
+                                    children: "\u0413\u043E\u0434"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 406,
+                                    lineNumber: 417,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16768,19 +16780,19 @@ function Table() {
                                                 class: (0, _tableModalComponentsModuleCssDefault.default).input
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 409,
+                                                lineNumber: 420,
                                                 columnNumber: 7
                                             }, this),
                                             selectedYears.length === years.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 408,
+                                        lineNumber: 419,
                                         columnNumber: 9
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 407,
+                                    lineNumber: 418,
                                     columnNumber: 8
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16799,24 +16811,24 @@ function Table() {
                                                                 onChange: handleYearChange
                                                             }, void 0, false, {
                                                                 fileName: "src/Table.jsx",
-                                                                lineNumber: 423,
+                                                                lineNumber: 434,
                                                                 columnNumber: 14
                                                             }, this),
                                                             year
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 422,
+                                                        lineNumber: 433,
                                                         columnNumber: 14
                                                     }, this)
                                                 }, year, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 421,
+                                                    lineNumber: 432,
                                                     columnNumber: 13
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 419,
+                                            lineNumber: 430,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16827,33 +16839,33 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 435,
+                                                lineNumber: 446,
                                                 columnNumber: 9
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 434,
+                                            lineNumber: 445,
                                             columnNumber: 9
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 418,
+                                    lineNumber: 429,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 405,
+                            lineNumber: 416,
                             columnNumber: 5
                         }, this),
                         filter == 3 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                    children: "\u0432\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0440\u0430\u0437\u0434\u0435\u043B\u044B"
+                                    children: "\u0420\u0430\u0437\u0434\u0435\u043B"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 442,
+                                    lineNumber: 453,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16867,19 +16879,19 @@ function Table() {
                                                 class: (0, _tableModalComponentsModuleCssDefault.default).input
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 445,
+                                                lineNumber: 456,
                                                 columnNumber: 7
                                             }, this),
                                             selectedSections.length === sections.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 444,
+                                        lineNumber: 455,
                                         columnNumber: 9
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 443,
+                                    lineNumber: 454,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16898,24 +16910,24 @@ function Table() {
                                                                 onChange: handleSectionChange
                                                             }, void 0, false, {
                                                                 fileName: "src/Table.jsx",
-                                                                lineNumber: 459,
+                                                                lineNumber: 470,
                                                                 columnNumber: 14
                                                             }, this),
                                                             section
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 458,
+                                                        lineNumber: 469,
                                                         columnNumber: 14
                                                     }, this)
                                                 }, section, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 457,
+                                                    lineNumber: 468,
                                                     columnNumber: 13
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 455,
+                                            lineNumber: 466,
                                             columnNumber: 9
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16926,33 +16938,33 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 471,
+                                                lineNumber: 482,
                                                 columnNumber: 9
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 470,
+                                            lineNumber: 481,
                                             columnNumber: 9
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 454,
+                                    lineNumber: 465,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 441,
+                            lineNumber: 452,
                             columnNumber: 5
                         }, this),
                         filter == 4 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                    children: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u0441\u0442\u0440\u043E\u043A\u0438"
+                                    children: "\u0421\u0442\u0440\u043E\u043A\u0430"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 478,
+                                    lineNumber: 489,
                                     columnNumber: 5
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -16965,7 +16977,7 @@ function Table() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 479,
+                                    lineNumber: 490,
                                     columnNumber: 5
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -16979,19 +16991,19 @@ function Table() {
                                                 class: (0, _tableModalComponentsModuleCssDefault.default).input
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 488,
+                                                lineNumber: 499,
                                                 columnNumber: 7
                                             }, this),
                                             selectedRows.length === rows.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 487,
+                                        lineNumber: 498,
                                         columnNumber: 5
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 486,
+                                    lineNumber: 497,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17011,24 +17023,24 @@ function Table() {
                                                                 onChange: handleRowChange
                                                             }, void 0, false, {
                                                                 fileName: "src/Table.jsx",
-                                                                lineNumber: 506,
+                                                                lineNumber: 517,
                                                                 columnNumber: 15
                                                             }, this),
                                                             row
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 505,
+                                                        lineNumber: 516,
                                                         columnNumber: 13
                                                     }, this)
                                                 }, row, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 504,
+                                                    lineNumber: 515,
                                                     columnNumber: 11
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 498,
+                                            lineNumber: 509,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17039,33 +17051,33 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 518,
+                                                lineNumber: 529,
                                                 columnNumber: 5
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 517,
+                                            lineNumber: 528,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 497,
+                                    lineNumber: 508,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 477,
+                            lineNumber: 488,
                             columnNumber: 3
                         }, this),
                         filter == 5 && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             children: [
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
-                                    children: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u043A\u043E\u043B\u043E\u043D\u043A\u0438"
+                                    children: "\u0421\u0442\u043E\u043B\u0431\u0435\u0446"
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 525,
+                                    lineNumber: 536,
                                     columnNumber: 5
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -17078,7 +17090,7 @@ function Table() {
                                     }
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 526,
+                                    lineNumber: 537,
                                     columnNumber: 5
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17092,19 +17104,19 @@ function Table() {
                                                 class: (0, _tableModalComponentsModuleCssDefault.default).input
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 535,
+                                                lineNumber: 546,
                                                 columnNumber: 7
                                             }, this),
                                             selectedColumns.length === columns.length ? "\u0421\u043D\u044F\u0442\u044C \u0432\u0441\u0435" : "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0432\u0441\u0435"
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/Table.jsx",
-                                        lineNumber: 534,
+                                        lineNumber: 545,
                                         columnNumber: 6
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 533,
+                                    lineNumber: 544,
                                     columnNumber: 9
                                 }, this),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17124,24 +17136,24 @@ function Table() {
                                                                 onChange: handleColumnChange
                                                             }, void 0, false, {
                                                                 fileName: "src/Table.jsx",
-                                                                lineNumber: 553,
+                                                                lineNumber: 564,
                                                                 columnNumber: 15
                                                             }, this),
                                                             column
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/Table.jsx",
-                                                        lineNumber: 552,
+                                                        lineNumber: 563,
                                                         columnNumber: 13
                                                     }, this)
                                                 }, column, false, {
                                                     fileName: "src/Table.jsx",
-                                                    lineNumber: 551,
+                                                    lineNumber: 562,
                                                     columnNumber: 11
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 545,
+                                            lineNumber: 556,
                                             columnNumber: 5
                                         }, this),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -17152,45 +17164,45 @@ function Table() {
                                                 children: "\u041D\u0430\u0437\u0430\u0434"
                                             }, void 0, false, {
                                                 fileName: "src/Table.jsx",
-                                                lineNumber: 565,
+                                                lineNumber: 576,
                                                 columnNumber: 5
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "src/Table.jsx",
-                                            lineNumber: 564,
+                                            lineNumber: 575,
                                             columnNumber: 5
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/Table.jsx",
-                                    lineNumber: 544,
+                                    lineNumber: 555,
                                     columnNumber: 5
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "src/Table.jsx",
-                            lineNumber: 524,
+                            lineNumber: 535,
                             columnNumber: 3
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "src/Table.jsx",
-                    lineNumber: 345,
+                    lineNumber: 356,
                     columnNumber: 7
                 }, this)
             }, void 0, false, {
                 fileName: "src/Table.jsx",
-                lineNumber: 344,
+                lineNumber: 355,
                 columnNumber: 5
             }, this)
         ]
     }, void 0, true, {
         fileName: "src/Table.jsx",
-        lineNumber: 320,
+        lineNumber: 331,
         columnNumber: 12
     }, this);
 }
-_s(Table, "gGqk9fsEREJQP7cL2Awi8OAZhHs=");
+_s(Table, "I8Y6FjNAmffqA2Ukgu9mXzOcnYY=");
 _c = Table;
 exports.default = Table;
 var _c;
@@ -17201,7 +17213,7 @@ $RefreshReg$(_c, "Table");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","axios":"kooH4","./Modal":"27hlX","xlsx":"h9TfT","./TableModalComponents.module.css":"6jsZS","./Checkbox":"jxiy0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kooH4":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","axios":"kooH4","./Modal":"27hlX","xlsx":"h9TfT","./TableModalComponents.module.css":"6jsZS","./Table.module.css":"cemOW","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kooH4":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -55555,81 +55567,12 @@ module.exports["input"] = `hsZbkW_input`;
 module.exports["item"] = `hsZbkW_item`;
 module.exports["scroll"] = `hsZbkW_scroll`;
 module.exports["scrollAndButton"] = `hsZbkW_scrollAndButton`;
+module.exports["searchContainer"] = `hsZbkW_searchContainer`;
+module.exports["searchInput"] = `hsZbkW_searchInput`;
+module.exports["submitData"] = `hsZbkW_submitData`;
 
-},{}],"jxiy0":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$6596 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$6596.init();
-var prevRefreshReg = globalThis.$RefreshReg$;
-var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$6596.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _checkboxModuleCss = require("./Checkbox.module.css");
-var _checkboxModuleCssDefault = parcelHelpers.interopDefault(_checkboxModuleCss);
-const Checkbox = ({ checked, onChange, label })=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _checkboxModuleCssDefault.default).checkboxWrapper,
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-            className: (0, _checkboxModuleCssDefault.default).label,
-            children: [
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                    type: "checkbox",
-                    checked: checked,
-                    onChange: onChange,
-                    className: (0, _checkboxModuleCssDefault.default).input
-                }, void 0, false, {
-                    fileName: "src/Checkbox.jsx",
-                    lineNumber: 8,
-                    columnNumber: 9
-                }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                    className: (0, _checkboxModuleCssDefault.default).customCheckbox
-                }, void 0, false, {
-                    fileName: "src/Checkbox.jsx",
-                    lineNumber: 14,
-                    columnNumber: 9
-                }, undefined),
-                label && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                    className: (0, _checkboxModuleCssDefault.default).labelText,
-                    children: label
-                }, void 0, false, {
-                    fileName: "src/Checkbox.jsx",
-                    lineNumber: 15,
-                    columnNumber: 19
-                }, undefined)
-            ]
-        }, void 0, true, {
-            fileName: "src/Checkbox.jsx",
-            lineNumber: 7,
-            columnNumber: 7
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Checkbox.jsx",
-        lineNumber: 6,
-        columnNumber: 5
-    }, undefined);
-};
-_c = Checkbox;
-exports.default = Checkbox;
-var _c;
-$RefreshReg$(_c, "Checkbox");
-
-  $parcel$ReactRefreshHelpers$6596.postlude(module);
-} finally {
-  globalThis.$RefreshReg$ = prevRefreshReg;
-  globalThis.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./Checkbox.module.css":"5Ir1h","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5Ir1h":[function(require,module,exports,__globalThis) {
-module.exports["checkboxWrapper"] = `EY1e8q_checkboxWrapper`;
-module.exports["customCheckbox"] = `EY1e8q_customCheckbox`;
-module.exports["input"] = `EY1e8q_input`;
-module.exports["label"] = `EY1e8q_label`;
-module.exports["labelText"] = `EY1e8q_labelText`;
+},{}],"cemOW":[function(require,module,exports,__globalThis) {
+module.exports["btn"] = `DV06zG_btn`;
 
 },{}],"fwsM1":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$07a9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
@@ -55664,33 +55607,8 @@ function Home() {
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
                 htmlFor: "download",
                 className: "btn",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                        viewBox: "0 0 24 24",
-                        xmlns: "http://www.w3.org/2000/svg",
-                        height: "30px",
-                        width: "30px",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("g", {
-                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                                d: "m8.71 7.71 2.29-2.3v9.59a1 1 0 0 0 2 0v-9.59l2.29 2.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-4-4a1 1 0 0 0 -.33-.21 1 1 0 0 0 -.76 0 1 1 0 0 0 -.33.21l-4 4a1 1 0 1 0 1.42 1.42zm12.29 6.29a1 1 0 0 0 -1 1v4a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1-1v-4a1 1 0 0 0 -2 0v4a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-4a1 1 0 0 0 -1-1z"
-                            }, void 0, false, {
-                                fileName: "src/Home.jsx",
-                                lineNumber: 21,
-                                columnNumber: 7
-                            }, this)
-                        }, void 0, false, {
-                            fileName: "src/Home.jsx",
-                            lineNumber: 20,
-                            columnNumber: 7
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "src/Home.jsx",
-                        lineNumber: 19,
-                        columnNumber: 7
-                    }, this),
-                    "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
-                ]
-            }, void 0, true, {
+                children: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044C \u0444\u0430\u0439\u043B\u044B"
+            }, void 0, false, {
                 fileName: "src/Home.jsx",
                 lineNumber: 18,
                 columnNumber: 7
@@ -55704,12 +55622,12 @@ function Home() {
                 accept: ".xls,.xlsx"
             }, void 0, false, {
                 fileName: "src/Home.jsx",
-                lineNumber: 25,
+                lineNumber: 20,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _buttonsJsxDefault.default), {}, void 0, false, {
                 fileName: "src/Home.jsx",
-                lineNumber: 26,
+                lineNumber: 21,
                 columnNumber: 7
             }, this)
         ]
@@ -55749,43 +55667,8 @@ const Button = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
         className: "btn",
         onClick: ()=>navigate("/table"),
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                viewBox: "-20 -18 586 586.25136",
-                xmlns: "http://www.w3.org/2000/svg",
-                height: "35px",
-                width: "35px",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                        d: "m531.28125 521.273438h-505.328125v-508.855469c0-7.507813-6.082031-13.582031-13.597656-13.582031-7.507813 0-13.582031 6.074218-13.582031 13.582031v522.441406c0 7.511719 6.074218 13.585937 13.582031 13.585937h518.925781c7.511719 0 13.589844-6.074218 13.589844-13.585937s-6.15625-13.585937-13.589844-13.585937zm0 0"
-                    }, void 0, false, {
-                        fileName: "src/Buttons.jsx",
-                        lineNumber: 7,
-                        columnNumber: 164
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                        d: "m78.691406 396.277344c3.035156 0 6.160156-1.039063 8.714844-3.117188l145.53125-121.398437 119.082031 25.738281c6.796875 1.4375 13.667969-2.484375 15.824219-9.121094l39.320312-122.191406 95.1875-68.730469c6.074219-4.398437 7.4375-12.867187 3.039063-18.941406-4.394531-6.070313-12.871094-7.433594-18.945313-3.035156l-98.777343 71.367187c-2.316407 1.679688-4.078125 4.074219-4.957031 6.871094l-36.921876 114.769531-113.566406-24.617187c-4.074218-.882813-8.394531.160156-11.589844 2.878906l-150.644531 125.550781c-5.757812 4.789063-6.558593 13.347657-1.765625 19.101563 2.722656 3.195312 6.554688 4.875 10.46875 4.875zm0 0"
-                    }, void 0, false, {
-                        fileName: "src/Buttons.jsx",
-                        lineNumber: 7,
-                        columnNumber: 487
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                        d: "m495.160156 299.335938-94.308594 99.097656-139.296874-38.523438c-3.515626-.957031-7.195313-.472656-10.390626 1.28125l-172.148437 98.464844c-6.476563 3.75-8.792969 11.984375-5.035156 18.539062 2.472656 4.398438 7.113281 6.871094 11.824219 6.871094 2.320312 0 4.636718-.5625 6.714843-1.757812l167.269531-95.65625 141.703126 39.15625c4.796874 1.355468 9.992187-.085938 13.421874-3.757813l99.90625-104.9375c5.191407-5.433593 4.949219-14.066406-.480468-19.175781-5.441406-5.195312-13.988282-5.039062-19.179688.398438zm0 0"
-                    }, void 0, false, {
-                        fileName: "src/Buttons.jsx",
-                        lineNumber: 7,
-                        columnNumber: 1117
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/Buttons.jsx",
-                lineNumber: 7,
-                columnNumber: 64
-            }, undefined),
-            "\u0421\u043E\u0437\u0434\u0430\u0442\u044C \u0433\u0440\u0430\u0444\u0438\u043A"
-        ]
-    }, void 0, true, {
+        children: "\u0422\u0430\u0431\u043B\u0438\u0446\u0430"
+    }, void 0, false, {
         fileName: "src/Buttons.jsx",
         lineNumber: 7,
         columnNumber: 7
@@ -63031,11 +62914,4 @@ function persistAppliedTransitions(_window, transitions) {
         try {
             _window.sessionStorage.setItem(TRANSITIONS_STORAGE_KEY, JSON.stringify(json));
         } catch (error) {
-            warning(false, "Failed to save applied view transitions in sessionStorage (" + error + ").");
-        }
-    }
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"irmnC":[function() {},{}]},["jrEfM","gYcKb"], "gYcKb", "parcelRequire27eb", {}, null, null, "http://localhost:1234")
-
-//# sourceMappingURL=public.ad93b51f.js.map
+            warning(false, "Failed to save applied view transitions
