@@ -1,8 +1,9 @@
-import Button from "./Buttons.jsx";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+// === Home.jsx ===
+import React, { useState } from 'react';
+import styles from './Home.module.css';
+import { NavLink } from 'react-router-dom';
 
-function Home() {
+const Home = () => {
   const [files, setFiles] = useState([]);
   const allowedTypes = [
     "application/vnd.ms-excel",
@@ -17,30 +18,32 @@ function Home() {
   };
 
   return (
-    <div className="App">
-      <NavLink to={"/download"} className="no-underline-link">
-          <div className="home-buttons__button">
-            <div className="home-buttons__icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                strokeWidth={1.5}
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                />
-              </svg>
-            </div>
-            <p>Загрузить файлы</p>
-          </div>
+    <div className={styles.homeContainer}>
+      <h1 className={styles.title}>Добро пожаловать!</h1>
+      <p className={styles.subtitle}>
+        Выберите действие ниже — загрузите новые файлы или перейдите к анализу данных.
+      </p>
+
+      <div className={styles.buttonsWrapper}>
+        <NavLink to="/download" className={styles.button}>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+          </svg>
+          Загрузить файлы
         </NavLink>
-      <Button />
+
+        <NavLink to="/table" className={styles.button}>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4h6v6H4zm10 0h6v6h-6zm-10 10h6v6H4zm10 0h6v6h-6z" />
+          </svg>
+          Анализ данных
+        </NavLink>
+      </div>
+
+      
+
     </div>
   );
-}
+};
 
 export default Home;
