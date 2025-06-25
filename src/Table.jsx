@@ -165,7 +165,36 @@ function Table(){
           setSelectedSections(sections)
         }
       }
-
+    function handleSortedArray(filter,array){
+      switch(filter){
+        case 1:
+          return [
+            ...array.filter(city => selectedCities.includes(city.toString())),
+            ...array.filter(city => !selectedCities.includes(city.toString())),
+          ]
+        case 2:
+          return [
+            ...array.filter(year => selectedYears.includes(year)),
+            ...array.filter(year => !selectedYears.includes(year)),
+          ]
+        case 3:
+          return [
+            ...array.filter(section => selectedSections.includes(section.toString())),
+            ...array.filter(section => !selectedSections.includes(section.toString())),
+          ]
+        case 4:
+          return [
+            ...array.filter(row => selectedRows.includes(row.toString())),
+            ...array.filter(row => !selectedRows.includes(row.toString())),
+          ]
+        case 5:
+          return [
+            ...array.filter(column => selectedColumns.includes(column.toString())),
+            ...array.filter(column => !selectedColumns.includes(column.toString())),
+          ]
+      }
+         
+    }
       function showYears(){
         axios.post(`${api}/api/v2/filter-values`, {
           "filter-name": "год",
@@ -188,7 +217,10 @@ function Table(){
           }
     ]
       }).then((response)=>{
-          setYears(response.data.values)
+          const values=response.data.values;
+          console.log(1)
+          const sortedValues=handleSortedArray(2,values)
+          setYears(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -216,12 +248,13 @@ function Table(){
             }
           ]
       }).then((response)=>{
-          setCities(response.data.values)
+        const values=response.data.values;
+        const sortedValues=handleSortedArray(1,values)
+        setCities(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
       }
-
       function showSections(){
         axios.post(`${api}/api/v2/filter-values`, {
           "filter-name": "раздел",
@@ -242,10 +275,11 @@ function Table(){
               "filter-name": "колонка",
               "values": selectedColumns
             }
-      
           ]
       }).then((response)=>{
-          setSections(response.data.values)
+          const values=response.data.values;
+          const sortedValues=handleSortedArray(3,values)
+          setSections(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -274,7 +308,9 @@ function Table(){
             }
           ]
       }).then((response)=>{
-          setRows(response.data.values)
+          const values=response.data.values;
+          const sortedValues=handleSortedArray(4,values)
+          setRows(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -303,7 +339,9 @@ function Table(){
       
           ]
       }).then((response)=>{
-          setColumns(response.data.values)
+          const values=response.data.values;
+          const sortedValues=handleSortedArray(5,values)
+          setColumns(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -340,7 +378,7 @@ function Table(){
         })
         setModalActive(false)
       }
-      
+
     return(<div>
         <button className={style.btn} onClick={()=>setModalActive(true)}>Фильтры</button>
         <button className={style.btn} onClick={exportToExcel}>Скачать XLS</button> {/* Новая кнопка */}
