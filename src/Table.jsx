@@ -340,7 +340,7 @@ function Table(){
             {thead.map((head) => (
                     <th key={head}>{head}</th>
             ))}
-            </tr>
+          </tr>
         </thead>
         <tbody>
 {strings.length>0&&strings.map((string)=>(
@@ -584,5 +584,4 @@ function Table(){
     </div>)
 }
 
-
-export default Table
+export default Table;
