@@ -32,7 +32,12 @@ button:hover{
   color:white;
   border-color: rgb(15, 15, 151);
 }
-
+button:disabled,
+button:disabled{
+  border-color:rgb(198, 198, 198);
+  color:rgb(198, 198, 198);
+  background-color: white;
+}
 input[type="checkbox"]{
   appearance: none;
   position: relative;

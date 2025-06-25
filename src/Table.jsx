@@ -29,22 +29,35 @@ function Table(){
     const [selectedColumns, setSelectedColumns]=useState([]);
     const [offset,setOffset]=useState(0);
     const [limit]=useState(10);
+    const [loadingMoreData, setLoadingMoreData]=useState(false);
     const [dfilter, setDfilter]=useState({
         "filters":[],
-        "limit": 1000,
+        "limit": limit,
         "offset": 0
     })
+    const [hasMore, setHasMore]=useState(true);
     
     useEffect(() => {
-            axios.post("http://5.165.236.240:2700/api/v2/filtered-data",dfilter).then((response)=>{
-                setStrings(response.data.data || [])
-                console.log(strings)
-                setThead(response.data.headers || []);
+            axios.post(`${api}/api/v2/filtered-data`,dfilter).then((response)=>{
+              const newData=response.data.data || [];
+              if (offset==0){
+                setStrings(newData || [])
+              }
+              else{
+                
+                setStrings(prevStrings => [...prevStrings, ...newData]);
+              }
+              setThead(response.data.headers || []);
+              if (newData.length<limit){
+                setHasMore(false);
+              }
+              setLoadingMoreData(false)
             }).catch((error) => {
                 console.error("Ошибка при получении данных:", error);
               });
           }, [dfilter]);
     const loadMore = () =>{
+      setLoadingMoreData(true)
       setOffset(offset+limit);
       setDfilter({
     ...dfilter,
@@ -152,7 +165,36 @@ function Table(){
           setSelectedSections(sections)
         }
       }
-
+    function handleSortedArray(filter,array){
+      switch(filter){
+        case 1:
+          return [
+            ...array.filter(city => selectedCities.includes(city.toString())),
+            ...array.filter(city => !selectedCities.includes(city.toString())),
+          ]
+        case 2:
+          return [
+            ...array.filter(year => selectedYears.includes(year)),
+            ...array.filter(year => !selectedYears.includes(year)),
+          ]
+        case 3:
+          return [
+            ...array.filter(section => selectedSections.includes(section.toString())),
+            ...array.filter(section => !selectedSections.includes(section.toString())),
+          ]
+        case 4:
+          return [
+            ...array.filter(row => selectedRows.includes(row.toString())),
+            ...array.filter(row => !selectedRows.includes(row.toString())),
+          ]
+        case 5:
+          return [
+            ...array.filter(column => selectedColumns.includes(column.toString())),
+            ...array.filter(column => !selectedColumns.includes(column.toString())),
+          ]
+      }
+         
+    }
       function showYears(){
         axios.post(`${api}/api/v2/filter-values`, {
           "filter-name": "год",
@@ -175,7 +217,10 @@ function Table(){
           }
     ]
       }).then((response)=>{
-          setYears(response.data.values)
+          const values=response.data.values;
+          console.log(1)
+          const sortedValues=handleSortedArray(2,values)
+          setYears(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -203,12 +248,13 @@ function Table(){
             }
           ]
       }).then((response)=>{
-          setCities(response.data.values)
+        const values=response.data.values;
+        const sortedValues=handleSortedArray(1,values)
+        setCities(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
       }
-
       function showSections(){
         axios.post(`${api}/api/v2/filter-values`, {
           "filter-name": "раздел",
@@ -229,10 +275,11 @@ function Table(){
               "filter-name": "колонка",
               "values": selectedColumns
             }
-      
           ]
       }).then((response)=>{
-          setSections(response.data.values)
+          const values=response.data.values;
+          const sortedValues=handleSortedArray(3,values)
+          setSections(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -261,7 +308,9 @@ function Table(){
             }
           ]
       }).then((response)=>{
-          setRows(response.data.values)
+          const values=response.data.values;
+          const sortedValues=handleSortedArray(4,values)
+          setRows(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -290,7 +339,9 @@ function Table(){
       
           ]
       }).then((response)=>{
-          setColumns(response.data.values)
+          const values=response.data.values;
+          const sortedValues=handleSortedArray(5,values)
+          setColumns(sortedValues)
       }).catch((error) => {
           console.error("Ошибка при получении данных:", error);
         })
@@ -327,7 +378,7 @@ function Table(){
         })
         setModalActive(false)
       }
-      
+
     return(<div>
         <button className={style.btn} onClick={()=>setModalActive(true)}>Фильтры</button>
         <button className={style.btn} onClick={exportToExcel}>Скачать XLS</button> {/* Новая кнопка */}
@@ -352,6 +403,7 @@ function Table(){
 ))}
   </tbody>
     </table>
+    <button onClick={loadMore} disabled={loadingMoreData||!hasMore}>Показать еще</button>
     <Modal active={modalActive} setActive={setModalActive}>
       <div className={componentStyles.content}>
         {filter==0&&(
