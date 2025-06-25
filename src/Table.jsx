@@ -3,7 +3,7 @@ import axios from 'axios';
 import Modal from './Modal';
 import * as XLSX from 'xlsx';
 import componentStyles from './TableModalComponents.module.css'
-import Checkbox from './Checkbox';
+
 
 function Table(){
   const api = process.env.API

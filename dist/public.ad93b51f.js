@@ -16179,12 +16179,10 @@ var _modalDefault = parcelHelpers.interopDefault(_modal);
 var _xlsx = require("xlsx");
 var _tableModalComponentsModuleCss = require("./TableModalComponents.module.css");
 var _tableModalComponentsModuleCssDefault = parcelHelpers.interopDefault(_tableModalComponentsModuleCss);
-var _checkbox = require("./Checkbox");
-var _checkboxDefault = parcelHelpers.interopDefault(_checkbox);
 var _s = $RefreshSig$();
 function Table() {
     _s();
-    const api = "http://5.165.236.240:2700";
+    const api = undefined;
     const [searchRow, setSearchRow] = (0, _react.useState)('');
     const [searchCity, setSearchCity] = (0, _react.useState)('');
     const [searchColumn, setSearchColumn] = (0, _react.useState)('');
@@ -17201,7 +17199,7 @@ $RefreshReg$(_c, "Table");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","axios":"kooH4","./Modal":"27hlX","xlsx":"h9TfT","./TableModalComponents.module.css":"6jsZS","./Checkbox":"jxiy0","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kooH4":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","axios":"kooH4","./Modal":"27hlX","xlsx":"h9TfT","./TableModalComponents.module.css":"6jsZS","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"kooH4":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -55555,81 +55553,6 @@ module.exports["input"] = `hsZbkW_input`;
 module.exports["item"] = `hsZbkW_item`;
 module.exports["scroll"] = `hsZbkW_scroll`;
 module.exports["scrollAndButton"] = `hsZbkW_scrollAndButton`;
-
-},{}],"jxiy0":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$6596 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$6596.init();
-var prevRefreshReg = globalThis.$RefreshReg$;
-var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$6596.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _checkboxModuleCss = require("./Checkbox.module.css");
-var _checkboxModuleCssDefault = parcelHelpers.interopDefault(_checkboxModuleCss);
-const Checkbox = ({ checked, onChange, label })=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: (0, _checkboxModuleCssDefault.default).checkboxWrapper,
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-            className: (0, _checkboxModuleCssDefault.default).label,
-            children: [
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                    type: "checkbox",
-                    checked: checked,
-                    onChange: onChange,
-                    className: (0, _checkboxModuleCssDefault.default).input
-                }, void 0, false, {
-                    fileName: "src/Checkbox.jsx",
-                    lineNumber: 8,
-                    columnNumber: 9
-                }, undefined),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                    className: (0, _checkboxModuleCssDefault.default).customCheckbox
-                }, void 0, false, {
-                    fileName: "src/Checkbox.jsx",
-                    lineNumber: 14,
-                    columnNumber: 9
-                }, undefined),
-                label && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                    className: (0, _checkboxModuleCssDefault.default).labelText,
-                    children: label
-                }, void 0, false, {
-                    fileName: "src/Checkbox.jsx",
-                    lineNumber: 15,
-                    columnNumber: 19
-                }, undefined)
-            ]
-        }, void 0, true, {
-            fileName: "src/Checkbox.jsx",
-            lineNumber: 7,
-            columnNumber: 7
-        }, undefined)
-    }, void 0, false, {
-        fileName: "src/Checkbox.jsx",
-        lineNumber: 6,
-        columnNumber: 5
-    }, undefined);
-};
-_c = Checkbox;
-exports.default = Checkbox;
-var _c;
-$RefreshReg$(_c, "Checkbox");
-
-  $parcel$ReactRefreshHelpers$6596.postlude(module);
-} finally {
-  globalThis.$RefreshReg$ = prevRefreshReg;
-  globalThis.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","./Checkbox.module.css":"5Ir1h","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"5Ir1h":[function(require,module,exports,__globalThis) {
-module.exports["checkboxWrapper"] = `EY1e8q_checkboxWrapper`;
-module.exports["customCheckbox"] = `EY1e8q_customCheckbox`;
-module.exports["input"] = `EY1e8q_input`;
-module.exports["label"] = `EY1e8q_label`;
-module.exports["labelText"] = `EY1e8q_labelText`;
 
 },{}],"fwsM1":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$07a9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
