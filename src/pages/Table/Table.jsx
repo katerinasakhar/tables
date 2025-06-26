@@ -36,6 +36,13 @@ function Table() {
     "offset": 0
   })
   const [hasMore, setHasMore] = useState(true);
+  const [appliedFilters, setAppliedFilters] = useState({
+    cities: [],
+    years: [],
+    sections: [],
+    rows: [],
+    columns: []
+  });
 
   useEffect(() => {
     axios.post(`${api}/api/v2/filtered-data`, dfilter).then((response) => {
@@ -376,6 +383,13 @@ function Table() {
       "limit": limit,
       "offset": offset
     })
+    setAppliedFilters({
+      cities: [...selectedCities],
+      years: [...selectedYears],
+      sections: [...selectedSections],
+      rows: [...selectedRows],
+      columns: [...selectedColumns]
+    });
     setModalActive(false)
   }
 
@@ -417,6 +431,49 @@ function Table() {
           </button>
         </div>
       )}
+      {/* Применённые фильтры */}
+      {/* Применённые фильтры */}
+      {(appliedFilters.cities.length > 0 ||
+        appliedFilters.years.length > 0 ||
+        appliedFilters.sections.length > 0 ||
+        appliedFilters.rows.length > 0 ||
+        appliedFilters.columns.length > 0) && (
+          <div className={componentStyles.activeFilters}>
+            <h4>Применённые фильтры:</h4>
+            <ul className={componentStyles.filtersList}>
+              {appliedFilters.cities.length > 0 && (
+                <li className={componentStyles.filterTag} onClick={() => { setFilter(1); showCities(); setModalActive(true); }}>
+                  <strong>Города:</strong> {appliedFilters.cities.join(', ')}
+
+                </li>
+              )}
+              {appliedFilters.years.length > 0 && (
+                <li className={componentStyles.filterTag} onClick={() => { setFilter(2); showYears(); setModalActive(true); }}>
+                  <strong>Год:</strong> {appliedFilters.years.join(', ')}
+
+                </li>
+              )}
+              {appliedFilters.sections.length > 0 && (
+                <li className={componentStyles.filterTag} onClick={() => { setFilter(3); showSections(); setModalActive(true); }}>
+                  <strong>Раздел:</strong> {appliedFilters.sections.join(', ')}
+
+                </li>
+              )}
+              {appliedFilters.rows.length > 0 && (
+                <li className={componentStyles.filterTag} onClick={() => { setFilter(4); showRows(); setModalActive(true); }}>
+                  <strong>Строка:</strong> {appliedFilters.rows.join(', ')}
+
+                </li>
+              )}
+              {appliedFilters.columns.length > 0 && (
+                <li className={componentStyles.filterTag} onClick={() => { setFilter(5); showColumns(); setModalActive(true); }}>
+                  <strong>Столбец:</strong> {appliedFilters.columns.join(', ')}
+
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
 
       {/* Индикация загрузки или таблица */}
       {isLoading ? (
