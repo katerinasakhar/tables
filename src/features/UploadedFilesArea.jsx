@@ -171,7 +171,7 @@ const UploadedFilesArea = () => {
                                         onChange={(e) => setSelectedYear(e.target.value)}
                                         className={styles.yearSelect}
                                     >
-                                        <option value="">Все годы</option>
+                                        <option value="">Все года</option>
                                         {years.map(year => (
                                             <option key={year} value={year}>{year}</option>
                                         ))}

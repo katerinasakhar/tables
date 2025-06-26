@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
 
 const Modal = ({ active, setActive, children }) => {
+      const modalRoot = document.getElementById('modal-root'); 
   if (!active) return null;
   if (document.getElementById('modal-root')?.contains(document.activeElement)) {
   console.warn('Avoid nesting <Modal> inside <Modal>');
