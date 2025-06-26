@@ -4,14 +4,11 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* затемнение фона */
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 9999; /* ВАЖНО */
+  z-index: 1000;
 }
 
 .modalOverlay.active {
@@ -22,10 +19,11 @@
 .modalContent {
   background: white;
   padding: 2rem;
-  border-radius: 16px;
-  max-width: 800px;
-  width: 90%;
-  max-height: 80vh;
+  border-radius: 12px;
+  max-height: 90vh;
   overflow-y: auto;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   position: relative;
 }

@@ -54,7 +54,7 @@ const UploadedFilesArea = () => {
   };
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.successSection}>
           <div className={styles.sectionHeader}>
@@ -122,56 +122,58 @@ const UploadedFilesArea = () => {
 
       {modalActive && (
         <Modal active={modalActive} setActive={setModalActive}>
-          <div className={styles.modalContent}>
-            <div className={styles.modalHeader}>
-              <h3>Все загруженные файлы</h3>
-              <button className={styles.closeButton} onClick={() => setModalActive(false)}>
-                <FiX size={24} />
-              </button>
-            </div>
-            <div className={styles.modalInfo}>
-              <p className={styles.fileCount}>Найдено: <strong>{filteredFiles.length}</strong> файлов</p>
-            </div>
-            <div className={styles.modalFilters}>
-              <div className={styles.searchContainer}>
-                <FiSearch className={styles.searchIcon} />
-                <input
-                  type="text"
-                  placeholder="Поиск по названию"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={styles.searchInput}
-                />
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+              <div className={styles.modalHeader}>
+                <h3>Все загруженные файлы</h3>
+                <button className={styles.closeButton} onClick={() => setModalActive(false)}>
+                  <FiX size={24} />
+                </button>
               </div>
-              <div className={styles.selectContainer}>
-                <select
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(e.target.value)}
-                  className={styles.yearSelect}
-                >
-                  <option value="">Все годы</option>
-                  {years.map(year => (
-                    <option key={year} value={year}>{year}</option>
-                  ))}
-                </select>
+              <div className={styles.modalInfo}>
+                <p className={styles.fileCount}>Найдено: <strong>{filteredFiles.length}</strong> файлов</p>
               </div>
-            </div>
-            <div className={styles.modalFileList}>
-              {filteredFiles.length > 0 ? (
-                filteredFiles.map(file => (
-                  <div key={file.filename} className={styles.modalFileItem}>
-                    <span className={styles.modalFilename}>{file.filename}</span>
-                    <span className={styles.modalFileMeta}>{file.year} • {file.status} • {new Date(file.upload_timestamp).toLocaleDateString()}</span>
-                  </div>
-                ))
-              ) : (
-                <div className={styles.modalEmpty}>Файлы не найдены</div>
-              )}
+              <div className={styles.modalFilters}>
+                <div className={styles.searchContainer}>
+                  <FiSearch className={styles.searchIcon} />
+                  <input
+                    type="text"
+                    placeholder="Поиск по названию"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.searchInput}
+                  />
+                </div>
+                <div className={styles.selectContainer}>
+                  <select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                    className={styles.yearSelect}
+                  >
+                    <option value="">Все годы</option>
+                    {years.map(year => (
+                      <option key={year} value={year}>{year}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className={styles.modalFileList}>
+                {filteredFiles.length > 0 ? (
+                  filteredFiles.map(file => (
+                    <div key={file.filename} className={styles.modalFileItem}>
+                      <span className={styles.modalFilename}>{file.filename}</span>
+                      <span className={styles.modalFileMeta}>{file.year} • {file.status} • {new Date(file.upload_timestamp).toLocaleDateString()}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className={styles.modalEmpty}>Файлы не найдены</div>
+                )}
+              </div>
             </div>
           </div>
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 
