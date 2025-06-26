@@ -1,438 +1,441 @@
-/* === Базовые стили === */
 .container {
-  display: flex;
-  gap: 2rem;
-  margin-top: 3rem;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
 }
 
-/* === Общие стили секций === */
+
 .section {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  min-width: 300px;
-  max-width: 500px;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    min-width: 300px;
+    max-width: 500px;
 }
 
 .section:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
 }
 
 .sectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
 }
 
 .sectionHeader h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  font-size: 1.2rem;
-  color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
 }
 
 .icon {
-  color: #4a90e2;
+    color: #4a90e2;
 }
 
-/* === Секция успешных файлов === */
+
 .successSection {
-  composes: section;
-  flex: 0 0 auto;
-  height: fit-content;
+    composes: section;
+    flex: 0 0 auto;
+    height: fit-content;
 }
 
 .fileList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 }
 
 .fileItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .filename {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-right: 1rem;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1rem;
 }
 
 .fileMeta {
-  font-size: 0.85rem;
-  color: #777;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+    font-size: 0.85rem;
+    color: #777;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
 .metaIcon {
-  color: #aaa;
+    color: #aaa;
 }
 
 .viewAllButton {
-  background: none;
-  border: none;
-  color: #4a90e2;
-  font-size: 0.9rem;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 0.3rem 0.5rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+    background: none;
+    border: none;
+    color: #4a90e2;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .viewAllButton:hover {
-  background-color: #f0f7ff;
+    background-color: #f0f7ff;
 }
 
 .empty {
-  color: #888;
-  font-style: italic;
-  padding: 1rem 0;
-  text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 1rem 0;
+    text-align: center;
 }
 
-/* === Секция ошибок === */
+
 .errorSection {
-  composes: section;
-  flex: 1;
+    composes: section;
+    flex: 1;
 }
 
 .warningText {
-  font-size: 0.95rem;
-  color: #d94f4f;
-  background: rgba(217, 79, 79, 0.05);
-  padding: 0.8rem;
-  border-radius: 8px;
-  margin: 0 0 1rem;
+    font-size: 0.95rem;
+    color: #d94f4f;
+    background: rgba(217, 79, 79, 0.05);
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin: 0 0 1rem;
 }
 
 .noErrorsMessage {
-  font-size: 0.95rem;
-  color: #555;
-  padding: 1rem 0;
-  text-align: center;
+    font-size: 0.95rem;
+    color: #555;
+    padding: 1rem 0;
+    text-align: center;
 }
 
 .errorFileList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .errorFileItem {
-  background: #fff;
-  border: 1px solid #ffe0e0;
-  border-radius: 10px;
-  padding: 1rem;
-  transition: all 0.3s ease;
+    background: #fff;
+    border: 1px solid #ffe0e0;
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.3s ease;
 }
 
 .fadeOut {
-  opacity: 0;
-  transform: translateY(-10px);
+    opacity: 0;
+    transform: translateY(-10px);
 }
 
 .errorFileContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 
 .errorFileHeader {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .errorFileName {
-  font-weight: 600;
-  color: #222;
+    font-weight: 600;
+    color: #222;
 }
 
 .errorFileMeta {
-  font-size: 0.85rem;
-  color: #666;
+    font-size: 0.85rem;
+    color: #666;
 }
 
 .errorTextContainer {
-  margin-top: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .errorText {
-  font-size: 0.9rem;
-  color: #d94f4f;
-  padding: 0.8rem;
-  background: rgba(217, 79, 79, 0.05);
-  border-radius: 8px;
-  word-wrap: break-word;
-  line-height: 1.4;
+    font-size: 0.9rem;
+    color: #d94f4f;
+    padding: 0.8rem;
+    background: rgba(217, 79, 79, 0.05);
+    border-radius: 8px;
+    word-wrap: break-word;
+    line-height: 1.4;
 }
 
 .resolveButton {
-  background: transparent;
-  color: #28a745;
-  border: 1px solid #c3e6cb;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  transition: all 0.3s ease;
+    background: transparent;
+    color: #28a745;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    transition: all 0.3s ease;
 }
 
 .resolveButton:hover {
-  background-color: #e6ffee;
-  border-color: #28a745;
-  color: #155724;
+    background-color: #e6ffee;
+    border-color: #28a745;
+    color: #155724;
 }
-/* === Модальное окно === */
+
 .modalContent {
-  background-color: #fff;
-  border-radius: 16px;
-  padding: 2rem;
-  max-width: 800px;
-  width: 100%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
+
 .modalSearchInput {
-  width: 100%;
-  padding-left: 36px; /* Чтобы текст не перекрывал иконку */
-  padding-right: 12px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s;
+    width: 100%;
+    padding-left: 36px;
+    padding-right: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
 .modalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  gap: 1rem;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .modalHeader h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #222;
-  flex: 1;
-  min-width: 200px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: #222;
+    flex: 1;
+    min-width: 200px;
 }
 
 .modalInfo {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .fileCount {
-  font-size: 0.95rem;
-  color: #666;
-  text-align: right;
-  margin: 0;
+    font-size: 0.95rem;
+    color: #666;
+    text-align: right;
+    margin: 0;
 }
 
 .modalFilters {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding: 0;
-  align-items: center; /* Выравнивание по центру */
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0;
+    align-items: center;
 }
 
 .modalFilters:hover {
-  border-color: #4a90e2;
-  background: #f0f7ff;
+    border-color: #4a90e2;
+    background: #f0f7ff;
 }
 
 
 
 .selectContainer {
-  min-width: 150px;
-  flex-shrink: 0;
-  position: relative;
+    min-width: 150px;
+    flex-shrink: 0;
+    position: relative;
 }
+
 .searchContainer {
-  position: relative;
-  flex-grow: 1;
-  min-width: 200px;
+    position: relative;
+    flex-grow: 1;
+    min-width: 200px;
 }
 
 
 .searchIcon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #aaa;
-  pointer-events: none; 
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
 }
 
 .searchInput {
-  width: 100%;
-  padding: 0.8rem 1rem 0.8rem 2.5rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
-   box-sizing: border-box; 
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
 }
 
 .searchInput:focus {
-  border-color: #4a90e2;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 
 
 .yearSelect {
-  width: 100%;
-  padding: 0.8rem 2.5rem 0.8rem 1rem; /* Увеличено правое поле */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: white;
-  appearance: none; /* Убираем стандартную стрелку */
+    width: 100%;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    appearance: none;
 }
+
 .yearSelect::-ms-expand {
-  display: none;
+    display: none;
 }
 
 .yearSelect:focus {
-  border-color: #4a90e2;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 .modalFileList {
-  max-height: 50vh;
-  overflow-y: auto;
-  margin-bottom: 1.5rem;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 0.5rem;
+    max-height: 50vh;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 0.5rem;
 }
 
 .modalFileItem {
-  padding: 0.9rem 1rem;
-  border-bottom: 1px solid #f5f5f5;
-  transition: background-color 0.2s ease;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1rem;
-  align-items: center;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background-color 0.2s ease;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
 }
 
 .modalFileItem:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .modalFileItem:hover {
-  background-color: #f9f9f9;
+    background-color: #f9f9f9;
 }
 
 .modalFilename {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .modalFileMeta {
-  font-size: 0.85rem;
-  color: #777;
-  white-space: nowrap;
+    font-size: 0.85rem;
+    color: #777;
+    white-space: nowrap;
 }
 
 .modalEmpty {
-  text-align: center;
-  padding: 2rem;
-  color: #888;
-  font-style: italic;
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    font-style: italic;
 }
 
 .closeButton {
-  background: none;
-  border: none;
-  color: #888;
-  cursor: pointer;
-  padding: 0.3rem;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .closeButton:hover {
-  background: #f5f5f5;
-  color: #333;
+    background: #f5f5f5;
+    color: #333;
 }
+
 .selectContainer::after {
-  content: "▼";
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #666;
-  font-size: 0.8rem;
+    content: "▼";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #666;
+    font-size: 0.8rem;
 }
 
 .modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* затемнение фона */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modalContent {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  max-height: 90vh;
-  overflow-y: auto;
-  max-width: 800px;
-  width: 100%;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  position: relative;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
