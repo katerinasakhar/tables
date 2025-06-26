@@ -1,5 +1,8 @@
 // UploadPage.jsx
 import React, { useState, useRef } from 'react';
+import { FiHome } from 'react-icons/fi';
+import { FiUpload } from 'react-icons/fi';
+import { FiRotateCcw } from 'react-icons/fi';
 import styles from './UploadPage.module.css';
 
 const UploadPage = () => {
@@ -100,7 +103,7 @@ const UploadPage = () => {
   };
 
   const goToHome = () => {
-    window.location.href = '/'; // Переход на главную
+    window.location.href = '/'; 
   };
 
   const renderUploadInterface = () => (
@@ -163,15 +166,15 @@ const UploadPage = () => {
           )}
         </div>
         <div className={styles.footer}>
-          <button 
-            className={styles.actionButton}
-            onClick={handleUpload}
-            disabled={files.length === 0}
-          >
-            <span className={styles.uploadIcon}>↑</span>
-            Отправить на сервер
-          </button>
-        </div>
+  <button 
+    className={styles.actionButton}
+    onClick={handleUpload}
+    disabled={files.length === 0}
+  >
+    <FiUpload className={styles.uploadIcon} />
+    Отправить на сервер
+  </button>
+</div>
       </div>
     </div>
   );
@@ -208,18 +211,16 @@ const UploadPage = () => {
         </div>
         <div className={styles.footer}>
           <button 
-            className={styles.actionButton}
-            onClick={handleReset}
-          >
-            <span className={styles.backIcon}>←</span>
-            Загрузить ещё
-          </button>
-          <button 
-            className={styles.actionButton}
-            onClick={goToHome}
-          >
-            🏠 В главное меню
-          </button>
+  className={styles.actionButton}
+  onClick={handleReset}
+>
+  <FiRotateCcw className={styles.backIcon} />
+  Загрузить ещё
+</button>
+          <button className={styles.actionButton} onClick={goToHome}>
+      <FiHome className={styles.homeIcon} />
+      Главное меню
+    </button>
         </div>
       </div>
     );
@@ -233,21 +234,32 @@ const UploadPage = () => {
   );
 
   return (
-    <div className={styles.pageContainer}>
+  <div className={styles.pageContainer}>
+ 
+    <button className={styles.homeButton} onClick={goToHome}>
+      <FiHome className={styles.homeIcon} />
+      Главное меню
+    </button>
+
+    
+    <div className={styles.centeredContent}>
       <header className={styles.header}>
         <h1>Загрузка файлов</h1>
-        <button className={styles.homeButton} onClick={goToHome}>
-          🏠 Главное меню
-        </button>
+        <p>
+          Загрузите новый отчет, чтобы включить его в анализ или повторно загрузите документы,
+          которые ранее загрузились с ошибками
+        </p>
       </header>
-      {uploadStatus === 'completed' 
-        ? renderResults() 
+
+      {uploadStatus === 'completed'
+        ? renderResults()
         : uploadStatus === 'uploading'
-          ? renderUploading()
-          : renderUploadInterface()
-      }
+        ? renderUploading()
+        : renderUploadInterface()}
     </div>
-  );
+  </div>
+);
 };
 
 export default UploadPage;
+
