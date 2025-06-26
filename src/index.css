@@ -73,3 +73,16 @@ label {
   gap: 0.5rem;
   cursor: pointer;
 }
+/* Добавить в глобальные стили */
+:root {
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.section {
+  transition: var(--transition);
+}
+
+.resolveButton {
+  transition: var(--transition);
+}
+

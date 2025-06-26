@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import styles from './Home.module.css';
 import { NavLink } from 'react-router-dom';
+import UploadedFilesArea from '/src/features/UploadedFilesArea.jsx';
+
 
 const Home = () => {
   const [files, setFiles] = useState([]);
@@ -41,7 +43,7 @@ const Home = () => {
       </div>
 
       
-
+      <UploadedFilesArea />
     </div>
   );
 };
