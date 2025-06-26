@@ -233,17 +233,7 @@
   outline: none;
   transition: border-color 0.3s;
 }
-.modalSearchInput:focus {
-  border-color: #4a90e2;
-}
 
-.modalYearFilter {
-  min-width: 120px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
 .modalHeader {
   display: flex;
   justify-content: space-between;
@@ -277,12 +267,12 @@
   flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
   gap: 1rem; /* Расстояние между полями */
   margin-bottom: 1.5rem;
-  background: #f9f9f9;
+  
   padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid #eee;
+  
+  
   transition: all 0.3s ease;
-  overflow-x: auto; /* Добавляем горизонтальный скролл, если не помещается */
+  overflow-x: auto; 
 }
 
 .modalFilters:hover {
@@ -300,6 +290,11 @@
 .selectContainer {
 
   flex-shrink: 0;    /* Запрещаем сжатие */
+}
+.searchContainer {
+  position: relative; /* Для абсолютного позиционирования иконки */
+  flex-grow: 1; /* Поле поиска занимает всё доступное место */
+  min-width: 200px; /* Минимальная ширина для читаемости */
 }
 
 
