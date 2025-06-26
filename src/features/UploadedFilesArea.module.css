@@ -264,15 +264,11 @@
 
 .modalFilters {
   display: flex;
-  flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
-  gap: 1rem; /* Расстояние между полями */
+  flex-wrap: nowrap;
+  gap: 1rem;
   margin-bottom: 1.5rem;
-  
-  padding: 1rem;
-  
-  
-  transition: all 0.3s ease;
-  overflow-x: auto; 
+  padding: 0;
+  align-items: center; /* Выравнивание по центру */
 }
 
 .modalFilters:hover {
@@ -280,21 +276,17 @@
   background: #f0f7ff;
 }
 
-@media (max-width: 768px) {
-  .modalFilters {
-    grid-template-columns: 1fr;
-  }
-}
 
-.searchContainer,
+
 .selectContainer {
-
-  flex-shrink: 0;    /* Запрещаем сжатие */
+  min-width: 150px;
+  flex-shrink: 0;
+  position: relative;
 }
 .searchContainer {
-  position: relative; /* Для абсолютного позиционирования иконки */
-  flex-grow: 1; /* Поле поиска занимает всё доступное место */
-  min-width: 200px; /* Минимальная ширина для читаемости */
+  position: relative;
+  flex-grow: 1;
+  min-width: 200px;
 }
 
 
@@ -323,24 +315,19 @@
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
-.selectContainer {
-  min-width: 150px;
-}
+
 
 .yearSelect {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 2.5rem 0.8rem 1rem; /* Увеличено правое поле */
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   background-color: white;
-  appearance: none;
-  transition: border-color 0.3s;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.7rem center;
-  background-size: 1rem;
-   box-sizing: border-box; 
+  appearance: none; /* Убираем стандартную стрелку */
+}
+.yearSelect::-ms-expand {
+  display: none;
 }
 
 .yearSelect:focus {
@@ -413,4 +400,14 @@
 .closeButton:hover {
   background: #f5f5f5;
   color: #333;
+}
+.selectContainer::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+  font-size: 0.8rem;
 }
