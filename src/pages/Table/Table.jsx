@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import componentStyles from './TableModalComponents.module.css';
 import style from './Table.module.css'
 import { FiDownload, FiFilter, FiHome } from 'react-icons/fi';
-
+import { FiArrowLeft, FiSearch } from 'react-icons/fi';
 function Table() {
   const api = process.env.API
 
@@ -379,7 +379,7 @@ function Table() {
     setModalActive(false)
   }
 
-    const goToHome = () => {
+  const goToHome = () => {
     window.location.href = '/';
   };
 
@@ -470,237 +470,180 @@ function Table() {
           )}
         </>
       )}
-    
-    <Modal active={modalActive} setActive={setModalActive}>
-      <div className={componentStyles.content}>
-        {filter == 0 && (
-          <div className={componentStyles.filters}>
-            <h2>Фильтры</h2>
-            <button onClick={() => { setCities([]); showCities(); setFilter(1) }}>Города</button>
-            <button onClick={() => { setYears([]); showYears(); setFilter(2) }}>Года</button>
-            <button onClick={() => { setSections([]); showSections(); setFilter(3) }}>Разделы</button>
-            <button onClick={() => { setRows([]); showRows(); setFilter(4) }}>Строки</button>
-            <button onClick={() => { setColumns([]); showColumns(); setFilter(5) }}>Столбцы</button>
-            <button className={componentStyles.submitData} onClick={handleFilteredData}>Применить</button>
-          </div>)}
-        {filter == 1 && (
-          <div>
-            <h3>Города</h3>
-            <div className={componentStyles.searchContainer}>
-              <div className={componentStyles.searchInput}>
-                <input
-                  type="text"
-                  placeholder="Поиск..."
-                  value={searchCity}
-                  onChange={(e) => setSearchCity(e.target.value)}
-                />
-              </div>
-              <div class={componentStyles.checkboxWrapper}>
-                <label>
-                  <input
-                    type='checkbox'
-                    checked={selectedCities.length === cities.length}
-                    onChange={handleSelectAllCities}
-                    class={componentStyles.input}
-                  />
-                  {selectedCities.length === cities.length ? 'Снять все' : 'Выбрать все'}
-                </label>
-              </div>
-            </div>
-            <div className={componentStyles.scrollAndButton}>
-              <div className={componentStyles.scroll}>
-                {cities.filter(city =>
-                  city.toString().toLowerCase().includes(searchCity.toLowerCase()) 
-                ).map((city) => (
-                  <div key={city} className={componentStyles.item}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        value={city}
-                        checked={selectedCities.includes(city.toString())}
-                        onChange={handleCityChange}
-                      />
-                      {city}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className={componentStyles.buttonWrapper}>
-                <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
-              </div>
-            </div>
-          </div>
-        )}
-        {filter == 2 && (
-          <div>
-            <h3>Год</h3>
-            <div class={componentStyles.checkboxWrapper}>
-              <label>
-                <input
-                  type='checkbox'
-                  checked={selectedYears.length === years.length}
-                  onChange={handleSelectAllYears}
-                  class={componentStyles.input}
-                />
-                {selectedYears.length === years.length ? 'Снять все' : 'Выбрать все'}
-              </label>
-            </div>
-            <div className={componentStyles.scrollAndButton}>
-              <div className={componentStyles.scroll}>
-                {years.map((year) => (
-                  <div key={year} className={componentStyles.item}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        value={year}
-                        checked={selectedYears.includes(year)}
-                        onChange={handleYearChange}
-                      />
-                      {year}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className={componentStyles.buttonWrapper}>
-                <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
-              </div>
-            </div>
-          </div>
-        )}
-        {filter == 3 && (
-          <div>
-            <h3>Раздел</h3>
-            <div class={componentStyles.checkboxWrapper}>
-              <label>
-                <input
-                  type='checkbox'
-                  checked={selectedSections.length === sections.length}
-                  onChange={handleSelectAllSections}
-                  class={componentStyles.input}
-                />
-                {selectedSections.length === sections.length ? 'Снять все' : 'Выбрать все'}
-              </label>
-            </div>
-            <div className={componentStyles.scrollAndButton}>
-              <div className={componentStyles.scroll}>
-                {sections.map((section) => (
-                  <div key={section} className={componentStyles.item}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        value={section}
-                        checked={selectedSections.includes(section.toString())}
-                        onChange={handleSectionChange}
-                      />
-                      {section}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className={componentStyles.buttonWrapper}>
-                <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
-              </div>
-            </div>
-          </div>
-        )}
-        {filter == 4 && (
-          <div>
-            <h3>Строка</h3>
-            <input
-              type="text"
-              placeholder="Поиск..."
-              value={searchRow}
-              onChange={(e) => setSearchRow(e.target.value)}
-              style={{ marginBottom: "10px" }}
-            />
-            <div class={componentStyles.checkboxWrapper}>
-              <label>
-                <input
-                  type='checkbox'
-                  checked={selectedRows.length === rows.length}
-                  onChange={handleSelectAllRows}
-                  class={componentStyles.input}
-                />
-                {selectedRows.length === rows.length ? 'Снять все' : 'Выбрать все'}
-              </label>
-            </div>
-            <div className={componentStyles.scrollAndButton}>
-              <div className={componentStyles.scroll}>
-                {rows
-                  .filter(row =>
-                    row.toString().toLowerCase().includes(searchRow.toLowerCase()) 
-                  )
-                  .map((row) => (
-                    <div key={row} className={componentStyles.item}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          value={row}
-                          checked={selectedRows.includes(row.toString())}
-                          onChange={handleRowChange}
-                        />
-                        {row}
-                      </label>
-                    </div>
-                  ))}
-              </div>
-              <div className={componentStyles.buttonWrapper}>
-                <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
-              </div>
-            </div>
-          </div>
-        )}
-        {filter == 5 && (
-          <div>
-            <h3>Столбец</h3>
-            <input
-              type="text"
-              placeholder="Поиск..."
-              value={searchColumn}
-              onChange={(e) => setSearchColumn(e.target.value)}
-              style={{ marginBottom: "10px" }}
-            />
-            <div class={componentStyles.checkboxWrapper}>
-              <label>
-                <input
-                  type='checkbox'
-                  checked={selectedColumns.length === columns.length}
-                  onChange={handleSelectAllColumns}
-                  class={componentStyles.input}
-                />
-                {selectedColumns.length === columns.length ? 'Снять все' : 'Выбрать все'}
-              </label>
-            </div>
-            <div className={componentStyles.scrollAndButton}>
-              <div className={componentStyles.scroll}>
-                {columns
-                  .filter(column =>
-                    column.toString().toLowerCase().includes(searchColumn.toLowerCase()) 
-                  )
-                  .map((column) => (
-                    <div key={column} className={componentStyles.item}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          value={column}
-                          checked={selectedColumns.includes(column.toString())}
-                          onChange={handleColumnChange}
-                        />
-                        {column}
-                      </label>
-                    </div>
-                  ))}
-              </div>
-              <div className={componentStyles.buttonWrapper}>
-                <button className={componentStyles.buttonBack} onClick={() => setFilter(0)}>Назад</button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </Modal>
 
-  </div>)
+
+
+
+
+      <Modal active={modalActive} setActive={setModalActive}>
+        <div className={componentStyles.content}>
+
+          {/* Верхняя панель */}
+          <div className={componentStyles.headerBar}>
+            {filter !== 0 && (
+              <button className={componentStyles.backButton} onClick={() => setFilter(0)}>
+                <FiArrowLeft /> Назад
+              </button>
+            )}
+            {filter !== 0 && (
+              <div className={componentStyles.modalTitle}>
+                {['Города', 'Год', 'Раздел', 'Строка', 'Столбец'][filter - 1]}
+              </div>
+            )}
+          </div>
+
+          {/* Содержимое */}
+          <div className={componentStyles.modalBody}>
+            {filter === 0 && (
+              <div className={componentStyles.filters}>
+                <h2>Фильтры</h2>
+                <button onClick={() => { setCities([]); showCities(); setFilter(1) }}>Города</button>
+                <button onClick={() => { setYears([]); showYears(); setFilter(2) }}>Года</button>
+                <button onClick={() => { setSections([]); showSections(); setFilter(3) }}>Разделы</button>
+                <button onClick={() => { setRows([]); showRows(); setFilter(4) }}>Строки</button>
+                <button onClick={() => { setColumns([]); showColumns(); setFilter(5) }}>Столбцы</button>
+              </div>
+            )}
+
+            {[1, 2, 3, 4, 5].includes(filter) && (
+              <div>
+                {/* Поиск */}
+                {(filter === 1 || filter === 4 || filter === 5) && (
+                  <div className={componentStyles.searchContainer}>
+                    <div className={componentStyles.searchInput}>
+                      <FiSearch size={16} color="#888" />
+                      <input
+                        type="text"
+                        placeholder="Поиск..."
+                        value={{ 1: searchCity, 4: searchRow, 5: searchColumn }[filter]}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (filter === 1) setSearchCity(value);
+                          if (filter === 4) setSearchRow(value);
+                          if (filter === 5) setSearchColumn(value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Кнопка "выбрать все" */}
+                <div className={componentStyles.checkboxWrapper}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      className={componentStyles.input}
+                      checked={{
+                        1: selectedCities.length === cities.length,
+                        2: selectedYears.length === years.length,
+                        3: selectedSections.length === sections.length,
+                        4: selectedRows.length === rows.length,
+                        5: selectedColumns.length === columns.length
+                      }[filter]}
+                      onChange={{
+                        1: handleSelectAllCities,
+                        2: handleSelectAllYears,
+                        3: handleSelectAllSections,
+                        4: handleSelectAllRows,
+                        5: handleSelectAllColumns
+                      }[filter]}
+                    />
+                    {{
+                      1: selectedCities.length === cities.length,
+                      2: selectedYears.length === years.length,
+                      3: selectedSections.length === sections.length,
+                      4: selectedRows.length === rows.length,
+                      5: selectedColumns.length === columns.length
+                    }[filter] ? 'Снять все' : 'Выбрать все'}
+                  </label>
+                </div>
+
+                {/* Список */}
+                <div className={componentStyles.scroll}>
+                  {{
+                    1: cities.filter(city => city.toString().toLowerCase().includes(searchCity.toLowerCase())).map((city) => (
+                      <div key={city} className={componentStyles.item}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={city}
+                            checked={selectedCities.includes(city.toString())}
+                            onChange={handleCityChange}
+                          />
+                          {city}
+                        </label>
+                      </div>
+                    )),
+                    2: years.map((year) => (
+                      <div key={year} className={componentStyles.item}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={year}
+                            checked={selectedYears.includes(year)}
+                            onChange={handleYearChange}
+                          />
+                          {year}
+                        </label>
+                      </div>
+                    )),
+                    3: sections.map((section) => (
+                      <div key={section} className={componentStyles.item}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={section}
+                            checked={selectedSections.includes(section.toString())}
+                            onChange={handleSectionChange}
+                          />
+                          {section}
+                        </label>
+                      </div>
+                    )),
+                    4: rows.filter(row => row.toString().toLowerCase().includes(searchRow.toLowerCase())).map((row) => (
+                      <div key={row} className={componentStyles.item}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={row}
+                            checked={selectedRows.includes(row.toString())}
+                            onChange={handleRowChange}
+                          />
+                          {row}
+                        </label>
+                      </div>
+                    )),
+                    5: columns.filter(col => col.toString().toLowerCase().includes(searchColumn.toLowerCase())).map((col) => (
+                      <div key={col} className={componentStyles.item}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={col}
+                            checked={selectedColumns.includes(col.toString())}
+                            onChange={handleColumnChange}
+                          />
+                          {col}
+                        </label>
+                      </div>
+                    ))
+                  }[filter]}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Нижняя панель */}
+          {filter !== 0 && (
+            <div className={componentStyles.footerBar}>
+              <button className={componentStyles.applyButton} onClick={() => { handleFilteredData(); setFilter(0); }}>
+                Применить
+              </button>
+            </div>
+          )}
+        </div>
+      </Modal>
+
+    </div>)
 }
 
 export default Table;
