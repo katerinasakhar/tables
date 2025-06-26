@@ -6,6 +6,7 @@ import { FiRotateCcw } from 'react-icons/fi';
 import styles from './UploadPage.module.css';
 
 const UploadPage = () => {
+  const api = process.env.API
   const [files, setFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [uploadStatus, setUploadStatus] = useState('idle'); // idle, uploading, completed
@@ -70,7 +71,7 @@ const UploadPage = () => {
     });
 
     try {
-      const response = await fetch('/api/v2/upload', {
+      const response = await fetch(`${api}/api/v2/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -179,52 +180,75 @@ const UploadPage = () => {
     </div>
   );
 
-  const renderResults = () => {
-    const successCount = uploadResults.filter(r => r.status === 'Success').length;
-    const failedCount = uploadResults.length - successCount;
+const renderResults = () => {
+  const successCount = uploadResults.filter(r => r.status === 'success').length;
+  const failedCount = uploadResults.length - successCount;
 
-    return (
-      <div className={styles.resultsContainer}>
-        <div className={styles.resultsHeader}>
-          <h2>Результаты загрузки</h2>
-          <div className={styles.errorCount}>
-            Ошибок: {failedCount}
-          </div>
-        </div>
-        <div className={styles.resultsList}>
-          {uploadResults.map((result, index) => (
-            <div key={index} className={styles.resultItem}>
-              <div className={styles.fileInfo}>
-                <div className={styles.fileIcon}>📄</div>
-                <div className={styles.fileDetails}>
-                  <div className={styles.fileName}>{result.filename}</div>
-                  {result.status === 'Failed' && (
-                    <div className={styles.errorMessage}>{result.error}</div>
-                  )}
-                </div>
-              </div>
-              <div className={styles.statusIcon}>
-                {result.status === 'Success' ? '✅' : '❌'}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className={styles.footer}>
-          <button 
-  className={styles.actionButton}
-  onClick={handleReset}
->
-  <FiRotateCcw className={styles.backIcon} />
-  Загрузить ещё
-</button>
-          <button className={styles.actionButton} onClick={goToHome}>
-      <FiHome className={styles.homeIcon} />
-      Главное меню
-    </button>
+  return (
+    <div className={styles.resultsContainer}>
+      <div className={styles.resultsHeader}>
+        <h2>Результаты загрузки</h2>
+        <div className={styles.errorCount}>
+          Ошибок: {failedCount}
         </div>
       </div>
-    );
-  };
+
+      <div className={styles.resultsList}>
+  {uploadResults.map((result, index) => (
+    <div key={index} className={styles.resultItem}>
+      <div className={styles.fileInfo}>
+        <div className={styles.fileIcon}>📄</div>
+        <div className={styles.fileDetails}>
+          <div className={styles.fileName}>{result.filename}</div>
+
+          {/* Показываем ошибку или дублирование */}
+          {result.error && (
+            <div className={styles.errorMessage}>
+              {result.error}
+            </div>
+          )}
+
+          {!result.error && result.status !== 'success' && (
+            <div className={styles.errorMessage}>
+              {result.status === 'duplicate'
+                ? 'Файл уже был загружен'
+                : 'Неизвестная ошибка'}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Статус справа */}
+      <div className={styles.statusIcon}>
+        {result.status === 'success'
+          ? '✅'
+          : result.status === 'duplicate'
+          ? '⚠️'
+          : '❌'}
+      </div>
+    </div>
+  ))}
+</div>
+
+      <div className={styles.footer}>
+        <button 
+          className={styles.actionButton}
+          onClick={handleReset}
+        >
+          <FiRotateCcw className={styles.backIcon} />
+          Загрузить ещё
+        </button>
+        <button 
+          className={styles.actionButton}
+          onClick={goToHome}
+        >
+          <FiHome className={styles.homeIcon} />
+          В главное меню
+        </button>
+      </div>
+    </div>
+  );
+};
 
   const renderUploading = () => (
     <div className={styles.uploadingContainer}>

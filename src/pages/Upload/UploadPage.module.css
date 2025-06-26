@@ -173,19 +173,7 @@
   border-bottom: 1px solid #eee;
 }
 
-.fileInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 
-.fileIcon {
-  font-size: 20px;
-}
-
-.fileName {
-  font-weight: 500;
-}
 
 .fileSize {
   font-size: 0.85rem;
@@ -238,14 +226,6 @@
   margin-bottom: 1rem;
 }
 
-.errorMessage {
-  color: red;
-  font-size: 0.85rem;
-}
-
-.statusIcon {
-  font-size: 1.5rem;
-}
 
 .uploadingContainer {
   text-align: center;
@@ -260,6 +240,47 @@
   height: 60px;
   animation: spin 1s linear infinite;
   margin: 0 auto;
+}
+
+.resultsList {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee; /* Тонкая линия между файлами */
+}
+
+.fileInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.fileIcon {
+  font-size: 20px;
+}
+
+.fileName {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.statusIcon {
+  font-size: 1.25rem;
+  min-width: 30px;
+  text-align: right;
 }
 
 @keyframes spin {
