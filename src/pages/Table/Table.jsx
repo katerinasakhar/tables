@@ -28,6 +28,7 @@ function Table() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [maxSize, setMaxSize]=useState(0)
   const [limit] = useState(10);
   const [loadingMoreData, setLoadingMoreData] = useState(false);
   const [dfilter, setDfilter] = useState({
@@ -51,7 +52,6 @@ function Table() {
         setStrings(newData || [])
       }
       else {
-
         setStrings(prevStrings => [...prevStrings, ...newData]);
       }
       setThead(response.data.headers || []);
@@ -59,6 +59,7 @@ function Table() {
         setHasMore(false);
       }
       setLoadingMoreData(false)
+      setMaxSize(response.data.max_size)
     }).catch((error) => {
       console.error("Ошибка при получении данных:", error);
     });
@@ -71,13 +72,54 @@ function Table() {
       offset: offset
     })
   }
-  const exportToExcel = () => {
-    const wsData = [thead, ...strings];
-    const ws = XLSX.utils.aoa_to_sheet(wsData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Таблица");
-    XLSX.writeFile(wb, "table.xlsx");
-  };
+
+
+  function downloadXLS(){
+    const filters={
+      ...dfilter,
+      offset:0,
+      limit:maxSize
+    }
+    axios.post(`${api}/api/v2/filtered-data`, filters).then((response)=>{
+      const data=response.data.data
+      const headers=response.data.headers
+      const jsonData = data.map((row) =>
+      Object.fromEntries(headers.map((key, index) => [key, row[index]]))
+    );
+    const worksheet = XLSX.utils.json_to_sheet(jsonData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Таблица');
+    XLSX.writeFile(workbook, "table.xlsx");
+  }
+    ).catch((error)=>{console.error(error)})
+  }
+
+    function downloadCSV(){
+    const filters={
+      ...dfilter,
+      offset:0,
+      limit:maxSize
+    }
+    axios.post(`${api}/api/v2/filtered-data`, filters).then((response)=>{
+      const data=response.data.data
+      const headers=response.data.headers
+      const jsonData = data.map((row) =>
+      Object.fromEntries(headers.map((key, index) => [key, row[index]]))
+    );
+    const worksheet = XLSX.utils.json_to_sheet(jsonData);
+    const csv = XLSX.utils.sheet_to_csv(worksheet, { FS: ';' });
+    const blob = new Blob(['\uFEFF'+csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.setAttribute('download', 'table.csv');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+    ).catch((error)=>{console.error(error)})
+  }
 
   const handleCityChange = (e) => {
     const value = e.target.value;
@@ -415,7 +457,7 @@ function Table() {
         </div>
 
         {!isLoading && (
-          <button className={style.downloadButton} onClick={exportToExcel} aria-label="Скачать">
+          <button className={style.downloadButton} onClick={downloadCSV} aria-label="Скачать">
             <FiDownload />
             Скачать
           </button>
