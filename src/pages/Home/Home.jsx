@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import styles from './Home.module.css';
 import { NavLink } from 'react-router-dom';
 import UploadedFilesArea from '/src/features/UploadedFilesArea.jsx';
-
-
+import { BsCloudUpload } from "react-icons/bs";
+import {  FiBarChart } from 'react-icons/fi'; 
 const Home = () => {
   const [files, setFiles] = useState([]);
   const allowedTypes = [
@@ -28,21 +28,16 @@ const Home = () => {
 
       <div className={styles.buttonsWrapper}>
         <NavLink to="/upload" className={styles.button}>
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
-          </svg>
+          <BsCloudUpload size={20} /> {/* Используем иконку загрузки */}
           Загрузить файлы
         </NavLink>
 
         <NavLink to="/table" className={styles.button}>
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 4h6v6H4zm10 0h6v6h-6zm-10 10h6v6H4zm10 0h6v6h-6z" />
-          </svg>
+          <FiBarChart size={20} /> {/* Иконка анализа данных */}
           Анализ данных
         </NavLink>
       </div>
 
-      
       <UploadedFilesArea />
     </div>
   );
