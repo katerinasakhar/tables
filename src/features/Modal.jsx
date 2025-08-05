@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Modal.module.css';
+import { FiX } from 'react-icons/fi'
+
 
 const Modal = ({ active, setActive, children }) => {
       const modalRoot = document.getElementById('modal-root'); 

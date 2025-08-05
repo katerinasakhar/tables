@@ -178,18 +178,40 @@ const UploadedFilesArea = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className={styles.modalFileList}>
-                                {filteredFiles.length > 0 ? (
-                                    filteredFiles.map(file => (
-                                        <div key={file.filename} className={styles.modalFileItem}>
-                                            <span className={styles.modalFilename}>{file.filename}</span>
-                                            <span className={styles.modalFileMeta}>{file.year} • {file.status} • {new Date(file.upload_timestamp).toLocaleDateString()}</span>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div className={styles.modalEmpty}>Файлы не найдены</div>
-                                )}
-                            </div>
+                           <div className={styles.modalFileList}>
+  {filteredFiles.length > 0 ? (
+    filteredFiles.map(file => (
+      <div
+        key={file.filename}
+        className={`${styles.modalFileItem} ${deletingFilename === file.filename ? styles.fadeOut : ''}`}
+        onTransitionEnd={() => {
+          if (deletingFilename === file.filename) {
+            setFiles(prev => prev.filter(f => f.filename !== file.filename));
+            setDeletingFilename(null);
+          }
+        }}
+      >
+        <div className={styles.modalFileInfo}>
+          <span className={styles.modalFilename}>{file.filename}</span>
+          <span className={styles.modalFileMeta}>
+            {file.year} • {file.status} • {new Date(file.upload_timestamp).toLocaleDateString()}
+          </span>
+        </div>
+
+        <button
+          className={styles.deleteButton}
+          onClick={() => handleResolveError(file.filename)}
+          disabled={deletingFilename === file.filename}
+        >
+          <FiX size={18} />
+        </button>
+      </div>
+    ))
+  ) : (
+    <div className={styles.modalEmpty}>Файлы не найдены</div>
+  )}
+</div>
+
                         </div>
                     </div>
                 </Modal>

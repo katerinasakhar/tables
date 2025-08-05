@@ -439,3 +439,52 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     position: relative;
 }
+
+
+.modalFileItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #f5f5f5;
+  transition: opacity 0.3s ease;
+}
+
+.modalFileItem.fadeOut {
+  opacity: 0;
+}
+
+.modalFileInfo {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalFilename {
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+  color: #333;
+}
+
+.modalFileMeta {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
