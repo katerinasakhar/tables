@@ -47,30 +47,30 @@ const UploadedFilesArea = () => {
         return result;
     }, [successfulFiles, searchTerm, selectedYear]);
 
-    const handleResolveError = async (filename) => {
-        const confirmed = window.confirm('Убедитесь, что вы устранили ошибку, прежде чем её удалять');
-        if (!confirmed) return;
+    const handleResolveError = async (filename, confirmMessage = 'Убедитесь, что вы устранили ошибку, прежде чем её удалять') => {
+    const confirmed = window.confirm(confirmMessage);
+    if (!confirmed) return;
 
-        setDeletingFilename(filename);
+    setDeletingFilename(filename);
 
-        try {
-            const api = process.env.API;
-            const response = await fetch(`${api}/api/v2/files/${encodeURIComponent(filename)}`, {
-                method: 'DELETE',
-            });
+    try {
+        const api = process.env.API;
+        const response = await fetch(`${api}/api/v2/files/${encodeURIComponent(filename)}`, {
+            method: 'DELETE',
+        });
 
-
-            if (!response.ok) {
-                throw new Error(`Ошибка при удалении файла: ${response.status}`);
-            }
-
-            setFiles(prev => prev.filter(f => f.filename !== filename));
-        } catch (error) {
-            console.error('Ошибка удаления файла:', error.message);
-        } finally {
-            setDeletingFilename(null);
+        if (!response.ok) {
+            throw new Error(`Ошибка при удалении файла: ${response.status}`);
         }
-    };
+
+        setFiles(prev => prev.filter(f => f.filename !== filename));
+    } catch (error) {
+        console.error('Ошибка удаления файла:', error.message);
+    } finally {
+        setDeletingFilename(null);
+    }
+};
+
 
 
 
@@ -91,7 +91,7 @@ const UploadedFilesArea = () => {
                         {successfulFiles.slice(0, 10).map(file => (
                             <li key={file.filename} className={styles.fileItem}>
                                 <span className={styles.filename}>{file.filename}</span>
-                                <span className={styles.fileMeta}><FiCalendar className={styles.metaIcon} />{file.year} • {file.status}</span>
+                                <span className={styles.fileMeta}><FiCalendar className={styles.metaIcon} />{new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}</span>
                             </li>
                         ))}
                         {successfulFiles.length === 0 && <li className={styles.empty}>Нет загруженных файлов</li>}
@@ -104,7 +104,7 @@ const UploadedFilesArea = () => {
                     </div>
                     {hasErrors ? (
                         <>
-                            <p className={styles.warningText}>Не забудьте загрузить файлы, в которых были ошибки. Иначе ваш отчет может быть неточным.</p>
+                            <p className={styles.warningText}>Не забудьте повторно загрузить файлы, в которых были ошибки. Иначе ваш отчет может быть неточным.</p>
                             <ul className={styles.errorFileList}>
                                 {failedFiles.map(file => (
                                     <li
@@ -120,7 +120,7 @@ const UploadedFilesArea = () => {
                                         <div className={styles.errorFileContent}>
                                             <div className={styles.errorFileHeader}>
                                                 <span className={styles.errorFileName}>{file.filename}</span>
-                                                <span className={styles.errorFileMeta}>{file.year} • {file.status} • {new Date(file.upload_timestamp).toLocaleDateString()}</span>
+                                                <span className={styles.errorFileMeta}>{new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}  </span>
                                             </div>
                                             <div className={styles.errorTextContainer}>
                                                 <div className={styles.errorText}>{file.error || 'Неизвестная ошибка'}</div>
@@ -194,13 +194,13 @@ const UploadedFilesArea = () => {
         <div className={styles.modalFileInfo}>
           <span className={styles.modalFilename}>{file.filename}</span>
           <span className={styles.modalFileMeta}>
-            {file.year} • {file.status} • {new Date(file.upload_timestamp).toLocaleDateString()}
+            Загружено {new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}  
           </span>
         </div>
 
         <button
           className={styles.deleteButton}
-          onClick={() => handleResolveError(file.filename)}
+          onClick={() => handleResolveError(file.filename, 'Вы уверены, что хотите навсегда удалить файл этот файл?')}
           disabled={deletingFilename === file.filename}
         >
           <FiX size={18} />
