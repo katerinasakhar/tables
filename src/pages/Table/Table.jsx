@@ -1,84 +1,85 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import axios from 'axios';
-import Modal from '../../features/Modal';
+import Modal from '../../features/Modal'; //added
 import * as XLSX from 'xlsx';
-import componentStyles from './TableModalComponents.module.css';
+import componentStyles from './TableModalComponents.module.css'; //added //added
 import style from './Table.module.css'
-import { FiDownload, FiFilter, FiHome } from 'react-icons/fi';
-import { FiArrowLeft, FiSearch } from 'react-icons/fi';
+import { FiDownload, FiHome } from 'react-icons/fi'; //added 
+import FiFilter from 'react-icons/fi'
+import { FiArrowLeft, FiSearch } from 'react-icons/fi'; //added
 function Table() {
   const api = process.env.API
 
-  const [searchRow, setSearchRow] = useState('');
-  const [searchCity, setSearchCity] = useState('');
-  const [searchColumn, setSearchColumn] = useState('');
-  const [thead, setThead] = useState([]);
-  const [strings, setStrings] = useState([])
-  const [modalActive, setModalActive] = useState(false)
-  const [filter, setFilter] = useState(0)
-
-  const [sections, setSections] = useState([])
-  const [selectedSections, setSelectedSections] = useState([]);
-  const [years, setYears] = useState([2022, 2023]);
-  const [selectedYears, setSelectedYears] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [selectedCities, setSelectedCities] = useState([]);
-  const [rows, setRows] = useState([]);
-  const [columns, setColumns] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedColumns, setSelectedColumns] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [maxSize, setMaxSize]=useState(0)
-  const [limit] = useState(10);
-  const [loadingMoreData, setLoadingMoreData] = useState(false);
-  const [dfilter, setDfilter] = useState({
+  const [searchRow, setSearchRow] = useState(''); //added
+  const [searchCity, setSearchCity] = useState(''); //added
+  const [searchColumn, setSearchColumn] = useState(''); //added
+  const [thead, setThead] = useState([]); //added
+  const [strings, setStrings] = useState([]) //added
+  const [modalActive, setModalActive] = useState(false) //added
+  const [filter, setFilter] = useState(0) //added
+  const [sections, setSections] = useState([]) //added
+  const [selectedSections, setSelectedSections] = useState([]); //added
+  const [years, setYears] = useState([]); //added
+  const [selectedYears, setSelectedYears] = useState([]); //added
+  const [cities, setCities] = useState([]); //added
+  const [selectedCities, setSelectedCities] = useState([]); //added
+  const [rows, setRows] = useState([]); //added
+  const [columns, setColumns] = useState([]); //added
+  const [selectedRows, setSelectedRows] = useState([]); //added
+  const [selectedColumns, setSelectedColumns] = useState([]); //added
+  const offset=useRef(0); //added
+  const maxSize=useRef(0) //added
+  const limit = useRef(10); //added
+  const [loadingMoreData, setLoadingMoreData] = useState(false); //added
+  const [dfilter, setDfilter] = useState({ //added
     "filters": [],
-    "limit": limit,
+    "limit": limit.current,
     "offset": 0
-  })
-  const [hasMore, setHasMore] = useState(true);
-  const [appliedFilters, setAppliedFilters] = useState({
+  }) 
+  const [hasMore, setHasMore] = useState(true); //added
+  const [appliedFilters, setAppliedFilters] = useState({ //added
     cities: [],
     years: [],
     sections: [],
     rows: [],
     columns: []
   });
-
+//added
   useEffect(() => {
     axios.post(`${api}/api/v2/filtered-data`, dfilter).then((response) => {
       const newData = response.data.data || [];
-      if (offset == 0) {
+      if (offset.current == 0) {
         setStrings(newData || [])
       }
       else {
         setStrings(prevStrings => [...prevStrings, ...newData]);
       }
       setThead(response.data.headers || []);
-      if (newData.length < limit || offset + limit >= response.data.max_size) {
+      if (newData.length < limit.current || offset.current + limit.current >= response.data.max_size) {
         setHasMore(false);
       }
       setLoadingMoreData(false)
-      setMaxSize(response.data.max_size)
+      maxSize.current=response.data.max_size
     }).catch((error) => {
       console.error("Ошибка при получении данных:", error);
     });
   }, [dfilter]);
+  //added
   const loadMore = () => {
     setLoadingMoreData(true)
-    setOffset(offset + limit);
+    offset.current=offset.current + limit.current
     setDfilter({
       ...dfilter,
-      offset: offset
+      offset: offset.current
     })
   }
 
-
+//ADDED
   function downloadXLS(){
     const filters={
       ...dfilter,
       offset:0,
-      limit:maxSize
+      limit:maxSize.current
     }
     axios.post(`${api}/api/v2/filtered-data`, filters).then((response)=>{
       const data=response.data.data
@@ -93,12 +94,12 @@ function Table() {
   }
     ).catch((error)=>{console.error(error)})
   }
-
-    function downloadCSV(){
+//ADDED
+    function downloadCSV(){ 
     const filters={
       ...dfilter,
       offset:0,
-      limit:maxSize
+      limit:maxSize.current
     }
     axios.post(`${api}/api/v2/filtered-data`, filters).then((response)=>{
       const data=response.data.data
@@ -244,6 +245,7 @@ function Table() {
     }
 
   }
+  //added
   function showYears() {
     axios.post(`${api}/api/v2/filter-values`, {
       "filter-name": "год",
@@ -274,7 +276,7 @@ function Table() {
       console.error("Ошибка при получении данных:", error);
     })
   }
-
+//added
   function showCities() {
     axios.post(`${api}/api/v2/filter-values`, {
       "filter-name": "город",
@@ -304,6 +306,7 @@ function Table() {
       console.error("Ошибка при получении данных:", error);
     })
   }
+  //added
   function showSections() {
     axios.post(`${api}/api/v2/filter-values`, {
       "filter-name": "раздел",
@@ -334,7 +337,7 @@ function Table() {
     })
 
   }
-
+//added
   function showRows() {
     axios.post(`${api}/api/v2/filter-values`, {
       "filter-name": "строка",
@@ -364,7 +367,7 @@ function Table() {
       console.error("Ошибка при получении данных:", error);
     })
   }
-
+//added
   function showColumns() {
     axios.post(`${api}/api/v2/filter-values`, {
       "filter-name": "колонка",
@@ -395,9 +398,9 @@ function Table() {
       console.error("Ошибка при получении данных:", error);
     })
   }
-
+//added
   function handleFilteredData() {
-    setOffset(0);
+    offset.current=0
     setStrings([])
     setDfilter({
       "filters": [
@@ -422,8 +425,8 @@ function Table() {
           "values": selectedColumns
         }
       ],
-      "limit": limit,
-      "offset": offset
+      "limit": limit.current,
+      "offset": offset.current
     })
     setAppliedFilters({
       cities: [...selectedCities],
@@ -434,7 +437,7 @@ function Table() {
     });
     setModalActive(false)
   }
-
+  //added
   const goToHome = () => {
     window.location.href = '/';
   };
@@ -444,7 +447,8 @@ function Table() {
   return (
 
     <div className={style.tableWrapper}>
-      {/* Верхняя панель */}
+      
+      {/* added */}
       <div className={style.topBar}>
         <button className={style.homeButton} onClick={goToHome} aria-label="Главная">
           <FiHome className={style.homeIcon} />
@@ -473,8 +477,9 @@ function Table() {
           </button>
         </div>
       )}
+      {/* added */}
       {/* Применённые фильтры */}
-      {/* Применённые фильтры */}
+     
       {(appliedFilters.cities.length > 0 ||
         appliedFilters.years.length > 0 ||
         appliedFilters.sections.length > 0 ||
@@ -526,6 +531,7 @@ function Table() {
       ) : (
         <>
           {/* Таблица */}
+          {/* added */}
           <div className={style.tableContainer}>
             <table className={style.modernTable}>
               <thead>
@@ -556,6 +562,7 @@ function Table() {
           </div>
 
           {/* Кнопка "Показать ещё" */}
+          {/* added*/}
           {hasMore && (
             <div className={style.centeredFooter}>
               <button
@@ -572,7 +579,7 @@ function Table() {
 
 
 
-
+{/* added */}
 
       <Modal active={modalActive} setActive={setModalActive}>
         <div className={componentStyles.content}>

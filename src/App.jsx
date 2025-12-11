@@ -1,4 +1,4 @@
-import Table from "/src/pages/Table/Table.jsx";
+import Table from "/src/pages/Table/Table1.jsx";
 import Home from "/src/pages/Home/Home.jsx";
 import {
   BrowserRouter as Router,
