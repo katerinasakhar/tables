@@ -7,6 +7,9 @@ import FilterModal from "./FilterModal";
 import * as XLSX from 'xlsx';
 import style from './Table.module.css';
 import axios from "axios";
+import componentStyles from './TableModalComponents.module.css'; //added //added
+import style from './Table.module.css'
+import { FiFilter } from "react-icons/fi";
 
 function Table (){
     
@@ -324,9 +327,18 @@ function Table (){
   return (
     <div className={style.tableWrapper}>
         <TopBar goToHome={goToHome} downloadCSV={downloadCSV} isLoading={isLoading}/>
-        {!isLoading && <button onClick={() => setModalActive(true)}>Фильтры</button>}
+        {!isLoading && <div className={style.filterBar}>
+                  <button className={style.filterButton} onClick={() => setModalActive(true)}>
+                    <FiFilter />
+                    Фильтры
+                  </button>
+                </div>}
         <AppliedFilters appliedFilters={appliedFilters} setFilter={setFilter} showCities={showCities} showYears={showYears} showSections={showSections} showRows={showRows} showColumns={showColumns} setModalActive={setModalActive} />
-      {isLoading ? <p>Загрузка...</p> : <DataTable strings={strings} thead={thead} hasMore={hasMore} loadMore={loadMore} loadingMoreData={loadingMoreData} />}
+      {isLoading ? (<div className={style.loadingOverlay}>
+                <div className={style.spinner}></div>
+                <p>Загрузка данных...</p>
+              </div>) : 
+              <DataTable strings={strings} thead={thead} hasMore={hasMore} loadMore={loadMore} loadingMoreData={loadingMoreData} />}
       <FilterModal active={modalActive} setActive={setModalActive} filter={filter} setFilter={setFilter}
         cities={cities} years={years} sections={sections} rows={rows} columns={columns}
         selectedCities={selectedCities} selectedYears={selectedYears} selectedSections={selectedSections}

@@ -6,6 +6,8 @@ export const useTableData = (api, limit) => {
     const [thead, setThead] = useState([]);
     const [loadingMoreData, setLoadingMoreData] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    const [forms,setForms]=useState([])
+    const [currentForm,setCurrentForm]=useState(null)
 
     const offset=useRef(0);
     const maxSize=useRef(0)
@@ -22,6 +24,8 @@ export const useTableData = (api, limit) => {
     axios.post(`${api}/api/v2/filtered-data`, dfilter).then((response) => {
       const newData = response.data.data || [];
       setStrings(prev => offset.current === 0 ? newData : [...prev, ...newData])
+      setForms(["1-ФК", "3-ФК"])
+      setCurrentForm(forms[0])
       setThead(response.data.headers || []);
       if (newData.length < limit || offset.current + limit >= response.data.max_size) {
         setHasMore(false);
@@ -41,5 +45,5 @@ export const useTableData = (api, limit) => {
       offset: offset.current
     })
   }
-  return {strings,thead,loadMore,hasMore,loadingMoreData,getMaxSize,setDfilter,setStrings,offset,dfilter}
+  return {strings,thead,loadMore,hasMore,loadingMoreData,getMaxSize,setDfilter,setStrings,offset,dfilter,forms,currentForm,setCurrentForm}
 }
