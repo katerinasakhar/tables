@@ -8,21 +8,7 @@ function FilterList({
   setSelectedCities, setSelectedYears, setSelectedSections, setSelectedRows, setSelectedColumns,
   searchCity, setSearchCity, searchRow, setSearchRow, searchColumn, setSearchColumn
 }){
-    const handleSelectAll = {
-    1: () => setSelectedCities(selectedCities.length === cities.length ? [] : cities),
-    2: () => setSelectedYears(selectedYears.length === years.length ? [] : years),
-    3: () => setSelectedSections(selectedSections.length === sections.length ? [] : sections),
-    4: () => setSelectedRows(selectedRows.length === rows.length ? [] : rows),
-    5: () => setSelectedColumns(selectedColumns.length === columns.length ? [] : columns)
-  };
-
-  const listMap = {
-    1: cities.filter(city => city.toLowerCase().includes(searchCity.toLowerCase())).map(city => ({ value: city, checked: selectedCities.includes(city), setter: setSelectedCities })),
-    2: years.map(year => ({ value: year, checked: selectedYears.includes(year), setter: setSelectedYears })),
-    3: sections.map(section => ({ value: section, checked: selectedSections.includes(section), setter: setSelectedSections })),
-    4: rows.filter(row => row.toLowerCase().includes(searchRow.toLowerCase())).map(row => ({ value: row, checked: selectedRows.includes(row), setter: setSelectedRows })),
-    5: columns.filter(col => col.toLowerCase().includes(searchColumn.toLowerCase())).map(col => ({ value: col, checked: selectedColumns.includes(col), setter: setSelectedColumns }))
-  };
+    
    const handleCityChange = (e) => {
     const value = e.target.value;
 

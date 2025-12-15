@@ -8,15 +8,17 @@ import * as XLSX from 'xlsx';
 import style from './Table.module.css';
 import axios from "axios";
 import componentStyles from './TableModalComponents.module.css'; //added //added
-import style from './Table.module.css'
 import { FiFilter } from "react-icons/fi";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Table (){
     
 
     const api = process.env.API
     const limit = 10;
-    const {strings,thead,loadMore,hasMore,loadingMoreData,getMaxSize,setDfilter,setStrings,offset,dfilter}=useTableData(api,limit)
+    const queryClient = useQueryClient();
+    const {strings,thead,loadMore,hasMore,loadingMoreData,getMaxSize,setDfilter,forms,currentForm,setCurrentForm}=useTableData(api,limit)
+   
     
     const [modalActive, setModalActive] = useState(false)
     const [filter, setFilter] = useState(0)
@@ -52,7 +54,7 @@ function Table (){
   function downloadXLS(){
     const maxSize=getMaxSize()
     const filters={
-      ...dfilter,
+      ...appliedFilters,
       offset:0,
       limit:maxSize.current
     }
@@ -72,11 +74,29 @@ function Table (){
 
     function downloadCSV(){ 
     const maxSize=getMaxSize()
-    const filters={
-      ...dfilter,
-      offset:0,
-      limit:maxSize.current
-    }
+    const filter=[
+        {
+          "filter-name": "год",
+          "values": selectedYears
+        },
+        {
+          "filter-name": "город",
+          "values": selectedCities
+        },
+        {
+          "filter-name": "раздел",
+          "values": selectedSections
+        },
+        {
+          "filter-name": "строка",
+          "values": selectedRows
+        },
+        {
+          "filter-name": "колонка",
+          "values": selectedColumns
+        }
+      ]
+    const filters = { filters:filter, limit: maxSize.current, offset: 0 };
     axios.post(`${api}/api/v2/filtered-data`, filters).then((response)=>{
       const data=response.data.data
       const headers=response.data.headers
@@ -104,10 +124,12 @@ function Table (){
 
   
   function handleFilteredData() {
-    offset.current=0
-    setStrings([])
-    setDfilter({
-      "filters": [
+    queryClient.setQueryData(['table-data', appliedFilters, currentForm, limit], {
+      pages: [],
+      pageParams: []
+    });
+    setDfilter(
+      [
         {
           "filter-name": "год",
           "values": selectedYears
@@ -128,10 +150,8 @@ function Table (){
           "filter-name": "колонка",
           "values": selectedColumns
         }
-      ],
-      "limit": limit,
-      "offset": offset.current
-    })
+      ]
+    )
     setAppliedFilters({
       cities: [...selectedCities],
       years: [...selectedYears],
@@ -171,162 +191,68 @@ function Table (){
     }
 
   }
-
-  function showYears() {
+  
+  const cacheFilterData =  (filterName, filterValues, setter, sortFn) => {
+    const cacheKey = ['filter-values', filterName, appliedFilters];
+    const cached = queryClient.getQueryData(cacheKey);
+    if (cached) {
+      setter(sortFn(cached));
+      return;
+    }
+    
     axios.post(`${api}/api/v2/filter-values`, {
-      "filter-name": "год",
-      "filters": [
-        {
-          "filter-name": "город",
-          "values": selectedCities
-        },
-        {
-          "filter-name": "раздел",
-          "values": selectedSections
-        },
-        {
-          "filter-name": "строка",
-          "values": selectedRows
-        },
-        {
-          "filter-name": "колонка",
-          "values": selectedColumns
-        }
-      ]
-    }).then((response) => {
-      const values = response.data.values;
-      console.log(1)
-      const sortedValues = handleSortedArray(2, values)
-      setYears(sortedValues)
-    }).catch((error) => {
-      console.error("Ошибка при получении данных:", error);
-    })
-  }
+    "filter-name": filterName,
+    "filters": filterValues
+  })
+  .then(response => {
+    const values = response.data.values;
+    setter(sortFn(values));
+    queryClient.setQueryData(cacheKey, values);
+  })
+  .catch(err => {
+    console.error(err);
+  });
 
-  function showCities() {
-    axios.post(`${api}/api/v2/filter-values`, {
-      "filter-name": "город",
-      "filters": [
-        {
-          "filter-name": "год",
-          "values": selectedYears
-        },
-        {
-          "filter-name": "раздел",
-          "values": selectedSections
-        },
-        {
-          "filter-name": "строка",
-          "values": selectedRows
-        },
-        {
-          "filter-name": "колонка",
-          "values": selectedColumns
-        }
-      ]
-    }).then((response) => {
-      const values = response.data.values;
-      const sortedValues = handleSortedArray(1, values)
-      setCities(sortedValues)
-    }).catch((error) => {
-      console.error("Ошибка при получении данных:", error);
-    })
-  }
-  function showSections() {
-    axios.post(`${api}/api/v2/filter-values`, {
-      "filter-name": "раздел",
-      "filters": [
-        {
-          "filter-name": "год",
-          "values": selectedYears
-        },
-        {
-          "filter-name": "город",
-          "values": selectedCities
-        },
-        {
-          "filter-name": "строка",
-          "values": selectedRows
-        },
-        {
-          "filter-name": "колонка",
-          "values": selectedColumns
-        }
-      ]
-    }).then((response) => {
-      const values = response.data.values;
-      const sortedValues = handleSortedArray(3, values)
-      setSections(sortedValues)
-    }).catch((error) => {
-      console.error("Ошибка при получении данных:", error);
-    })
+  };
+  const showYears = () => cacheFilterData("год", [
+    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "раздел", "values": selectedSections },
+    { "filter-name": "строка", "values": selectedRows },
+    { "filter-name": "колонка", "values": selectedColumns }
+  ], setYears, (vals) => handleSortedArray(2, vals));
 
-  }
+  
+  const showCities = () => cacheFilterData("город", [
+    { "filter-name": "год", "values": selectedYears },
+    { "filter-name": "раздел", "values": selectedSections },
+    { "filter-name": "строка", "values": selectedRows },
+    { "filter-name": "колонка", "values": selectedColumns }
+  ], setCities, (vals) => handleSortedArray(1, vals));
 
-  function showRows() {
-    axios.post(`${api}/api/v2/filter-values`, {
-      "filter-name": "строка",
-      "filters": [
-        {
-          "filter-name": "год",
-          "values": selectedYears
-        },
-        {
-          "filter-name": "город",
-          "values": selectedCities
-        },
-        {
-          "filter-name": "раздел",
-          "values": selectedSections
-        },
-        {
-          "filter-name": "колонка",
-          "values": selectedColumns
-        }
-      ]
-    }).then((response) => {
-      const values = response.data.values;
-      const sortedValues = handleSortedArray(4, values)
-      setRows(sortedValues)
-    }).catch((error) => {
-      console.error("Ошибка при получении данных:", error);
-    })
-  }
+  const showSections = () => cacheFilterData("раздел", [
+    { "filter-name": "год", "values": selectedYears },
+    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "строка", "values": selectedRows },
+    { "filter-name": "колонка", "values": selectedColumns }
+  ], setSections, (vals) => handleSortedArray(3, vals));
 
-  function showColumns() {
-    axios.post(`${api}/api/v2/filter-values`, {
-      "filter-name": "колонка",
-      "filters": [
-        {
-          "filter-name": "год",
-          "values": selectedYears
-        },
-        {
-          "filter-name": "город",
-          "values": selectedCities
-        },
-        {
-          "filter-name": "раздел",
-          "values": selectedSections
-        },
-        {
-          "filter-name": "строка",
-          "values": selectedRows
-        }
+  const showRows = () => cacheFilterData("строка", [
+    { "filter-name": "год", "values": selectedYears },
+    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "раздел", "values": selectedSections },
+    { "filter-name": "колонка", "values": selectedColumns }
+  ], setRows, (vals) => handleSortedArray(4, vals));
 
-      ]
-    }).then((response) => {
-      const values = response.data.values;
-      const sortedValues = handleSortedArray(5, values)
-      setColumns(sortedValues)
-    }).catch((error) => {
-      console.error("Ошибка при получении данных:", error);
-    })
-  }
+  const showColumns = () => cacheFilterData("колонка", [
+    { "filter-name": "год", "values": selectedYears },
+    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "раздел", "values": selectedSections },
+    { "filter-name": "строка", "values": selectedRows }
+  ], setColumns, (vals) => handleSortedArray(5, vals));
  
   return (
     <div className={style.tableWrapper}>
-        <TopBar goToHome={goToHome} downloadCSV={downloadCSV} isLoading={isLoading}/>
+        <TopBar goToHome={goToHome} downloadCSV={downloadCSV} isLoading={isLoading} forms={forms} setCurrentForm={setCurrentForm}/>
         {!isLoading && <div className={style.filterBar}>
                   <button className={style.filterButton} onClick={() => setModalActive(true)}>
                     <FiFilter />
