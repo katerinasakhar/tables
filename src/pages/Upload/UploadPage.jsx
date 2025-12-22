@@ -1,17 +1,39 @@
-// UploadPage.jsx
-import React, { useState, useRef } from 'react';
+// === File: pages/Upload/UploadPage.jsx ===
+import React, { useState, useRef, useEffect } from 'react';
 import { FiHome } from 'react-icons/fi';
 import { FiUpload } from 'react-icons/fi';
 import { FiRotateCcw } from 'react-icons/fi';
+import { FiFileText } from 'react-icons/fi';
 import styles from './UploadPage.module.css';
 
-const UploadPage = () => {
-  const api = process.env.API
+const UploadPage = ({ selectedForm, setFormSelectModal }) => {
+  const api = process.env.API;
   const [files, setFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState('idle'); // idle, uploading, completed
+  const [uploadStatus, setUploadStatus] = useState('idle');
   const [uploadResults, setUploadResults] = useState([]);
+  const [currentFormName, setCurrentFormName] = useState('');
   const fileInputRef = useRef(null);
+
+  // Получение названия текущей формы
+  useEffect(() => {
+    const fetchCurrentFormName = async () => {
+      if (!selectedForm || !api) return;
+      
+      try {
+        const response = await fetch(`${api}/api/v2/forms/${selectedForm}`);
+        if (!response.ok) throw new Error('Ошибка загрузки данных формы');
+        
+        const form = await response.json();
+        setCurrentFormName(form.name);
+      } catch (error) {
+        console.error('Ошибка при получении данных формы:', error);
+        setCurrentFormName('Неизвестная форма');
+      }
+    };
+
+    fetchCurrentFormName();
+  }, [selectedForm, api]);
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -63,26 +85,35 @@ const UploadPage = () => {
   };
 
   const handleUpload = async () => {
+    if (!selectedForm) {
+      alert('Пожалуйста, выберите форму отчетности перед загрузкой файлов');
+      return;
+    }
+
     setUploadStatus('uploading');
+  const formData = new FormData();
+  
+  // Добавляем form_id в тело запроса
+  formData.append('form_id', selectedForm);
+  
+  files.forEach(file => {
+    formData.append('files', file);
+  });
 
-    const formData = new FormData();
-    files.forEach(file => {
-      formData.append('files', file);
+  try {
+    // URL без query-параметров
+    const response = await fetch(`${api}/api/v2/upload`, {
+      method: 'POST',
+      body: formData,
     });
-
-    try {
-      const response = await fetch(`${api}/api/v2/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-
+    
+      
       const result = await response.json();
-
       if (!response.ok) {
-        throw new Error('Ошибка сервера при загрузке');
+        throw new Error(result.detail || 'Ошибка сервера при загрузке');
       }
-
-      setUploadResults(result.details);
+      
+      setUploadResults(result.details || []);
       setUploadStatus('completed');
     } catch (error) {
       console.error('Ошибка загрузки:', error);
@@ -90,7 +121,7 @@ const UploadPage = () => {
         files.map(file => ({
           filename: file.name,
           status: 'Failed',
-          error: 'Не удалось загрузить файл.',
+          error: error.message || 'Не удалось загрузить файл.',
         }))
       );
       setUploadStatus('completed');
@@ -104,7 +135,7 @@ const UploadPage = () => {
   };
 
   const goToHome = () => {
-    window.location.href = '/'; 
+    window.location.href = '/';
   };
 
   const renderUploadInterface = () => (
@@ -135,7 +166,6 @@ const UploadPage = () => {
           </div>
         </div>
       </div>
-
       <div className={styles.fileListContainer}>
         <div className={styles.fileListHeader}>
           <h3>Выбранные файлы</h3>
@@ -167,88 +197,80 @@ const UploadPage = () => {
           )}
         </div>
         <div className={styles.footer}>
-  <button 
-    className={styles.actionButton}
-    onClick={handleUpload}
-    disabled={files.length === 0}
-  >
-    <FiUpload className={styles.uploadIcon} />
-    Отправить на сервер
-  </button>
-</div>
+          <button 
+            className={styles.actionButton}
+            onClick={handleUpload}
+            disabled={files.length === 0 || !selectedForm}
+          >
+            <FiUpload className={styles.uploadIcon} />
+            Отправить на сервер
+          </button>
+        </div>
       </div>
     </div>
   );
 
-const renderResults = () => {
-  const successCount = uploadResults.filter(r => r.status === 'success').length;
-  const failedCount = uploadResults.length - successCount;
-
-  return (
-    <div className={styles.resultsContainer}>
-      <div className={styles.resultsHeader}>
-        <h2>Результаты загрузки</h2>
-        <div className={styles.errorCount}>
-          Ошибок: {failedCount}
+  const renderResults = () => {
+    const successCount = uploadResults.filter(r => r.status === 'success').length;
+    const failedCount = uploadResults.length - successCount;
+    return (
+      <div className={styles.resultsContainer}>
+        <div className={styles.resultsHeader}>
+          <h2>Результаты загрузки</h2>
+          <div className={styles.errorCount}>
+            Ошибок: {failedCount}
+          </div>
+        </div>
+        <div className={styles.resultsList}>
+          {uploadResults.map((result, index) => (
+            <div key={index} className={styles.resultItem}>
+              <div className={styles.fileInfo}>
+                <div className={styles.fileIcon}>📄</div>
+                <div className={styles.fileDetails}>
+                  <div className={styles.fileName}>{result.filename}</div>
+                  {result.error && (
+                    <div className={styles.errorMessage}>
+                      {result.error}
+                    </div>
+                  )}
+                  {!result.error && result.status !== 'success' && (
+                    <div className={styles.errorMessage}>
+                      {result.status === 'duplicate'
+                        ? 'Файл уже был загружен'
+                        : 'Неизвестная ошибка'}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className={styles.statusIcon}>
+                {result.status === 'success'
+                  ? '✅'
+                  : result.status === 'duplicate'
+                  ? '⚠️'
+                  : '❌'}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.footer}>
+          <button 
+            className={styles.actionButton}
+            onClick={handleReset}
+          >
+            <FiRotateCcw className={styles.backIcon} />
+            Загрузить ещё
+          </button>
+          <button 
+            className={styles.actionButton}
+            onClick={goToHome}
+          >
+            <FiHome className={styles.homeIcon} />
+            В главное меню
+          </button>
         </div>
       </div>
-
-      <div className={styles.resultsList}>
-  {uploadResults.map((result, index) => (
-    <div key={index} className={styles.resultItem}>
-      <div className={styles.fileInfo}>
-        <div className={styles.fileIcon}>📄</div>
-        <div className={styles.fileDetails}>
-          <div className={styles.fileName}>{result.filename}</div>
-
-          {/* Показываем ошибку или дублирование */}
-          {result.error && (
-            <div className={styles.errorMessage}>
-              {result.error}
-            </div>
-          )}
-
-          {!result.error && result.status !== 'success' && (
-            <div className={styles.errorMessage}>
-              {result.status === 'duplicate'
-                ? 'Файл уже был загружен'
-                : 'Неизвестная ошибка'}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Статус справа */}
-      <div className={styles.statusIcon}>
-        {result.status === 'success'
-          ? '✅'
-          : result.status === 'duplicate'
-          ? '⚠️'
-          : '❌'}
-      </div>
-    </div>
-  ))}
-</div>
-
-      <div className={styles.footer}>
-        <button 
-          className={styles.actionButton}
-          onClick={handleReset}
-        >
-          <FiRotateCcw className={styles.backIcon} />
-          Загрузить ещё
-        </button>
-        <button 
-          className={styles.actionButton}
-          onClick={goToHome}
-        >
-          <FiHome className={styles.homeIcon} />
-          В главное меню
-        </button>
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
   const renderUploading = () => (
     <div className={styles.uploadingContainer}>
@@ -258,32 +280,34 @@ const renderResults = () => {
   );
 
   return (
-  <div className={styles.pageContainer}>
- 
-    <button className={styles.homeButton} onClick={goToHome}>
-      <FiHome className={styles.homeIcon} />
-      Главное меню
-    </button>
+    <div className={styles.pageContainer}>
+      <button className={styles.homeButton} onClick={goToHome}>
+        <FiHome className={styles.homeIcon} />
+        Главное меню
+      </button>
+      
+      <div className={styles.formSelector} onClick={() => setFormSelectModal(true)}>
+        <FiFileText size={18} />
+        <span>Текущая форма: {currentFormName || 'Загрузка...'}</span>
+      </div>
 
-    
-    <div className={styles.centeredContent}>
-      <header className={styles.header}>
-        <h1>Загрузка файлов</h1>
-        <p>
-          Загрузите новый отчет, чтобы включить его в анализ или повторно загрузите документы,
-          которые ранее загрузились с ошибками
-        </p>
-      </header>
-
-      {uploadStatus === 'completed'
-        ? renderResults()
-        : uploadStatus === 'uploading'
-        ? renderUploading()
-        : renderUploadInterface()}
+      <div className={styles.centeredContent}>
+        <header className={styles.header}>
+          <h1>Загрузка файлов</h1>
+          <p>
+            Загрузите новый отчет, чтобы включить его в анализ или повторно загрузите документы,
+            которые ранее загрузились с ошибками
+          </p>
+        </header>
+        {uploadStatus === 'completed'
+          ? renderResults()
+          : uploadStatus === 'uploading'
+          ? renderUploading()
+          : renderUploadInterface()}
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default UploadPage;
-
+// === End of file ===

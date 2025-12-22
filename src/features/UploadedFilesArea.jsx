@@ -1,28 +1,27 @@
+// === File: features/UploadedFilesArea.jsx ===
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './UploadedFilesArea.module.css';
 import Modal from './Modal';
 import { FiFile, FiCalendar, FiSearch, FiX } from 'react-icons/fi';
 
-const UploadedFilesArea = () => {
+const UploadedFilesArea = ({ selectedForm }) => {
     const [files, setFiles] = useState([]);
     const [modalActive, setModalActive] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
     const [deletingFilename, setDeletingFilename] = useState(null);
-    const [deletingFileId,setDeletingFileId]=useState(null);
+    const [deletingFileId, setDeletingFileId] = useState(null);
 
     useEffect(() => {
         const fetchFiles = async () => {
             try {
                 const api = process.env.API;
-                const response = await fetch(`${api}/api/v2/files?limit=10000`);
+                const response = await fetch(`${api}/api/v2/files?form_id=${selectedForm}&limit=10000`);
                 if (!response.ok) throw new Error('Ошибка сети');
-
                 const contentType = response.headers.get('content-type');
                 if (!contentType?.includes('application/json')) {
                     throw new Error('Сервер вернул не JSON');
                 }
-
                 const data = await response.json();
                 setFiles(data || []);
             } catch (error) {
@@ -30,14 +29,15 @@ const UploadedFilesArea = () => {
                 setFiles([]);
             }
         };
-
-        fetchFiles();
-    }, []);
+        
+        if (selectedForm) {
+            fetchFiles();
+        }
+    }, [selectedForm]);
 
     const successfulFiles = useMemo(() => files.filter(f => f.status === 'success'), [files]);
     const failedFiles = useMemo(() => files.filter(f => ['failed', 'duplicate'].includes(f.status)), [files]);
     const hasErrors = failedFiles.length > 0;
-
     const years = useMemo(() => [...new Set(successfulFiles.map(f => f.year))].sort((a, b) => b - a), [successfulFiles]);
 
     const filteredFiles = useMemo(() => {
@@ -48,34 +48,28 @@ const UploadedFilesArea = () => {
         return result;
     }, [successfulFiles, searchTerm, selectedYear]);
 
-    const handleResolveError = async (file_id,filename, confirmMessage = 'Убедитесь, что вы устранили ошибку, прежде чем её удалять') => {
-    const confirmed = window.confirm(confirmMessage);
-    if (!confirmed) return;
-
-    setDeletingFilename(filename);
-    setDeletingFileId(file_id)
-
-    try {
-        const api = process.env.API;
-        const response = await fetch(`${api}/api/v2/files/${encodeURIComponent(file_id)}`, {
-            method: 'DELETE',
-        });
-
-        if (!response.ok) {
-            throw new Error(`Ошибка при удалении файла: ${response.status}`);
+    const handleResolveError = async (file_id, filename, confirmMessage = 'Убедитесь, что вы устранили ошибку, прежде чем её удалять') => {
+        const confirmed = window.confirm(confirmMessage);
+        if (!confirmed) return;
+        setDeletingFilename(filename);
+        setDeletingFileId(file_id);
+        
+        try {
+            const api = process.env.API;
+            const response = await fetch(`${api}/api/v2/files/${encodeURIComponent(file_id)}?form_id=${selectedForm}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error(`Ошибка при удалении файла: ${response.status}`);
+            }
+            setFiles(prev => prev.filter(f => f.file_id !== file_id));
+        } catch (error) {
+            console.error('Ошибка удаления файла:', error.message);
+        } finally {
+            setDeletingFilename(null);
+            setDeletingFileId(null);
         }
-
-        setFiles(prev => prev.filter(f => f.file_id !== file_id));
-    } catch (error) {
-        console.error('Ошибка удаления файла:', error.message);
-    } finally {
-        setDeletingFilename(null);
-        setDeletingFileId(null);
-    }
-};
-
-
-
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -89,7 +83,6 @@ const UploadedFilesArea = () => {
                             </button>
                         )}
                     </div>
-
                     <ul className={styles.fileList}>
                         {successfulFiles.slice(0, 10).map(file => (
                             <li key={file.file_id} className={styles.fileItem}>
@@ -100,7 +93,6 @@ const UploadedFilesArea = () => {
                         {successfulFiles.length === 0 && <li className={styles.empty}>Нет загруженных файлов</li>}
                     </ul>
                 </div>
-
                 <div className={styles.errorSection}>
                     <div className={styles.sectionHeader}>
                         <h3><FiFile className={styles.icon} />Файлы с ошибками</h3>
@@ -132,7 +124,7 @@ const UploadedFilesArea = () => {
                                         </div>
                                         <button
                                             className={styles.resolveButton}
-                                            onClick={() => handleResolveError(file.file_id,file.filename)}
+                                            onClick={() => handleResolveError(file.file_id, file.filename)}
                                             disabled={deletingFileId === file.file_id}
                                         >
                                             Ошибка устранена
@@ -144,7 +136,6 @@ const UploadedFilesArea = () => {
                     ) : <p className={styles.noErrorsMessage}>Все файлы загружены без ошибок</p>}
                 </div>
             </div>
-
             {modalActive && (
                 <Modal active={modalActive} setActive={setModalActive}>
                     <div className={styles.modalOverlay}>
@@ -202,10 +193,9 @@ const UploadedFilesArea = () => {
             Загружено {new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}  
           </span>
         </div>
-
         <button
           className={styles.deleteButton}
-          onClick={() => handleResolveError(file.file_id,file.filename, 'Вы уверены, что хотите навсегда удалить файл этот файл?')}
+          onClick={() => handleResolveError(file.file_id, file.filename, 'Вы уверены, что хотите навсегда удалить файл этот файл?')}
           disabled={deletingFileId === file.file_id}
         >
           <FiX size={18} />
@@ -216,7 +206,6 @@ const UploadedFilesArea = () => {
     <div className={styles.modalEmpty}>Файлы не найдены</div>
   )}
 </div>
-
                         </div>
                     </div>
                 </Modal>
@@ -226,3 +215,4 @@ const UploadedFilesArea = () => {
 };
 
 export default UploadedFilesArea;
+// === End of file ===
