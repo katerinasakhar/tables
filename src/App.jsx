@@ -1,16 +1,9 @@
-// === File: App.jsx ===
+import { useState, useEffect } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Table from "/src/pages/Table/Table1.jsx";
 import Home from "/src/pages/Home/Home.jsx";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 import UploadedFiles from "/src/pages/Upload/UploadPage.jsx";
-import { useEffect, useState } from 'react';
-import Modal from '/src/features/Modal.jsx';
+import FormSelectorModal from "/src/components/FormSelectorModal.jsx";
 
 const API_BASE_URL = "http://5.165.236.240:2700";
 
@@ -20,34 +13,36 @@ const App = () => {
   const [loadingForms, setLoadingForms] = useState(true);
   const [formSelectModal, setFormSelectModal] = useState(false);
   const [error, setError] = useState(null);
+  const [showInitialModal, setShowInitialModal] = useState(false);
 
+  // Загрузка форм при монтировании
   useEffect(() => {
     const loadForms = async () => {
       try {
         setError(null);
         const response = await fetch(`${API_BASE_URL}/api/v2/forms`);
-        
         if (!response.ok) {
           throw new Error(`Ошибка загрузки форм: ${response.status} ${response.statusText}`);
         }
-        
         const data = await response.json();
-        console.log('Полученные формы:', data);
-        
-        if (!data.forms || !Array.isArray(data.forms) || data.forms.length === 0) {
-          throw new Error('Нет доступных форм');
+        if (!data.forms || !Array.isArray(data.forms)) {
+          throw new Error('Некорректный ответ от сервера');
         }
+        setForms(data.forms || []);
         
-        setForms(data.forms);
-        
+        // Проверяем, есть ли сохраненная форма
         const savedFormId = localStorage.getItem('selectedFormId');
         const savedForm = data.forms.find(f => f.id === savedFormId);
         
         if (savedForm) {
           setSelectedForm(savedFormId);
+          setShowInitialModal(false);
+        } else if (data.forms.length === 0) {
+          // Если форм нет, показываем модальное окно для создания первой формы
+          setShowInitialModal(true);
         } else {
-          setSelectedForm(data.forms[0].id);
-          localStorage.setItem('selectedFormId', data.forms[0].id);
+          // Если формы есть, но не выбрана, показываем модальное окно выбора
+          setShowInitialModal(true);
         }
         
         setLoadingForms(false);
@@ -55,11 +50,62 @@ const App = () => {
         console.error('Ошибка загрузки форм:', err);
         setError(err.message || 'Не удалось загрузить формы');
         setLoadingForms(false);
+        setShowInitialModal(true);
       }
     };
 
     loadForms();
   }, []);
+
+  // Создание стандартной формы
+  const createStandardForm = async (formName, skipSheets = []) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v2/forms`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formName,
+          requisites: {
+            skip_sheets: skipSheets
+          }
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Ошибка создания формы');
+      }
+      
+      const newForm = await response.json();
+      
+      // Обновляем список форм
+      const formsResponse = await fetch(`${API_BASE_URL}/api/v2/forms`);
+      const formsData = await formsResponse.json();
+      setForms(formsData.forms || []);
+      
+      // Выбираем созданную форму
+      setSelectedForm(newForm.id);
+      localStorage.setItem('selectedFormId', newForm.id);
+      
+      return newForm;
+    } catch (error) {
+      console.error('Ошибка создания формы:', error);
+      throw error;
+    }
+  };
+
+  // Обработчик выбора формы
+  const handleFormSelect = (formId) => {
+    setSelectedForm(formId);
+    localStorage.setItem('selectedFormId', formId);
+  };
+
+  // Обработчик сохранения и перезагрузки
+  const handleSaveAndReload = () => {
+    window.location.reload();
+  };
 
   if (loadingForms) {
     return (
@@ -80,7 +126,7 @@ const App = () => {
     );
   }
 
-  if (error) {
+  if (error && forms.length === 0) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
         <div style={{ textAlign: 'center', padding: '20px' }}>
@@ -94,7 +140,7 @@ const App = () => {
     );
   }
 
-  const route = createBrowserRouter([
+  const router = createBrowserRouter([
     { 
       path: "/", 
       element: <Home selectedForm={selectedForm} setFormSelectModal={setFormSelectModal} /> 
@@ -111,70 +157,33 @@ const App = () => {
 
   return (
     <>
-      <RouterProvider router={route} />
+      <RouterProvider router={router} />
       
-      <Modal active={formSelectModal} setActive={setFormSelectModal}>
-        <div style={{ padding: '2rem', maxWidth: '500px', width: '100%' }}>
-          <h2 style={{ marginBottom: '1.5rem' }}>Выберите форму отчетности</h2>
-          
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '1rem'
-          }}>
-            {forms.map((form) => (
-              <button
-                key={form.id}
-                onClick={() => {
-                  setSelectedForm(form.id);
-                  localStorage.setItem('selectedFormId', form.id);
-                  setFormSelectModal(false);
-                }}
-                style={{
-                  padding: '1rem',
-                  borderRadius: '8px',
-                  border: selectedForm === form.id ? '2px solid #3498db' : '1px solid #ddd',
-                  background: selectedForm === form.id ? '#e3f2fd' : '#fff',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-              >
-                <div style={{ 
-                  fontSize: '1.2rem', 
-                  fontWeight: 'bold', 
-                  marginBottom: '0.5rem'
-                }}>
-                  {form.name}
-                </div>
-                {selectedForm === form.id && (
-                  <div style={{ color: '#27ae60', fontSize: '0.9rem' }}>
-                    Выбрано
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-          
-          <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            <button
-              onClick={() => setFormSelectModal(false)}
-              style={{
-                padding: '0.75rem 1.5rem',
-                background: '#e0e0e0',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer'
-              }}
-            >
-              Закрыть
-            </button>
-          </div>
-        </div>
-      </Modal>
+      {/* Модальное окно для начального выбора формы */}
+      <FormSelectorModal
+        active={showInitialModal}
+        setActive={setShowInitialModal}
+        forms={forms}
+        selectedForm={selectedForm}
+        onSelectForm={handleFormSelect}
+        onSave={handleSaveAndReload}
+        onCreateForm={createStandardForm}
+        isInitial={true}
+      />
+      
+      {/* Модальное окно для смены формы */}
+      <FormSelectorModal
+        active={formSelectModal}
+        setActive={setFormSelectModal}
+        forms={forms}
+        selectedForm={selectedForm}
+        onSelectForm={handleFormSelect}
+        onSave={handleSaveAndReload}
+        onCreateForm={createStandardForm}
+        isInitial={false}
+      />
     </>
   );
-}
+};
 
 export default App;
-// === End of file ===

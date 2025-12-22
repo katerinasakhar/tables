@@ -1,4 +1,3 @@
-// === File: pages/Table/Table1.jsx ===
 import { useState, useEffect } from "react";
 import { useTableData } from "./useTableData";
 import TopBar from "./TopBar";
@@ -9,7 +8,7 @@ import * as XLSX from 'xlsx';
 import style from './Table.module.css';
 import axios from "axios";
 import componentStyles from './TableModalComponents.module.css';
-import { FiFilter, FiFileText } from "react-icons/fi";
+import { FiFilter, FiFileText, FiDownload } from "react-icons/fi"; // Исправлен импорт - добавлен FiDownload
 import { useQueryClient } from "@tanstack/react-query";
 import { FiAlertTriangle } from 'react-icons/fi';
 
@@ -54,12 +53,11 @@ function Table({ selectedForm, setFormSelectModal }) {
   // Получение названия текущей формы
   useEffect(() => {
     const fetchCurrentFormName = async () => {
-      if (!selectedForm) return;
+      if (!selectedForm || !api) return;
       
       try {
         const response = await fetch(`${api}/api/v2/forms/${selectedForm}`);
         if (!response.ok) throw new Error('Ошибка загрузки данных формы');
-        
         const form = await response.json();
         setCurrentFormName(form.name);
       } catch (error) {
@@ -67,7 +65,7 @@ function Table({ selectedForm, setFormSelectModal }) {
         setCurrentFormName('Неизвестная форма');
       }
     };
-
+    
     fetchCurrentFormName();
   }, [selectedForm, api]);
 
@@ -98,9 +96,11 @@ function Table({ selectedForm, setFormSelectModal }) {
       .then((response) => {
         const data = response.data.data;
         const headers = response.data.headers;
+        
         const jsonData = data.map((row) =>
           Object.fromEntries(headers.map((key, index) => [key, row[index]]))
         );
+        
         const worksheet = XLSX.utils.json_to_sheet(jsonData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Таблица');
@@ -135,13 +135,17 @@ function Table({ selectedForm, setFormSelectModal }) {
       .then((response) => {
         const data = response.data.data;
         const headers = response.data.headers;
+        
         const jsonData = data.map((row) =>
           Object.fromEntries(headers.map((key, index) => [key, row[index]]))
         );
+        
         const worksheet = XLSX.utils.json_to_sheet(jsonData);
         const csv = XLSX.utils.sheet_to_csv(worksheet, { FS: ';' });
+        
         const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
+        
         const a = document.createElement('a');
         a.href = url;
         a.setAttribute('download', 'table.csv');
@@ -215,6 +219,7 @@ function Table({ selectedForm, setFormSelectModal }) {
   const cacheFilterData = (filterName, filterValues, setter, sortFn) => {
     const cacheKey = ['filter-values', filterName, appliedFilters, selectedForm];
     const cached = queryClient.getQueryData(cacheKey);
+    
     if (cached) {
       setter(sortFn(cached));
       return;
@@ -308,7 +313,7 @@ function Table({ selectedForm, setFormSelectModal }) {
         <FiFileText size={18} />
         <span>Текущая форма: {currentFormName || 'Загрузка...'}</span>
       </div>
-      
+
       <TopBar 
         goToHome={goToHome} 
         downloadCSV={downloadCSV} 
@@ -405,4 +410,3 @@ function Table({ selectedForm, setFormSelectModal }) {
 }
 
 export default Table;
-// === End of file ===

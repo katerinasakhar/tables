@@ -1,6 +1,5 @@
-// === File: FormSelectorModal.jsx ===
-import React, { useState } from 'react';
-import Modal from './features/Modal';
+import React, { useState, useEffect } from 'react';
+import Modal from '../features/Modal';
 import './FormSelectorModal.css';
 
 const FormSelectorModal = ({ 
@@ -16,13 +15,21 @@ const FormSelectorModal = ({
   const [isCreatingForm, setIsCreatingForm] = useState(false);
   const [creatingFormType, setCreatingFormType] = useState(null);
   const [creatingLoading, setCreatingLoading] = useState(false);
+  const [localSelectedForm, setLocalSelectedForm] = useState(selectedForm);
+
+  // Синхронизируем локальное состояние с пропсами при изменении
+  useEffect(() => {
+    setLocalSelectedForm(selectedForm);
+  }, [selectedForm, active]);
+
+  // Проверяем, нужно ли показывать создание формы
+  const shouldShowCreateForm = forms.length === 0 || isCreatingForm;
 
   if (!active) return null;
 
   const handleCreateForm = async (formType) => {
     setCreatingFormType(formType);
     setCreatingLoading(true);
-    
     try {
       let formName = '';
       let skipSheets = [];
@@ -57,21 +64,27 @@ const FormSelectorModal = ({
     }
   };
 
+  const handleSave = () => {
+    if (localSelectedForm) {
+      onSelectForm(localSelectedForm);
+      onSave();
+    }
+  };
+
   return (
     <Modal active={active} setActive={setActive}>
       <div className="form-selector-modal">
         <h2 className="modal-title">
-          {forms.length === 0 ? 'Создание формы отчетности' : 'Выберите форму отчетности'}
+          {forms.length === 0 ? 'Создание первой формы отчетности' : 'Выберите форму отчетности'}
         </h2>
         
-        {forms.length === 0 || isCreatingForm ? (
+        {shouldShowCreateForm ? (
           <div className="create-form-section">
             <p className="form-info-text">
               {forms.length === 0 
                 ? 'Нет доступных форм отчетности. Создайте одну из стандартных форм:'
                 : 'Создать новую стандартную форму:'}
             </p>
-            
             <div className="forms-grid">
               <button
                 onClick={() => handleCreateForm('1ФК')}
@@ -84,7 +97,6 @@ const FormSelectorModal = ({
                   <div className="creating-indicator">Создание...</div>
                 )}
               </button>
-              
               <button
                 onClick={() => handleCreateForm('5ФК')}
                 disabled={creatingLoading}
@@ -96,25 +108,22 @@ const FormSelectorModal = ({
                   <div className="creating-indicator">Создание...</div>
                 )}
               </button>
-              
               <button
                 onClick={() => handleCreateForm('Универсальная')}
                 disabled={creatingLoading}
                 className="form-card"
               >
                 <div className="form-name">Универсальная</div>
-                <div className="form-info">Универсальная форма</div>
+                <div className="form-info">Универсальная форма для всех отчетов</div>
                 {creatingLoading && creatingFormType === 'Универсальная' && (
                   <div className="creating-indicator">Создание...</div>
                 )}
               </button>
             </div>
-            
-            {forms.length > 0 && (
+            {forms.length > 0 && !creatingLoading && (
               <button
                 className="back-to-list-button"
                 onClick={() => setIsCreatingForm(false)}
-                disabled={creatingLoading}
               >
                 ← Вернуться к списку форм
               </button>
@@ -126,8 +135,8 @@ const FormSelectorModal = ({
               {forms.map((form) => (
                 <button
                   key={form.id}
-                  onClick={() => onSelectForm(form.id)}
-                  className={`form-card ${selectedForm === form.id ? 'selected' : ''}`}
+                  onClick={() => setLocalSelectedForm(form.id)}
+                  className={`form-card ${localSelectedForm === form.id ? 'selected' : ''}`}
                 >
                   <div className="form-name">{form.name}</div>
                   {form.requisites && form.requisites.skip_sheets && (
@@ -136,41 +145,47 @@ const FormSelectorModal = ({
                     </div>
                   )}
                   <div className="form-id">ID: {form.id.substring(0, 8)}...</div>
-                  {selectedForm === form.id && (
+                  {localSelectedForm === form.id && (
                     <div className="selected-badge">Выбрано</div>
                   )}
                 </button>
               ))}
             </div>
             
-            <div className="create-new-section">
-              <button
-                className="create-new-button"
-                onClick={() => setIsCreatingForm(true)}
-              >
-                + Создать новую форму
-              </button>
-            </div>
+            {/* Кнопка создания формы показывается ТОЛЬКО если форм нет */}
+            {forms.length === 0 && (
+              <div className="create-new-section">
+                <button
+                  className="create-new-button"
+                  onClick={() => setIsCreatingForm(true)}
+                >
+                  + Создать новую форму
+                </button>
+              </div>
+            )}
           </>
         )}
         
         <div className="modal-footer">
-          {forms.length > 0 && !isCreatingForm && (
+          {!shouldShowCreateForm && (
             <button
               className="save-button"
-              onClick={onSave}
-              disabled={!selectedForm}
+              onClick={handleSave}
+              disabled={!localSelectedForm}
             >
-              {isInitial ? 'Продолжить' : 'Сохранить и перезагрузить'}
+              {isInitial ? 'Начать работу' : 'Сохранить выбор'}
             </button>
           )}
           
-          {!isInitial && (
+          {!isInitial && !shouldShowCreateForm && (
             <button
               className="close-button"
-              onClick={() => setActive(false)}
+              onClick={() => {
+                setLocalSelectedForm(selectedForm);
+                setActive(false);
+              }}
             >
-              Закрыть
+              Отмена
             </button>
           )}
         </div>

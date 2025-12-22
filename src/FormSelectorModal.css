@@ -94,3 +94,189 @@
 .close-button:hover {
   background-color: #d0d0d0;
 }
+/* === File: FormSelectorModal.css === */
+.form-selector-modal {
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+.modal-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2c3e50;
+  font-size: 24px;
+}
+
+.forms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-card {
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: white;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+}
+
+.form-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: #3498db;
+}
+
+.form-card.selected {
+  border-color: #3498db;
+  background-color: #f0f7ff;
+}
+
+.form-card:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.form-info {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+}
+
+.form-info-text {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.form-id {
+  font-size: 0.8rem;
+  color: #95a5a6;
+}
+
+.selected-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #27ae60;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.creating-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  color: #3498db;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.save-button {
+  padding: 0.75rem 2rem;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover:not(:disabled) {
+  background-color: #219653;
+}
+
+.save-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.close-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.close-button:hover {
+  background-color: #d0d0d0;
+}
+
+.create-form-section {
+  margin-bottom: 2rem;
+}
+
+.create-new-section {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.create-new-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.create-new-button:hover {
+  background-color: #2980b9;
+}
+
+.back-to-list-button {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.back-to-list-button:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.back-to-list-button:disabled {
+  color: #95a5a6;
+  cursor: not-allowed;
+}

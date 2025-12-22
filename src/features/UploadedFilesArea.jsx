@@ -14,6 +14,11 @@ const UploadedFilesArea = ({ selectedForm }) => {
 
     useEffect(() => {
         const fetchFiles = async () => {
+            if (!selectedForm) {
+                setFiles([]);
+                return;
+            }
+            
             try {
                 const api = process.env.API;
                 const response = await fetch(`${api}/api/v2/files?form_id=${selectedForm}&limit=10000`);
@@ -23,17 +28,22 @@ const UploadedFilesArea = ({ selectedForm }) => {
                     throw new Error('Сервер вернул не JSON');
                 }
                 const data = await response.json();
-                setFiles(data || []);
+                // Фильтруем файлы по form_id (на всякий случай, хотя сервер уже фильтрует)
+                const filteredFiles = (data || []).filter(file => file.form_id === selectedForm);
+                setFiles(filteredFiles);
             } catch (error) {
                 console.error('Ошибка при получении списка файлов:', error.message);
                 setFiles([]);
             }
         };
         
-        if (selectedForm) {
-            fetchFiles();
-        }
-    }, [selectedForm]);
+        fetchFiles();
+        
+        // Опционально: установить интервал для обновления списка файлов
+        const intervalId = setInterval(fetchFiles, 30000); // обновлять каждые 30 секунд
+        
+        return () => clearInterval(intervalId);
+    }, [selectedForm]); // Зависимость от selectedForm
 
     const successfulFiles = useMemo(() => files.filter(f => f.status === 'success'), [files]);
     const failedFiles = useMemo(() => files.filter(f => ['failed', 'duplicate'].includes(f.status)), [files]);
@@ -70,6 +80,19 @@ const UploadedFilesArea = ({ selectedForm }) => {
             setDeletingFileId(null);
         }
     };
+
+    if (!selectedForm) {
+        return (
+            <div className={styles.wrapper}>
+                <div className={styles.container}>
+                    <div className={styles.noFormSelected}>
+                        <h3>Форма отчетности не выбрана</h3>
+                        <p>Пожалуйста, выберите форму отчетности для просмотра файлов</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -148,6 +171,7 @@ const UploadedFilesArea = ({ selectedForm }) => {
                             </div>
                             <div className={styles.modalInfo}>
                                 <p className={styles.fileCount}>Найдено: <strong>{filteredFiles.length}</strong> файлов</p>
+                                <p className={styles.formIdInfo}>Форма: {selectedForm}</p>
                             </div>
                             <div className={styles.modalFilters}>
                                 <div className={styles.searchContainer}>
@@ -215,4 +239,3 @@ const UploadedFilesArea = ({ selectedForm }) => {
 };
 
 export default UploadedFilesArea;
-// === End of file ===
