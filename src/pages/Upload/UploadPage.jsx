@@ -91,22 +91,17 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     }
 
     setUploadStatus('uploading');
-  const formData = new FormData();
-  
-  // Добавляем form_id в тело запроса
-  formData.append('form_id', selectedForm);
-  
-  files.forEach(file => {
-    formData.append('files', file);
-  });
-
-  try {
-    // URL без query-параметров
-    const response = await fetch(`${api}/api/v2/upload`, {
-      method: 'POST',
-      body: formData,
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('files', file);
     });
-    
+
+    try {
+      // Правильный способ: form_id в query-параметрах
+      const response = await fetch(`${api}/api/v2/upload?form_id=${selectedForm}`, {
+        method: 'POST',
+        body: formData,
+      });
       
       const result = await response.json();
       if (!response.ok) {
