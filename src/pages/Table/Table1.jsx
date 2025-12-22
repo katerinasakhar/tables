@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 import style from './Table.module.css';
 import axios from "axios";
 import componentStyles from './TableModalComponents.module.css';
-import { FiFilter, FiFileText, FiDownload } from "react-icons/fi"; // Исправлен импорт - добавлен FiDownload
+import { FiFilter, FiFileText, FiDownload } from "react-icons/fi";
 import { useQueryClient } from "@tanstack/react-query";
 import { FiAlertTriangle } from 'react-icons/fi';
 
@@ -309,15 +309,38 @@ function Table({ selectedForm, setFormSelectModal }) {
 
   return (
     <div className={style.tableWrapper}>
-      <div className={style.formSelector} onClick={() => setFormSelectModal(true)}>
-        <FiFileText size={18} />
-        <span>Текущая форма: {currentFormName || 'Загрузка...'}</span>
+      {/* Объединенный контейнер для кнопок - ОСТАВЛЯЕМ ТОЛЬКО ЭТОТ */}
+      <div className={style.controlsRow}>
+        <div className={style.formSelector} onClick={() => setFormSelectModal(true)}>
+          <FiFileText size={18} />
+          <span>Текущая форма: {currentFormName || 'Загрузка...'}</span>
+        </div>
+        
+        {!isEmpty && (
+          <div className={style.downloadButtons}>
+            <button 
+              className={`${style.downloadButton} ${style.csvButton}`} 
+              onClick={downloadCSV} 
+              aria-label="Скачать CSV"
+            >
+              <FiDownload />
+              CSV
+            </button>
+            <button 
+              className={`${style.downloadButton} ${style.xlsButton}`} 
+              onClick={downloadXLS} 
+              aria-label="Скачать XLS"
+            >
+              <FiDownload />
+              XLS
+            </button>
+          </div>
+        )}
       </div>
 
+      {/* УДАЛЯЕМ КНОПКИ СКАЧИВАНИЯ ИЗ ТОПБАРА */}
       <TopBar 
         goToHome={goToHome} 
-        downloadCSV={downloadCSV} 
-        downloadXLS={downloadXLS}
         isEmpty={isEmpty}
         forms={forms} 
         currentForm={currentForm}

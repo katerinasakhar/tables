@@ -23,8 +23,8 @@
   border-radius: 20px;
   max-height: 90vh;
   overflow-y: auto;
-  max-width: 90%;
-  width: 100%;
+  max-width: 900px;
+  width: 90%;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   position: relative;
   animation: modalSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
