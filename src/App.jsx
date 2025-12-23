@@ -5,7 +5,7 @@ import Home from "/src/pages/Home/Home.jsx";
 import UploadedFiles from "/src/pages/Upload/UploadPage.jsx";
 import FormSelectorModal from "/src/components/FormSelectorModal.jsx";
 
-const API_BASE_URL = "http://5.165.236.240:2700";
+const api = process.env.API;;
 
 const App = () => {
   const [forms, setForms] = useState([]);
@@ -20,7 +20,7 @@ const App = () => {
     const loadForms = async () => {
       try {
         setError(null);
-        const response = await fetch(`${API_BASE_URL}/api/v2/forms`);
+        const response = await fetch(`${api}/api/v2/forms`);
         if (!response.ok) {
           throw new Error(`Ошибка загрузки форм: ${response.status} ${response.statusText}`);
         }
@@ -60,7 +60,7 @@ const App = () => {
   // Создание стандартной формы
   const createStandardForm = async (formName, skipSheets = []) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/v2/forms`, {
+      const response = await fetch(`${api}/api/v2/forms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const App = () => {
       const newForm = await response.json();
       
       // Обновляем список форм
-      const formsResponse = await fetch(`${API_BASE_URL}/api/v2/forms`);
+      const formsResponse = await fetch(`${api}/api/v2/forms`);
       const formsData = await formsResponse.json();
       setForms(formsData.forms || []);
       
