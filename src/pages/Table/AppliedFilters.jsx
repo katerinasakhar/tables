@@ -19,7 +19,7 @@ function AppliedFilters({ appliedFilters, setFilter, showCities, showYears, show
                 <ul className={componentStyles.filtersList}>
                   {appliedFilters.cities.length > 0 && (
                     <li className={componentStyles.filterTag} onClick={() => handleFilter(1,showCities)}>
-                      <strong>Города:</strong> {appliedFilters.cities.join(', ')}
+                      <strong>Субъекты:</strong> {appliedFilters.cities.join(', ')}
     
                     </li>
                   )}

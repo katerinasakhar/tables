@@ -251,7 +251,7 @@ function Table() {
       "filter-name": "год",
       "filters": [
         {
-          "filter-name": "город",
+          "filter-name": "субъект",
           "values": selectedCities
         },
         {
@@ -279,7 +279,7 @@ function Table() {
 //added
   function showCities() {
     axios.post(`${api}/api/v2/filter-values`, {
-      "filter-name": "город",
+      "filter-name": "субъект",
       "filters": [
         {
           "filter-name": "год",
@@ -316,7 +316,7 @@ function Table() {
           "values": selectedYears
         },
         {
-          "filter-name": "город",
+          "filter-name": "субъект",
           "values": selectedCities
         },
         {
@@ -347,7 +347,7 @@ function Table() {
           "values": selectedYears
         },
         {
-          "filter-name": "город",
+          "filter-name": "субъект",
           "values": selectedCities
         },
         {
@@ -377,7 +377,7 @@ function Table() {
           "values": selectedYears
         },
         {
-          "filter-name": "город",
+          "filter-name": "субъект",
           "values": selectedCities
         },
         {
@@ -409,7 +409,7 @@ function Table() {
           "values": selectedYears
         },
         {
-          "filter-name": "город",
+          "filter-name": "субъект",
           "values": selectedCities
         },
         {
@@ -490,7 +490,7 @@ function Table() {
             <ul className={componentStyles.filtersList}>
               {appliedFilters.cities.length > 0 && (
                 <li className={componentStyles.filterTag} onClick={() => { setFilter(1); showCities(); setModalActive(true); }}>
-                  <strong>Города:</strong> {appliedFilters.cities.join(', ')}
+                  <strong>Субъекты:</strong> {appliedFilters.cities.join(', ')}
 
                 </li>
               )}
@@ -593,7 +593,7 @@ function Table() {
             )}
             {filter !== 0 && (
               <div className={componentStyles.modalTitle}>
-                {['Города', 'Год', 'Раздел', 'Строка', 'Столбец'][filter - 1]}
+                {['субъекты', 'Год', 'Раздел', 'Строка', 'Столбец'][filter - 1]}
               </div>
             )}
           </div>
@@ -603,7 +603,7 @@ function Table() {
             {filter === 0 && (
               <div className={componentStyles.filters}>
                 <h2>Фильтры</h2>
-                <button onClick={() => { setCities([]); showCities(); setFilter(1) }}>Города</button>
+                <button onClick={() => { setCities([]); showCities(); setFilter(1) }}>Субъекты</button>
                 <button onClick={() => { setYears([]); showYears(); setFilter(2) }}>Года</button>
                 <button onClick={() => { setSections([]); showSections(); setFilter(3) }}>Разделы</button>
                 <button onClick={() => { setRows([]); showRows(); setFilter(4) }}>Строки</button>

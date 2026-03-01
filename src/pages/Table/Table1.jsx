@@ -79,7 +79,7 @@ function Table({ selectedForm, setFormSelectModal }) {
     const maxSize = getMaxSize();
     const filter = [
       { "filter-name": "год", "values": selectedYears },
-      { "filter-name": "город", "values": selectedCities },
+      { "filter-name": "субъект", "values": selectedCities },
       { "filter-name": "раздел", "values": selectedSections },
       { "filter-name": "строка", "values": selectedRows },
       { "filter-name": "колонка", "values": selectedColumns }
@@ -118,7 +118,7 @@ function Table({ selectedForm, setFormSelectModal }) {
     const maxSize = getMaxSize();
     const filter = [
       { "filter-name": "год", "values": selectedYears },
-      { "filter-name": "город", "values": selectedCities },
+      { "filter-name": "субъект", "values": selectedCities },
       { "filter-name": "раздел", "values": selectedSections },
       { "filter-name": "строка", "values": selectedRows },
       { "filter-name": "колонка", "values": selectedColumns }
@@ -167,7 +167,7 @@ function Table({ selectedForm, setFormSelectModal }) {
     
     setDfilter([
       { "filter-name": "год", "values": selectedYears },
-      { "filter-name": "город", "values": selectedCities },
+      { "filter-name": "субъект", "values": selectedCities },
       { "filter-name": "раздел", "values": selectedSections },
       { "filter-name": "строка", "values": selectedRows },
       { "filter-name": "колонка", "values": selectedColumns }
@@ -241,13 +241,13 @@ function Table({ selectedForm, setFormSelectModal }) {
   };
 
   const showYears = () => cacheFilterData("год", [
-    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "субъект", "values": selectedCities },
     { "filter-name": "раздел", "values": selectedSections },
     { "filter-name": "строка", "values": selectedRows },
     { "filter-name": "колонка", "values": selectedColumns }
   ], setYears, (vals) => handleSortedArray(2, vals));
 
-  const showCities = () => cacheFilterData("город", [
+  const showCities = () => cacheFilterData("субъект", [
     { "filter-name": "год", "values": selectedYears },
     { "filter-name": "раздел", "values": selectedSections },
     { "filter-name": "строка", "values": selectedRows },
@@ -256,21 +256,21 @@ function Table({ selectedForm, setFormSelectModal }) {
 
   const showSections = () => cacheFilterData("раздел", [
     { "filter-name": "год", "values": selectedYears },
-    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "субъект", "values": selectedCities },
     { "filter-name": "строка", "values": selectedRows },
     { "filter-name": "колонка", "values": selectedColumns }
   ], setSections, (vals) => handleSortedArray(3, vals));
 
   const showRows = () => cacheFilterData("строка", [
     { "filter-name": "год", "values": selectedYears },
-    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "субъект", "values": selectedCities },
     { "filter-name": "раздел", "values": selectedSections },
     { "filter-name": "колонка", "values": selectedColumns }
   ], setRows, (vals) => handleSortedArray(4, vals));
 
   const showColumns = () => cacheFilterData("колонка", [
     { "filter-name": "год", "values": selectedYears },
-    { "filter-name": "город", "values": selectedCities },
+    { "filter-name": "субъект", "values": selectedCities },
     { "filter-name": "раздел", "values": selectedSections },
     { "filter-name": "строка", "values": selectedRows }
   ], setColumns, (vals) => handleSortedArray(5, vals));

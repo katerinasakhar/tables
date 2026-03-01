@@ -26,7 +26,7 @@ function FilterModal ({
             )}
             {filter !== 0 && (
               <div className={componentStyles.modalTitle}>
-                {['Города', 'Год', 'Раздел', 'Строка', 'Столбец'][filter - 1]}
+                {['Субъекты', 'Год', 'Раздел', 'Строка', 'Столбец'][filter - 1]}
               </div>
             )}
           </div>
@@ -36,7 +36,7 @@ function FilterModal ({
             {filter === 0 ? (
               <div className={componentStyles.filters}>
                 <h2>Фильтры</h2>
-                <button onClick={() => { setCities([]); showCities(); setFilter(1) }}>Города</button>
+                <button onClick={() => { setCities([]); showCities(); setFilter(1) }}>Субъекты</button>
                 <button onClick={() => { setYears([]); showYears(); setFilter(2) }}>Года</button>
                 <button onClick={() => { setSections([]); showSections(); setFilter(3) }}>Разделы</button>
                 <button onClick={() => { setRows([]); showRows(); setFilter(4) }}>Строки</button>
