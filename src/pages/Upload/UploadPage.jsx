@@ -12,8 +12,20 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadStatus, setUploadStatus] = useState('idle');
   const [uploadResults, setUploadResults] = useState([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadDetails, setUploadDetails] = useState(null);
   const [currentFormName, setCurrentFormName] = useState('');
   const fileInputRef = useRef(null);
+  const eventSourceRef = useRef(null);
+
+  // Очистка SSE при размонтировании
+  useEffect(() => {
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+      }
+    };
+  }, []);
 
   // Получение названия текущей формы
   useEffect(() => {
@@ -84,6 +96,39 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  const startSSE = (uploadId) => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+    }
+
+    const source = new EventSource(`${api}/api/v2/upload-progress/${uploadId}`);
+    eventSourceRef.current = source;
+
+    source.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        setUploadProgress(data.progress_percentage);
+        
+        if (data.status === 'completed' || data.status === 'failed') {
+          setUploadResults(data.result?.details || []);
+          setUploadDetails(data.result);
+          setUploadStatus('completed');
+          source.close();
+          eventSourceRef.current = null;
+        }
+      } catch (err) {
+        console.error('SSE parsing error:', err);
+      }
+    };
+
+    source.onerror = (err) => {
+      console.error('SSE error:', err);
+      setUploadStatus('error');
+      source.close();
+      eventSourceRef.current = null;
+    };
+  };
+
   const handleUpload = async () => {
     if (!selectedForm) {
       alert('Пожалуйста, выберите форму отчетности перед загрузкой файлов');
@@ -91,13 +136,13 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     }
 
     setUploadStatus('uploading');
+    setUploadProgress(0);
     const formData = new FormData();
     files.forEach(file => {
       formData.append('files', file);
     });
 
     try {
-      // Правильный способ: form_id в query-параметрах
       const response = await fetch(`${api}/api/v2/upload?form_id=${selectedForm}`, {
         method: 'POST',
         body: formData,
@@ -108,14 +153,15 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
         throw new Error(result.detail || 'Ошибка сервера при загрузке');
       }
       
-      setUploadResults(result.details || []);
-      setUploadStatus('completed');
+      const { upload_id } = result;
+      startSSE(upload_id);
+      
     } catch (error) {
       console.error('Ошибка загрузки:', error);
       setUploadResults(
         files.map(file => ({
           filename: file.name,
-          status: 'Failed',
+          status: 'failed',
           error: error.message || 'Не удалось загрузить файл.',
         }))
       );
@@ -127,6 +173,8 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     setFiles([]);
     setUploadStatus('idle');
     setUploadResults([]);
+    setUploadProgress(0);
+    setUploadDetails(null);
   };
 
   const goToHome = () => {
@@ -211,7 +259,7 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     return (
       <div className={styles.resultsContainer}>
         <div className={styles.resultsHeader}>
-          <h2>Результаты загрузки</h2>
+          <h2>{uploadDetails?.message || 'Результаты загрузки'}</h2>
           <div className={styles.errorCount}>
             Ошибок: {failedCount}
           </div>
@@ -270,7 +318,24 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
   const renderUploading = () => (
     <div className={styles.uploadingContainer}>
       <div className={styles.loader}></div>
-      <p>Идёт отправка файлов на сервер...</p>
+      <p>Идёт обработка файлов...</p>
+      <div className={styles.progressBarContainer}>
+        <div 
+          className={styles.progressBar} 
+          style={{ width: `${uploadProgress}%` }}
+        ></div>
+      </div>
+      <p className={styles.progressText}>{uploadProgress.toFixed(0)}%</p>
+    </div>
+  );
+
+  const renderError = () => (
+    <div className={styles.errorContainer}>
+      <h3>Произошла ошибка при загрузке</h3>
+      <p>Не удалось установить соединение с сервером для отслеживания прогресса.</p>
+      <button className={styles.actionButton} onClick={handleReset}>
+        Попробовать снова
+      </button>
     </div>
   );
 
@@ -298,6 +363,8 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
           ? renderResults()
           : uploadStatus === 'uploading'
           ? renderUploading()
+          : uploadStatus === 'error'
+          ? renderError()
           : renderUploadInterface()}
       </div>
     </div>

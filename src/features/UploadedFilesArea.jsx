@@ -46,8 +46,19 @@ const UploadedFilesArea = ({ selectedForm }) => {
     }, [selectedForm]); // Зависимость от selectedForm
 
     const successfulFiles = useMemo(() => files.filter(f => f.status === 'success'), [files]);
-    const failedFiles = useMemo(() => files.filter(f => ['failed', 'duplicate'].includes(f.status)), [files]);
+    const failedFiles = useMemo(() => files.filter(f => f.status === 'failed' || f.status === 'duplicate'), [files]);
     const hasErrors = failedFiles.length > 0;
+
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 'success': return 'Успешно';
+            case 'failed': return 'Ошибка';
+            case 'duplicate': return 'Дубликат';
+            case 'processing': return 'Обработка';
+            default: return status;
+        }
+    };
+
     const years = useMemo(() => [...new Set(successfulFiles.map(f => f.year))].sort((a, b) => b - a), [successfulFiles]);
 
     const filteredFiles = useMemo(() => {
@@ -110,7 +121,7 @@ const UploadedFilesArea = ({ selectedForm }) => {
                         {successfulFiles.slice(0, 10).map(file => (
                             <li key={file.file_id} className={styles.fileItem}>
                                 <span className={styles.filename}>{file.filename}</span>
-                                <span className={styles.fileMeta}><FiCalendar className={styles.metaIcon} />{new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}</span>
+                                <span className={styles.fileMeta}><FiCalendar className={styles.metaIcon} />{new Date(file.upload_timestamp).toLocaleDateString()} • {getStatusLabel(file.status)}</span>
                             </li>
                         ))}
                         {successfulFiles.length === 0 && <li className={styles.empty}>Нет загруженных файлов</li>}
@@ -139,7 +150,7 @@ const UploadedFilesArea = ({ selectedForm }) => {
                                         <div className={styles.errorFileContent}>
                                             <div className={styles.errorFileHeader}>
                                                 <span className={styles.errorFileName}>{file.filename}</span>
-                                                <span className={styles.errorFileMeta}>{new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}  </span>
+                                                <span className={styles.errorFileMeta}>{new Date(file.upload_timestamp).toLocaleDateString()} • {getStatusLabel(file.status)}  </span>
                                             </div>
                                             <div className={styles.errorTextContainer}>
                                                 <div className={styles.errorText}>{file.error || 'Неизвестная ошибка'}</div>
@@ -214,7 +225,7 @@ const UploadedFilesArea = ({ selectedForm }) => {
         <div className={styles.modalFileInfo}>
           <span className={styles.modalFilename}>{file.filename}</span>
           <span className={styles.modalFileMeta}>
-            Загружено {new Date(file.upload_timestamp).toLocaleDateString()} • {file.status}  
+            Загружено {new Date(file.upload_timestamp).toLocaleDateString()} • {getStatusLabel(file.status)}  
           </span>
         </div>
         <button
