@@ -1,9 +1,6 @@
 // === File: pages/Upload/UploadPage.jsx ===
 import React, { useState, useRef, useEffect } from 'react';
-import { FiHome } from 'react-icons/fi';
-import { FiUpload } from 'react-icons/fi';
-import { FiRotateCcw } from 'react-icons/fi';
-import { FiFileText } from 'react-icons/fi';
+import { FiHome, FiUpload, FiRotateCcw, FiFileText, FiCheckCircle, FiAlertCircle, FiFile, FiAlertTriangle } from 'react-icons/fi';
 import styles from './UploadPage.module.css';
 
 const UploadPage = ({ selectedForm, setFormSelectModal }) => {
@@ -14,6 +11,7 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
   const [uploadResults, setUploadResults] = useState([]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadDetails, setUploadDetails] = useState(null);
+  const [currentEvent, setCurrentEvent] = useState(null);
   const [currentFormName, setCurrentFormName] = useState('');
   const fileInputRef = useRef(null);
   const eventSourceRef = useRef(null);
@@ -108,6 +106,7 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
       try {
         const data = JSON.parse(event.data);
         setUploadProgress(data.progress_percentage);
+        setCurrentEvent(data);
         
         if (data.status === 'completed' || data.status === 'failed') {
           setUploadResults(data.result?.details || []);
@@ -175,6 +174,7 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     setUploadResults([]);
     setUploadProgress(0);
     setUploadDetails(null);
+    setCurrentEvent(null);
   };
 
   const goToHome = () => {
@@ -253,22 +253,100 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
     </div>
   );
 
+  const renderUploading = () => (
+    <div className={styles.uploadingContainer}>
+      <div className={styles.uploadingHeader}>
+        <div className={styles.loaderSmall}></div>
+        <h3>Обработка данных...</h3>
+      </div>
+      
+      <div className={styles.progressStats}>
+        <div className={styles.statItem}>
+          <span className={styles.statLabel}>Всего файлов:</span>
+          <span className={styles.statValue}>{currentEvent?.total || files.length}</span>
+        </div>
+        <div className={styles.statItem}>
+          <span className={styles.statLabel}>Обработано:</span>
+          <span className={styles.statValue}>{currentEvent?.current || 0}</span>
+        </div>
+        <div className={styles.statItem}>
+          <span className={styles.statLabel}>Осталось:</span>
+          <span className={styles.statValue}>{(currentEvent?.total || files.length) - (currentEvent?.current || 0)}</span>
+        </div>
+      </div>
+
+      <div className={styles.modernProgressWrapper}>
+        <div className={styles.progressBarBackground}>
+          <div 
+            className={styles.progressBarFill} 
+            style={{ width: `${uploadProgress}%` }}
+          >
+            <div className={styles.progressGlow}></div>
+          </div>
+        </div>
+        <div className={styles.progressPercentageText}>{uploadProgress.toFixed(0)}%</div>
+      </div>
+
+      {currentEvent?.processed_files?.length > 0 && (
+        <div className={styles.recentFiles}>
+          <h4>Последние обработанные:</h4>
+          <div className={styles.recentFilesList}>
+            {currentEvent.processed_files.slice(-3).reverse().map((f, i) => (
+              <div key={i} className={styles.recentFileItem}>
+                <span className={styles.recentFileIcon}>✓</span>
+                <span className={styles.recentFileName}>{f}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {currentEvent?.errors?.length > 0 && (
+        <div className={styles.liveErrors}>
+          {currentEvent.errors.slice(-1).map((err, i) => (
+            <div key={i} className={styles.liveErrorItem}>
+              ⚠ {err}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
   const renderResults = () => {
     const successCount = uploadResults.filter(r => r.status === 'success').length;
     const failedCount = uploadResults.length - successCount;
+    const isTotalSuccess = failedCount === 0;
+
     return (
       <div className={styles.resultsContainer}>
-        <div className={styles.resultsHeader}>
-          <h2>{uploadDetails?.message || 'Результаты загрузки'}</h2>
-          <div className={styles.errorCount}>
-            Ошибок: {failedCount}
+        <div className={styles.resultsSummaryCard}>
+          <div className={`${styles.summaryIcon} ${isTotalSuccess ? styles.successIconBg : styles.warningIconBg}`}>
+            {isTotalSuccess ? <FiCheckCircle size={24} /> : <FiAlertTriangle size={24} />}
+          </div>
+          <div className={styles.summaryTextContent}>
+            <h2>{isTotalSuccess ? 'Загрузка успешно завершена' : 'Загрузка завершена с замечаниями'}</h2>
+            <p className={styles.summaryDescription}>
+              {successCount} {successCount === 1 ? 'файл обработан' : 'файлов обработано'} успешно
+              {failedCount > 0 && `, ${failedCount} ${failedCount === 1 ? 'загружен' : 'загружено'} с ошибками`}
+            </p>
+          </div>
+          <div className={styles.summaryStats}>
+            <div className={styles.miniStat}>
+              <span className={styles.miniStatValue}>{successCount}</span>
+              <span className={styles.miniStatLabel}>Успешно</span>
+            </div>
+            <div className={styles.miniStat}>
+              <span className={`${styles.miniStatValue} ${failedCount > 0 ? styles.errorText : ''}`}>{failedCount}</span>
+              <span className={styles.miniStatLabel}>Ошибки</span>
+            </div>
           </div>
         </div>
+
         <div className={styles.resultsList}>
           {uploadResults.map((result, index) => (
-            <div key={index} className={styles.resultItem}>
+            <div key={index} className={`${styles.resultItem} ${result.status === 'success' ? styles.resultSuccess : styles.resultError}`}>
               <div className={styles.fileInfo}>
-                <div className={styles.fileIcon}>📄</div>
                 <div className={styles.fileDetails}>
                   <div className={styles.fileName}>{result.filename}</div>
                   {result.error && (
@@ -279,55 +357,42 @@ const UploadPage = ({ selectedForm, setFormSelectModal }) => {
                   {!result.error && result.status !== 'success' && (
                     <div className={styles.errorMessage}>
                       {result.status === 'duplicate'
-                        ? 'Файл уже был загружен'
-                        : 'Неизвестная ошибка'}
+                        ? 'Этот файл уже был загружен ранее'
+                        : 'Произошла непредвиденная ошибка при обработке'}
                     </div>
                   )}
                 </div>
               </div>
-              <div className={styles.statusIcon}>
-                {result.status === 'success'
-                  ? '✅'
-                  : result.status === 'duplicate'
-                  ? '⚠️'
-                  : '❌'}
+              <div className={styles.statusBadgeWrapper}>
+                {result.status === 'success' ? (
+                  <span className={styles.badgeSuccess}>Готово</span>
+                ) : (
+                  <span className={styles.badgeError}>Ошибка</span>
+                )}
               </div>
             </div>
           ))}
         </div>
-        <div className={styles.footer}>
+
+        <div className={styles.resultsFooter}>
           <button 
-            className={styles.actionButton}
+            className={styles.secondaryButton}
             onClick={handleReset}
           >
-            <FiRotateCcw className={styles.backIcon} />
-            Загрузить ещё
+            <FiRotateCcw />
+            Загрузить еще файлы
           </button>
           <button 
-            className={styles.actionButton}
+            className={styles.primaryButton}
             onClick={goToHome}
           >
-            <FiHome className={styles.homeIcon} />
-            В главное меню
+            <FiHome />
+            Вернуться в меню
           </button>
         </div>
       </div>
     );
   };
-
-  const renderUploading = () => (
-    <div className={styles.uploadingContainer}>
-      <div className={styles.loader}></div>
-      <p>Идёт обработка файлов...</p>
-      <div className={styles.progressBarContainer}>
-        <div 
-          className={styles.progressBar} 
-          style={{ width: `${uploadProgress}%` }}
-        ></div>
-      </div>
-      <p className={styles.progressText}>{uploadProgress.toFixed(0)}%</p>
-    </div>
-  );
 
   const renderError = () => (
     <div className={styles.errorContainer}>
