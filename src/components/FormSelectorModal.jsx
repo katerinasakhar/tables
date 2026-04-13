@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../features/Modal';
+import ErrorDisplay from './ErrorDisplay.jsx';
 import './FormSelectorModal.css';
 
 const FormSelectorModal = ({ 
@@ -16,6 +17,7 @@ const FormSelectorModal = ({
   const [creatingFormType, setCreatingFormType] = useState(null);
   const [creatingLoading, setCreatingLoading] = useState(false);
   const [localSelectedForm, setLocalSelectedForm] = useState(selectedForm);
+  const [error, setError] = useState(null);
 
   // Синхронизируем локальное состояние с пропсами при изменении
   useEffect(() => {
@@ -30,6 +32,7 @@ const FormSelectorModal = ({
   const handleCreateForm = async (formType) => {
     setCreatingFormType(formType);
     setCreatingLoading(true);
+    setError(null);
     try {
       let formName = '';
       let skipSheets = [];
@@ -57,8 +60,53 @@ const FormSelectorModal = ({
       if (isInitial) {
         onSave();
       }
-    } catch (error) {
-      alert(`Ошибка создания формы: ${error.message}`);
+    } catch (err) {
+      console.error('Ошибка создания формы:', err);
+      let serverResponse = null;
+      
+      // Проверяем тип ошибки
+      if (err.name === 'TypeError' && err.message.includes('Failed to fetch')) {
+        // Ошибка соединения с сервером
+        serverResponse = {
+          type: 'connection_error',
+          message: 'Сервер не отвечает на запросы',
+          suggestion: 'Проверьте, что сервер запущен и доступен',
+          error: err.message
+        };
+      } else if (err.response) {
+        // Ошибка ответа от сервера
+        try {
+          serverResponse = await err.response.json();
+        } catch {
+          serverResponse = {
+            status: err.response.status,
+            statusText: err.response.statusText,
+            url: err.response.url
+          };
+        }
+      } else if (err.serverResponse) {
+        // Если уже есть ответ сервера
+        serverResponse = err.serverResponse;
+      }
+      
+      setError({
+        message: err.name === 'TypeError' && err.message.includes('Failed to fetch') 
+          ? 'Не удалось подключиться к серверу. Сервер может быть не запущен или недоступен.'
+          : err.message || 'Ошибка создания формы',
+        status: err.name === 'TypeError' && err.message.includes('Failed to fetch')
+          ? 'Сервер недоступен'
+          : `Ошибка создания формы "${formType}"`,
+        originalError: err,
+        timestamp: new Date().toISOString(),
+        context: 'createForm',
+        formType: formType,
+        operation: err.name === 'TypeError' && err.message.includes('Failed to fetch')
+          ? 'установление соединения с сервером'
+          : `создание новой формы отчетности типа "${formType}" с параметрами skip_sheets: [${skipSheets.join(', ')}]`,
+        serverResponse: serverResponse || {
+          message: err.message
+        }
+      });
     } finally {
       setCreatingLoading(false);
     }
@@ -189,6 +237,19 @@ const FormSelectorModal = ({
             </button>
           )}
         </div>
+        
+        {/* Отображение ошибки создания формы */}
+        {error && (
+          <div style={{ margin: '20px 0' }}>
+            <ErrorDisplay 
+              error={error}
+              onRetry={() => {
+                setError(null);
+                handleCreateForm(error.formType);
+              }}
+            />
+          </div>
+        )}
       </div>
     </Modal>
   );

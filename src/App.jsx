@@ -4,6 +4,7 @@ import Table from "/src/pages/Table/Table1.jsx";
 import Home from "/src/pages/Home/Home.jsx";
 import UploadedFiles from "/src/pages/Upload/UploadPage.jsx";
 import FormSelectorModal from "/src/components/FormSelectorModal.jsx";
+import ErrorDisplay from "/src/components/ErrorDisplay.jsx";
 
 const api = process.env.API;;
 
@@ -22,11 +23,32 @@ const App = () => {
         setError(null);
         const response = await fetch(`${api}/api/v2/forms`);
         if (!response.ok) {
-          throw new Error(`Ошибка загрузки форм: ${response.status} ${response.statusText}`);
+          let errorDetails = `Ошибка загрузки форм: ${response.status} ${response.statusText}`;
+          let serverResponse = null;
+          
+          // Пытаемся получить детальную информацию об ошибке с бэкенда
+          try {
+            const errorData = await response.json();
+            serverResponse = errorData;
+            if (errorData.detail) {
+              errorDetails = errorData.detail;
+            }
+          } catch (jsonError) {
+            // Если не удалось распарсить JSON, используем статус
+            serverResponse = {
+              status: response.status,
+              statusText: response.statusText,
+              url: response.url
+            };
+          }
+          
+          const error = new Error(errorDetails);
+          error.serverResponse = serverResponse;
+          throw error;
         }
         const data = await response.json();
         if (!data.forms || !Array.isArray(data.forms)) {
-          throw new Error('Некорректный ответ от сервера');
+          throw new Error('Некорректный ответ от сервера: отсутствует массив форм');
         }
         setForms(data.forms || []);
         
@@ -48,7 +70,39 @@ const App = () => {
         setLoadingForms(false);
       } catch (err) {
         console.error('Ошибка загрузки форм:', err);
-        setError(err.message || 'Не удалось загрузить формы');
+        
+        // Определяем тип ошибки
+        let errorInfo = {
+          message: err.message || 'Не удалось загрузить формы',
+          status: 'Ошибка загрузки форм',
+          originalError: err,
+          timestamp: new Date().toISOString(),
+          context: 'loadForms',
+          operation: 'загрузка списка доступных форм отчетности с сервера'
+        };
+        
+        // Проверяем, является ли это ошибкой соединения с сервером
+        if (err.name === 'TypeError' && err.message.includes('Failed to fetch')) {
+          errorInfo.status = 'Сервер недоступен';
+          errorInfo.message = 'Не удалось подключиться к серверу. Сервер может быть не запущен или недоступен.';
+          errorInfo.operation = 'установление соединения с сервером';
+          errorInfo.serverResponse = {
+            type: 'connection_error',
+            message: 'Сервер не отвечает на запросы',
+            suggestion: 'Проверьте, что сервер запущен и доступен по адресу: ' + api,
+            error: err.message
+          };
+        } else if (err.serverResponse) {
+          // Если есть ответ от сервера, используем его
+          errorInfo.serverResponse = err.serverResponse;
+        } else {
+          // Для всех остальных ошибок
+          errorInfo.serverResponse = {
+            message: err.message
+          };
+        }
+        
+        setError(errorInfo);
         setLoadingForms(false);
         setShowInitialModal(true);
       }
@@ -128,14 +182,11 @@ const App = () => {
 
   if (error && forms.length === 0) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <h2>Ошибка загрузки</h2>
-          <p>{error}</p>
-          <button onClick={() => window.location.reload()} style={{ marginTop: '20px', padding: '10px 20px' }}>
-            Попробовать снова
-          </button>
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: '20px' }}>
+        <ErrorDisplay 
+          error={error}
+          onRetry={() => window.location.reload()}
+        />
       </div>
     );
   }
