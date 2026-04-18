@@ -1,0 +1,70 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+  animation: overlayFadeIn 0.3s ease-out;
+}
+
+.modalOverlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modalContent {
+  border-radius: 20px;
+  max-height: 90vh;
+  max-width: 900px;
+  width: 90%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: modalSlideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: bottom;
+}
+
+/* Анимации */
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(40px) scale(0.95);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .modalContent {
+    max-width: 95%;
+    margin: 1rem;
+    border-radius: 16px;
+  }
+  
+  
+}
+
+@media (max-width: 480px) {
+  .modalContent {
+    margin: 0.5rem;
+    border-radius: 14px;
+    max-height: 85vh;
+  }
+  
+
+}

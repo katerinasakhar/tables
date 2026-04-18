@@ -111,7 +111,7 @@ const UploadedFilesArea = ({ selectedForm }) => {
                 <div className={styles.successSection}>
                     <div className={styles.sectionHeader}>
                         <h3><FiFile className={styles.icon} />Загруженные файлы</h3>
-                        {successfulFiles.length > 10 && (
+                        {successfulFiles.length > 0 && (
                             <button className={styles.viewAllButton} onClick={() => setModalActive(true)}>
                                 Показать все ({successfulFiles.length})
                             </button>
@@ -121,7 +121,7 @@ const UploadedFilesArea = ({ selectedForm }) => {
                         {successfulFiles.slice(0, 10).map(file => (
                             <li key={file.file_id} className={styles.fileItem}>
                                 <span className={styles.filename}>{file.filename}</span>
-                                <span className={styles.fileMeta}><FiCalendar className={styles.metaIcon} />{new Date(file.upload_timestamp).toLocaleDateString()} • {getStatusLabel(file.status)}</span>
+                                <span className={styles.fileMeta}><FiCalendar className={styles.metaIcon} />{new Date(file.upload_timestamp).toLocaleDateString()}</span>
                             </li>
                         ))}
                         {successfulFiles.length === 0 && <li className={styles.empty}>Нет загруженных файлов</li>}

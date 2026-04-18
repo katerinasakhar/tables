@@ -10,7 +10,8 @@ import axios from "axios";
 import componentStyles from './TableModalComponents.module.css';
 import { FiFilter, FiFileText, FiDownload } from "react-icons/fi";
 import { useQueryClient } from "@tanstack/react-query";
-import { FiAlertTriangle } from 'react-icons/fi';
+import { FiAlertTriangle,FiHome } from 'react-icons/fi';
+
 
 function Table({ selectedForm, setFormSelectModal }) {
   const api = process.env.API;
@@ -311,31 +312,19 @@ function Table({ selectedForm, setFormSelectModal }) {
     <div className={style.tableWrapper}>
       {/* Объединенный контейнер для кнопок - ОСТАВЛЯЕМ ТОЛЬКО ЭТОТ */}
       <div className={style.controlsRow}>
+        <div>
+          <button className={style.homeButton} onClick={goToHome} aria-label="Главная">
+                <FiHome className={style.homeIcon} />
+                Главное меню
+              </button>
+        </div>
+        
         <div className={style.formSelector} onClick={() => setFormSelectModal(true)}>
           <FiFileText size={18} />
           <span>Текущая форма: {currentFormName || 'Загрузка...'}</span>
         </div>
         
-        {!isEmpty && (
-          <div className={style.downloadButtons}>
-            <button 
-              className={`${style.downloadButton} ${style.csvButton}`} 
-              onClick={downloadCSV} 
-              aria-label="Скачать CSV"
-            >
-              <FiDownload />
-              CSV
-            </button>
-            <button 
-              className={`${style.downloadButton} ${style.xlsButton}`} 
-              onClick={downloadXLS} 
-              aria-label="Скачать XLS"
-            >
-              <FiDownload />
-              XLS
-            </button>
-          </div>
-        )}
+        
       </div>
 
       {/* УДАЛЯЕМ КНОПКИ СКАЧИВАНИЯ ИЗ ТОПБАРА */}
@@ -353,6 +342,26 @@ function Table({ selectedForm, setFormSelectModal }) {
             <FiFilter />
             Фильтры
           </button>
+          {!isEmpty && (
+          <div className={style.downloadButtons}>
+            <button 
+              className={`${style.downloadButton} ${style.csvButton}`} 
+              onClick={downloadCSV} 
+              aria-label="Скачать CSV"
+            >
+              <FiDownload />
+              CSV
+            </button>
+            <button
+              className={`${style.downloadButton} ${style.xlsButton}`} 
+              onClick={downloadXLS} 
+              aria-label="Скачать XLS"
+            >
+              <FiDownload />
+              XLS
+            </button>
+          </div>
+        )}
         </div>
       )}
       

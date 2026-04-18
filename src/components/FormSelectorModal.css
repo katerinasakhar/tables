@@ -10,15 +10,6 @@
   margin: 0 auto;
 }
 
-.form-selector-modal::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
-}
 
 .modal-title {
   margin-bottom: 1.8rem;
@@ -61,7 +52,6 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   height: 100%;
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 160px;
@@ -116,26 +106,6 @@
   font-weight: 400;
 }
 
-.form-id {
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-.selected-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3);
-  animation: pulse 2s infinite;
-}
 
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }

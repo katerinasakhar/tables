@@ -58,22 +58,8 @@
   margin-bottom: 0.5rem;
 }
 
-.form-id {
-  font-size: 0.8rem;
-  color: #95a5a6;
-}
 
-.selected-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #27ae60;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: bold;
-}
+
 
 .modal-footer {
   display: flex;

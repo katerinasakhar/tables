@@ -4,10 +4,6 @@ import style from './Table.module.css';
 function TopBar({ goToHome, isEmpty, setFormSelectModal }) {
   return (
     <div className={style.topBar}>
-      <button className={style.homeButton} onClick={goToHome} aria-label="Главная">
-        <FiHome className={style.homeIcon} />
-        Главное меню
-      </button>
       <div className={style.titleContainer}>
         <h2>Таблица данных</h2>
         <p className={style.subtitle}>

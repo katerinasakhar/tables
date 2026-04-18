@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../features/Modal';
+import ModalForForms from '../features/ModalForForms'
 import ErrorDisplay from './ErrorDisplay.jsx';
 import './FormSelectorModal.css';
 
@@ -120,7 +121,7 @@ const FormSelectorModal = ({
   };
 
   return (
-    <Modal active={active} setActive={setActive}>
+    <ModalForForms active={active} setActive={setActive}>
       <div className="form-selector-modal">
         <h2 className="modal-title">
           {forms.length === 0 ? 'Создание первой формы отчетности' : 'Выберите форму отчетности'}
@@ -187,15 +188,7 @@ const FormSelectorModal = ({
                   className={`form-card ${localSelectedForm === form.id ? 'selected' : ''}`}
                 >
                   <div className="form-name">{form.name}</div>
-                  {form.requisites && form.requisites.skip_sheets && (
-                    <div className="form-info">
-                      Пропускает листы: {form.requisites.skip_sheets.join(', ')}
-                    </div>
-                  )}
-                  <div className="form-id">ID: {form.id.substring(0, 8)}...</div>
-                  {localSelectedForm === form.id && (
-                    <div className="selected-badge">Выбрано</div>
-                  )}
+                  
                 </button>
               ))}
             </div>
@@ -251,7 +244,7 @@ const FormSelectorModal = ({
           </div>
         )}
       </div>
-    </Modal>
+    </ModalForForms>
   );
 };
 
