@@ -1,5 +1,20 @@
 import componentStyles from './TableModalComponents.module.css';
 import { FiSearch } from 'react-icons/fi';
+import { memo, useMemo, useCallback, useTransition } from 'react';
+
+const FilterCheckbox = memo(({ item, isSelected, onChange }) => (
+  <div className={componentStyles.item}>
+    <label>
+      <input
+        type="checkbox"
+        value={item}
+        checked={isSelected}
+        onChange={onChange}
+      />
+      {item}
+    </label>
+  </div>
+));
 
 function FilterList({
     filter,
@@ -8,255 +23,189 @@ function FilterList({
   setSelectedCities, setSelectedYears, setSelectedSections, setSelectedRows, setSelectedColumns,
   searchCity, setSearchCity, searchRow, setSearchRow, searchColumn, setSearchColumn
 }){
-    
-   const handleCityChange = (e) => {
-    const value = e.target.value;
 
-    if (selectedCities.includes(value)) {
-      setSelectedCities(selectedCities.filter((city) => city !== value));
-    } else {
-      setSelectedCities([...selectedCities, value]);
+  const [isPending, startTransition] = useTransition();
+
+  const selectedMap = useMemo(() => {
+    const map = {};
+    switch(filter) {
+      case 1: selectedCities.forEach(c => map[c] = true); break;
+      case 2: selectedYears.forEach(y => map[y] = true); break;
+      case 3: selectedSections.forEach(s => map[s] = true); break;
+      case 4: selectedRows.forEach(r => map[r] = true); break;
+      case 5: selectedColumns.forEach(c => map[c] = true); break;
     }
+    return map;
+  }, [filter, selectedCities, selectedYears, selectedSections, selectedRows, selectedColumns]);
 
-  };
+  const handleCityChange = useCallback((e) => {
+    const value = e.target.value;
+    setSelectedCities(prev =>
+      prev.includes(value)
+        ? prev.filter(c => c !== value)
+        : [...prev, value]
+    );
+  }, [setSelectedCities]);
 
-  const handleYearChange = (e) => {
+  const handleYearChange = useCallback((e) => {
     const value = parseInt(e.target.value);
+    setSelectedYears(prev =>
+      prev.includes(value)
+        ? prev.filter(y => y !== value)
+        : [...prev, value]
+    );
+  }, [setSelectedYears]);
 
-    if (selectedYears.includes(value)) {
-      setSelectedYears(selectedYears.filter((year) => year !== value));
-    } else {
-      setSelectedYears([...selectedYears, value]);
-    }
-  }
-
-  const handleSectionChange = (e) => {
+  const handleSectionChange = useCallback((e) => {
     const value = e.target.value;
+    setSelectedSections(prev =>
+      prev.includes(value)
+        ? prev.filter(s => s !== value)
+        : [...prev, value]
+    );
+  }, [setSelectedSections]);
 
-    if (selectedSections.includes(value)) {
-      setSelectedSections(selectedSections.filter((section) => section != value));
-    } else {
-
-      setSelectedSections([...selectedSections, value]);
-    }
-
-  };
-
-  const handleRowChange = (e) => {
+  const handleRowChange = useCallback((e) => {
     const value = e.target.value;
+    setSelectedRows(prev =>
+      prev.includes(value)
+        ? prev.filter(r => r !== value)
+        : [...prev, value]
+    );
+  }, [setSelectedRows]);
 
-    if (selectedRows.includes(value)) {
-      setSelectedRows(selectedRows.filter((row) => row !== value));
-    } else {
-      setSelectedRows([...selectedRows, value]);
-    }
-
-  };
-  const handleColumnChange = (e) => {
+  const handleColumnChange = useCallback((e) => {
     const value = e.target.value;
+    setSelectedColumns(prev =>
+      prev.includes(value)
+        ? prev.filter(c => c !== value)
+        : [...prev, value]
+    );
+  }, [setSelectedColumns]);
+  const handleSelectAllCities = useCallback(() => {
+    startTransition(() => {
+      setSelectedCities(prev =>
+        prev.length === cities.length ? [] : cities
+      );
+    });
+  }, [cities, selectedCities.length, setSelectedCities]);
 
-    if (selectedColumns.includes(value)) {
-      setSelectedColumns(selectedColumns.filter((column) => column !== value));
-    } else {
-      setSelectedColumns([...selectedColumns, value]);
-    }
+  const handleSelectAllRows = useCallback(() => {
+    startTransition(() => {
+      setSelectedRows(prev =>
+        prev.length === rows.length ? [] : rows
+      );
+    });
+  }, [rows, selectedRows.length, setSelectedRows]);
 
-  };
-  function handleSelectAllCities() {
-    if (selectedCities.length === cities.length) {
-      setSelectedCities([])
-    }
-    else {
-      setSelectedCities(cities)
-    }
-  }
-  function handleSelectAllRows() {
-    if (selectedRows.length === rows.length) {
-      setSelectedRows([])
-    }
-    else {
-      setSelectedRows(rows)
-    }
-  }
-  function handleSelectAllColumns() {
-    if (selectedColumns.length === columns.length) {
-      setSelectedColumns([])
-    }
-    else {
-      setSelectedColumns(columns)
-    }
-  }
-  function handleSelectAllYears() {
-    if (selectedYears.length === years.length) {
-      setSelectedYears([])
-    }
-    else {
-      setSelectedYears(years)
-    }
-  }
-  function handleSelectAllSections() {
-    if (selectedSections.length === sections.length) {
-      setSelectedSections([])
-    }
-    else {
-      setSelectedSections(sections)
-    }
-  }
-  function handleSortedArray(filter, array) {
-    switch (filter) {
-      case 1:
-        return [
-          ...array.filter(city => selectedCities.includes(city.toString())),
-          ...array.filter(city => !selectedCities.includes(city.toString())),
-        ]
-      case 2:
-        return [
-          ...array.filter(year => selectedYears.includes(year)),
-          ...array.filter(year => !selectedYears.includes(year)),
-        ]
-      case 3:
-        return [
-          ...array.filter(section => selectedSections.includes(section.toString())),
-          ...array.filter(section => !selectedSections.includes(section.toString())),
-        ]
-      case 4:
-        return [
-          ...array.filter(row => selectedRows.includes(row.toString())),
-          ...array.filter(row => !selectedRows.includes(row.toString())),
-        ]
-      case 5:
-        return [
-          ...array.filter(column => selectedColumns.includes(column.toString())),
-          ...array.filter(column => !selectedColumns.includes(column.toString())),
-        ]
-    }
+  const handleSelectAllColumns = useCallback(() => {
+    startTransition(() => {
+      setSelectedColumns(prev =>
+        prev.length === columns.length ? [] : columns
+      );
+    });
+  }, [columns, selectedColumns.length, setSelectedColumns]);
 
-  }
+  const handleSelectAllYears = useCallback(() => {
+    startTransition(() => {
+      setSelectedYears(prev =>
+        prev.length === years.length ? [] : years
+      );
+    });
+  }, [years, selectedYears.length, setSelectedYears]);
+
+  const handleSelectAllSections = useCallback(() => {
+    startTransition(() => {
+      setSelectedSections(prev =>
+        prev.length === sections.length ? [] : sections
+      );
+    });
+  }, [sections, selectedSections.length, setSelectedSections]);
+
+  const filteredArray = useMemo(() => {
+    const search = { 1: searchCity, 4: searchRow, 5: searchColumn }[filter] || '';
+    const array = { 1: cities, 2: years, 3: sections, 4: rows, 5: columns }[filter] || [];
+
+    if (!search) return array;
+    return array.filter(item => item.toString().toLowerCase().includes(search.toLowerCase()));
+  }, [filter, cities, years, sections, rows, columns, searchCity, searchRow, searchColumn]);
 
   return [1, 2, 3, 4, 5].includes(filter) ? (
-                  <div>
-                    {/* Поиск */}
-                    {(filter === 1 || filter === 4 || filter === 5) && (
-                      <div className={componentStyles.searchContainer}>
-                        <div className={componentStyles.searchInput}>
-                          <FiSearch size={16} color="#888" />
-                          <input
-                            type="text"
-                            placeholder="Поиск..."
-                            value={{ 1: searchCity, 4: searchRow, 5: searchColumn }[filter]}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              if (filter === 1) setSearchCity(value);
-                              if (filter === 4) setSearchRow(value);
-                              if (filter === 5) setSearchColumn(value);
-                            }}
-                          />
-                        </div>
-                      </div>
-                    )}
-    
-                    {/* Кнопка "выбрать все" */}
-                    <div className={componentStyles.checkboxWrapper}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          className={componentStyles.input}
-                          checked={{
-                            1: selectedCities.length === cities.length,
-                            2: selectedYears.length === years.length,
-                            3: selectedSections.length === sections.length,
-                            4: selectedRows.length === rows.length,
-                            5: selectedColumns.length === columns.length
-                          }[filter]}
-                          onChange={{
-                            1: handleSelectAllCities,
-                            2: handleSelectAllYears,
-                            3: handleSelectAllSections,
-                            4: handleSelectAllRows,
-                            5: handleSelectAllColumns
-                          }[filter]}
-                        />
-                        {{
-                          1: selectedCities.length === cities.length,
-                          2: selectedYears.length === years.length,
-                          3: selectedSections.length === sections.length,
-                          4: selectedRows.length === rows.length,
-                          5: selectedColumns.length === columns.length
-                        }[filter] ? 'Снять все' : 'Выбрать все'}
-                      </label>
-                    </div>
-    
-                    {/* Список */}
-                    <div className={componentStyles.scroll}>
-                      {{
-                        1: cities.filter(city => city.toString().toLowerCase().includes(searchCity.toLowerCase())).map((city) => (
-                          <div key={city} className={componentStyles.item}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={city}
-                                checked={selectedCities.includes(city.toString())}
-                                onChange={handleCityChange}
-                              />
-                              {city}
-                            </label>
-                          </div>
-                        )),
-                        2: years.map((year) => (
-                          <div key={year} className={componentStyles.item}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={year}
-                                checked={selectedYears.includes(year)}
-                                onChange={handleYearChange}
-                              />
-                              {year}
-                            </label>
-                          </div>
-                        )),
-                        3: sections.map((section) => (
-                          <div key={section} className={componentStyles.item}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={section}
-                                checked={selectedSections.includes(section.toString())}
-                                onChange={handleSectionChange}
-                              />
-                              {section}
-                            </label>
-                          </div>
-                        )),
-                        4: rows.filter(row => row.toString().toLowerCase().includes(searchRow.toLowerCase())).map((row) => (
-                          <div key={row} className={componentStyles.item}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={row}
-                                checked={selectedRows.includes(row.toString())}
-                                onChange={handleRowChange}
-                              />
-                              {row}
-                            </label>
-                          </div>
-                        )),
-                        5: columns.filter(col => col.toString().toLowerCase().includes(searchColumn.toLowerCase())).map((col) => (
-                          <div key={col} className={componentStyles.item}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                value={col}
-                                checked={selectedColumns.includes(col.toString())}
-                                onChange={handleColumnChange}
-                              />
-                              {col}
-                            </label>
-                          </div>
-                        ))
-                      }[filter]}
-                    </div>
-                  </div>
-                ) : null;
+    <div>
+      {/* Поиск */}
+      {(filter === 1 || filter === 4 || filter === 5) && (
+        <div className={componentStyles.searchContainer}>
+          <div className={componentStyles.searchInput}>
+            <FiSearch size={16} color="#888" />
+            <input
+              type="text"
+              placeholder="Поиск..."
+              value={{ 1: searchCity, 4: searchRow, 5: searchColumn }[filter] || ''}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (filter === 1) setSearchCity(value);
+                if (filter === 4) setSearchRow(value);
+                if (filter === 5) setSearchColumn(value);
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Кнопка "выбрать все" */}
+      <div className={componentStyles.checkboxWrapper}>
+        <label style={{ opacity: isPending ? 0.6 : 1 }}>
+          <input
+            type="checkbox"
+            className={componentStyles.input}
+            checked={{
+              1: selectedCities.length === cities.length && cities.length > 0,
+              2: selectedYears.length === years.length && years.length > 0,
+              3: selectedSections.length === sections.length && sections.length > 0,
+              4: selectedRows.length === rows.length && rows.length > 0,
+              5: selectedColumns.length === columns.length && columns.length > 0
+            }[filter]}
+            onChange={{
+              1: handleSelectAllCities,
+              2: handleSelectAllYears,
+              3: handleSelectAllSections,
+              4: handleSelectAllRows,
+              5: handleSelectAllColumns
+            }[filter]}
+            disabled={isPending}
+          />
+          {{
+            1: selectedCities.length === cities.length && cities.length > 0,
+            2: selectedYears.length === years.length && years.length > 0,
+            3: selectedSections.length === sections.length && sections.length > 0,
+            4: selectedRows.length === rows.length && rows.length > 0,
+            5: selectedColumns.length === columns.length && columns.length > 0
+          }[filter] ? 'Снять все' : 'Выбрать все'}
+          {isPending && ' ...'}
+        </label>
+      </div>
+
+      {/* Список */}
+      <div className={componentStyles.scroll}>
+        {filteredArray.map((item) => {
+          const handlers = {
+            1: handleCityChange,
+            2: handleYearChange,
+            3: handleSectionChange,
+            4: handleRowChange,
+            5: handleColumnChange
+          };
+          return (
+            <FilterCheckbox
+              key={item}
+              item={item}
+              isSelected={selectedMap[item] || false}
+              onChange={handlers[filter]}
+            />
+          );
+        })}
+      </div>
+    </div>
+  ) : null;
 }
 export default FilterList
